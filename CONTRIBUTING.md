@@ -3,7 +3,7 @@
 ## 第一次设置（每人一次）
 
 ```bash
-git clone https://github.com/<owner>/cfm-project.git cfm_project
+git clone https://github.com/liliyawanttosleep/cfm-project.git cfm_project
 cd cfm_project
 git clone https://github.com/atong01/conditional-flow-matching conditional-flow-matching-main   # 上游库，不进我们的 git
 bash scripts/download_papers.sh                                                             # 论文，不进 git

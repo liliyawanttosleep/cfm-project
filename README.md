@@ -1,5 +1,7 @@
 # Flow Matching vs. Diffusion — Data Mining Final Project
 
+GitHub：https://github.com/liliyawanttosleep/cfm-project （私有）· 协作流程见 [CONTRIBUTING.md](CONTRIBUTING.md)
+
 **截止：2026-12-16 23:59（final report）** · 两人组 · 30 分钟 presentation
 
 ## 文档

@@ -75,8 +75,9 @@ cfm_project/
 ```
 
 ### 3.2 获取代码
-- [ ] 由 Wentao 建 GitHub 私有仓库，把队友加为 collaborator（在此之前，可以先把 `cfm_project` 打包成 zip 发给队友，不含 `papers/`、`data/`、`*.pt`）
-- [ ] 队友 clone 下来；torchcfm 仓库如果缺失，执行 `git clone https://github.com/atong01/conditional-flow-matching conditional-flow-matching-main`
+- [x] 由 Wentao 建 GitHub 私有仓库（10/29）：**https://github.com/liliyawanttosleep/cfm-project**。协作流程见 `CONTRIBUTING.md`
+- [ ] 把队友加为 collaborator（仓库 Settings → Collaborators，或者把队友的 GitHub 用户名告诉 Claude）
+- [ ] 队友 `git clone https://github.com/liliyawanttosleep/cfm-project.git cfm_project`；然后在仓库里执行 `git clone https://github.com/atong01/conditional-flow-matching conditional-flow-matching-main`
 - [ ] 下载论文：`bash scripts/download_papers.sh`（下载到 `papers/`）
 
 ### 3.3 Python 环境（按自己的显卡选 CUDA 版本）

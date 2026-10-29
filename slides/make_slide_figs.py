@@ -2,7 +2,7 @@
 import sys
 from pathlib import Path
 
-ROOT = Path(r"C:\Users\Wentao\Desktop\cfm_project")
+ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "code"))
 sys.path.insert(0, str(ROOT / "code" / "e1_2d"))
 OUT = Path(sys.argv[1])

@@ -1,0 +1,21 @@
+# 大文件：各自本地下载或生成
+papers/
+data/
+*.pdf
+*.pt
+*.pth
+*.ckpt
+*.tar.gz
+*.zip
+results/**/weights/
+results/**/ckpt/
+results/**/samples/
+results/_smoke/
+
+# 上游仓库单独 clone，不进我们的 git
+conditional-flow-matching-main/
+
+__pycache__/
+.ipynb_checkpoints/
+.vscode/
+.claude/

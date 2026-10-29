@@ -1,0 +1,35 @@
+<section id="hypotheses" data-transition="fade" style="background:#EEF1F5;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Expected results · our hypotheses</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Four hypotheses we will test</h2>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-radius:16px;padding:32px 40px">
+<p style="font-family:'Source Serif 4', Georgia, serif;font-size:40px;color:#14213D">H1 · Few-step advantage</p>
+<p style="font-size:26px;line-height:1.4">At NFE ≤ 10, quality ranks OT-CFM, then I-CFM, then DDIM, with stochastic DDPM far behind.</p>
+<p style="font-size:24px;color:#5B6B82">Test: FID vs NFE (E2). 2D results agree so far.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-radius:16px;padding:32px 40px">
+<p style="font-family:'Source Serif 4', Georgia, serif;font-size:40px;color:#14213D">H2 · Convergence</p>
+<p style="font-size:26px;line-height:1.4">At NFE ≥ 100 the gaps shrink: all methods learn transports between the same two marginals.</p>
+<p style="font-size:24px;color:#5B6B82">Test: high-NFE end of the E2 and E4 curves.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-radius:16px;padding:32px 40px">
+<p style="font-family:'Source Serif 4', Georgia, serif;font-size:40px;color:#14213D">H3 · OT fades with dimension</p>
+<p style="font-size:26px;line-height:1.4">With a batch far smaller than the dimension, minibatch OT pairs look almost random, so the OT-CFM edge shrinks.</p>
+<p style="font-size:24px;color:#5B6B82">Test: OT vs I-CFM gap in 2D, MNIST, CIFAR-10.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-radius:16px;padding:32px 40px">
+<p style="font-family:'Source Serif 4', Georgia, serif;font-size:40px;color:#14213D">H4 · Utility tracks quality</p>
+<p style="font-size:26px;line-height:1.4">Lower FID goes with higher TSTR accuracy, AUC nearer 0.5 and uniform cluster shares.</p>
+<p style="font-size:24px;color:#5B6B82">Test: E3 tables; χ² test per model.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 21</p>
+<aside>【B 讲，约 1 分钟】
+基于方法原理和文献，我们提出四个假设，每个都对应一个检验：
+H1 少步优势：NFE ≤ 10 时质量排序为 OT-CFM、I-CFM、DDIM，随机采样的 DDPM 远远落后。2D 结果已经和这一点一致。
+H2 收敛：NFE ≥ 100 时差距缩小，因为它们都在学同一对边缘分布之间的输运。
+H3 OT 优势随维度减弱（统计上最有意思的一点）：batch 相对维度太小时，minibatch 上的经验最优传输配对接近随机配对。证据：2D 里 1 步时 OT-CFM 和 I-CFM 的 W2 差约 10 倍，而 CIFAR-10 上两者 FID 只差 3.58 对 3.66。我们会在 2D、MNIST、CIFAR 三个维度上比较这个差距。
+H4 效用跟随质量：FID 越低，TSTR 越高、判别器 AUC 越接近 0.5、聚类比例越均匀。</aside>
+</section>

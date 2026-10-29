@@ -1,0 +1,23 @@
+{
+  "v": 4,
+  "createdOnFiles": {"v": 1, "at": "2026-10-29T16:30:00Z"},
+  "lists": "css",
+  "title": "Flow Matching vs. Diffusion — Project Proposal",
+  "order": ["cover", "motivation", "outline", "lit", "framework", "ddpm-train", "ddpm-sample", "sde-ddim", "cfm", "couplings", "pseudo", "compare", "rq", "exp-overview", "protocol", "metrics", "course-eval", "demo-traj", "demo-w2", "expected", "hypotheses", "plan", "qa"],
+  "sections": {
+    "s1": {"description": "Introduction: why generative models, and the question we study", "start": "cover"},
+    "s2": {"description": "Background: literature timeline and the common transport framework", "start": "lit"},
+    "s3": {"description": "Method I: diffusion models (DDPM, score, SDE, DDIM)", "start": "ddpm-train"},
+    "s4": {"description": "Method II: flow matching (CFM, couplings, rectified flow)", "start": "cfm"},
+    "s5": {"description": "Side-by-side comparison of the two families", "start": "pseudo"},
+    "s6": {"description": "Experimental design: questions, experiments, protocol, metrics, course methods", "start": "rq"},
+    "s7": {"description": "2D demo and expected high-dimensional results", "start": "demo-traj"},
+    "s8": {"description": "Plan and Q&A", "start": "plan"}
+  },
+  "faces": {
+    "source-serif-4": {"family": "Source Serif 4", "href": "https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400..700;1,400&display=swap"},
+    "ibm-plex-sans": {"family": "IBM Plex Sans", "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap"},
+    "stix-two-text": {"family": "STIX Two Text", "href": "https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap"}
+  },
+  "designSystems": []
+}

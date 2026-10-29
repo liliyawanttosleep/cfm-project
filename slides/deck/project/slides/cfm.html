@@ -1,0 +1,35 @@
+<section id="cfm" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Method II · Flow Matching</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Conditional flow matching: regress the velocity</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px">
+<div style="flex:3;display:flex;flex-direction:column;gap:20px">
+<div style="background:#FFFFFF;border-left:6px solid #8A94A3;padding:20px 32px;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;color:#5B6B82">Ideal objective: marginal field uₜ(x) is unknown</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:34px;color:#14213D">L_FM(θ) = E ‖ vθ(x, t) − uₜ(x) ‖²</p>
+</div>
+<div style="background:#FFFFFF;border-left:6px solid #B35C12;padding:20px 32px;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;color:#5B6B82">Condition on a pair (x₀, x₁): a straight line</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:34px;color:#14213D">xₜ = (1 − t) x₀ + t x₁,   uₜ(x | x₀, x₁) = x₁ − x₀</p>
+</div>
+<div style="background:#FFFFFF;border-left:6px solid #B35C12;padding:20px 32px;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;color:#5B6B82">Tractable objective</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:34px;color:#14213D">L_CFM(θ) = E ‖ vθ(xₜ, t) − (x₁ − x₀) ‖²</p>
+</div>
+</div>
+<div style="flex:2;display:flex;flex-direction:column;gap:20px;background:#F7EBDD;border-radius:16px;padding:40px">
+<h3 style="font-size:32px;font-weight:600;color:#14213D">Theorem (Lipman et al., 2023)</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:36px;color:#14213D">∇θ L_CFM = ∇θ L_FM</p>
+<p style="font-size:28px;line-height:1.4">Why: uₜ(x) = E[ x₁ − x₀ | xₜ = x ]. Least squares on a noisy target still recovers the <b>conditional mean</b> — the regression function.</p>
+<p style="font-size:24px;line-height:1.4;color:#5B6B82">Sampling: Euler steps x ← x + vθ(x, t)/N, so NFE = N.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 9</p>
+<aside>【A 讲，约 2 分钟】
+理想目标：让网络 v_θ 拟合把噪声推到数据的边缘速度场 u_t(x)。但 u_t(x) 我们算不出来。
+技巧：先随机抽一对 (x_0 噪声, x_1 数据)，沿两点之间的直线走，这条直线上的速度就是 x_1 − x_0，非常简单。于是训练目标变成：在 x_t 处回归 x_1 − x_0。
+定理：这个条件版本的 loss 和理想 loss 的梯度完全相同。
+统计直觉（重点讲）：边缘速度场其实就是条件期望 E[x_1 − x_0 | x_t = x]。我们用均方误差去回归一个带噪声的目标 x_1 − x_0，最优解就是条件期望——这就是回归函数。所以 flow matching 本质上是一个回归问题，和 DDPM 回归 ε 是同一类问题。
+采样：用 Euler 法解 ODE，走 N 步就是 NFE = N。</aside>
+</section>

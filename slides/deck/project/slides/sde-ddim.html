@@ -1,0 +1,32 @@
+<section id="sde-ddim" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#2F6DB5">Method I · Diffusion</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">SDE view and DDIM: the same model, fewer steps</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<h3 style="font-size:32px;font-weight:600;color:#2F6DB5">Score SDE (Song et al., 2021)</h3>
+<div style="background:#FFFFFF;border-left:6px solid #2F6DB5;padding:24px 32px;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:24px;color:#5B6B82">VP-SDE (continuous-time DDPM)</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:34px;color:#14213D">dx = −½ β(t) x dt + √β(t) dW</p>
+<p style="font-size:24px;color:#5B6B82">Probability-flow ODE: same marginals pₜ, no noise</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:34px;color:#14213D">dx = [ −½ β(t) x − ½ β(t) ∇ₓ log pₜ(x) ] dt</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<h3 style="font-size:32px;font-weight:600;color:#2F6DB5">DDIM, η = 0 (Song, Meng &amp; Ermon, 2021)</h3>
+<div style="background:#FFFFFF;border-left:6px solid #2F6DB5;padding:24px 32px;display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:34px;color:#14213D">x̂₀ = ( xₜ − √(1 − ᾱₜ) εθ ) / √ᾱₜ</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:34px;color:#14213D">xₛ = √ᾱₛ x̂₀ + √(1 − ᾱₛ) εθ,   s &lt; t</p>
+</div>
+<p style="font-size:28px;line-height:1.4">A discretization of the ODE: deterministic, and steps can be skipped. On CIFAR-10, FID 13.36 at 10 steps and 4.16 at 100.</p>
+</div>
+</div>
+<p style="font-size:26px;line-height:1.4;color:#14213D;background:#E8EEF7;border-radius:12px;padding:20px 32px">Watch out: x̂₀ divides by √ᾱₜ ≈ 0.006 at t = T, so with 1–2 steps the error explodes (see our 2D demo).</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 8 · CIFAR-10 numbers: Song et al. (2021), DDIM Table 1</p>
+<aside>【B 讲，约 1.5 分钟】
+Song 等人把 DDPM 看成连续时间的 VP-SDE。关键事实：存在一个确定性的 probability flow ODE，它和 SDE 在每个时刻的边缘分布 p_t 完全相同，而 ODE 里需要的 score 正好可以由我们训练好的 ε 网络给出。
+DDIM（η=0）就是这个 ODE 的一种离散化：先用当前的 ε 估计 x̂_0，再“跳”到更早的时间 s。不用重新训练，同一个模型可以只走 10–100 步。文献数字：CIFAR-10 上 10 步 FID 13.36，100 步 4.16（DDIM 论文 Table 1）。
+提醒一个细节：t=T 时 √ᾱ_t 约 0.006，x̂_0 要除以它，所以只走 1–2 步时误差会被放大约 150 倍——我们 2D 实验里看到的就是这个现象，后面演示时会讲。
+这一页是连接两类方法的桥：diffusion 也可以被看作“学一个向量场然后解 ODE”。</aside>
+</section>

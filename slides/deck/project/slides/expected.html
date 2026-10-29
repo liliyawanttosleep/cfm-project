@@ -1,0 +1,26 @@
+<section id="expected" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Expected results · literature</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">What happens in high dimensions: CIFAR-10</h2>
+</div>
+<table style="font-size:24px;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:30%;text-align:left">Method</th><th style="width:26%;text-align:left">Sampler · NFE</th><th style="width:18%;text-align:right">FID ↓</th><th style="width:26%;text-align:left">Source</th></tr>
+<tr><td style="color:#2F6DB5">DDPM</td><td>ancestral · 1000</td><td style="text-align:right">3.17</td><td>Ho et al. 2020</td></tr>
+<tr><td style="color:#2F6DB5">DDPM sampler, fewer steps</td><td>η = 1 · 10 / 100</td><td style="text-align:right">367.43 / 9.99</td><td>Song et al. 2021</td></tr>
+<tr><td style="color:#2F6DB5">DDIM</td><td>η = 0 · 10 / 100</td><td style="text-align:right">13.36 / 4.16</td><td>Song et al. 2021</td></tr>
+<tr><td style="color:#B35C12">FM, OT path (Lipman)</td><td>adaptive · 142</td><td style="text-align:right">6.35</td><td>Lipman et al. 2023</td></tr>
+<tr><td style="color:#B35C12">I-CFM</td><td>adaptive · ≈146</td><td style="text-align:right">3.66</td><td>Tong et al. 2024</td></tr>
+<tr><td style="color:#B35C12">OT-CFM</td><td>adaptive · ≈134</td><td style="text-align:right">3.58</td><td>Tong et al. 2024</td></tr>
+<tr><td style="color:#B35C12">1-Rectified Flow</td><td>Euler · 1</td><td style="text-align:right">378</td><td>Liu et al. 2023</td></tr>
+<tr><td style="color:#B35C12">2-Rectified Flow (reflow)</td><td>Euler · 1</td><td style="text-align:right">12.21</td><td>Liu et al. 2023</td></tr>
+<tr style="background:#F7EBDD"><td style="color:#B35C12">2-RF + distillation</td><td>one step</td><td style="text-align:right">4.85</td><td>Liu et al. 2023</td></tr>
+</table>
+<p style="font-size:24px;line-height:1.4;color:#5B6B82">Networks, training lengths and FID code differ across papers: read trends, not exact gaps. We will measure our own curve on CIFAR-10 in E4.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 20 · Values checked against each paper’s tables</p>
+<aside>【A 讲，约 1.5 分钟】
+高维的预期，先看文献在 CIFAR-10（3072 维）上的数字（都已对照原论文表格核实）：
+Diffusion：DDPM 走 1000 步 FID 3.17；如果硬把随机采样器减到 10 步，FID 爆到 367；换成确定性的 DDIM，10 步 13.36、100 步 4.16——说明 ODE 采样器对少步至关重要。
+Flow matching：用自适应 ODE 求解器（约 130–150 步）时，I-CFM 3.66、OT-CFM 3.58，几乎一样。
+一步生成：1-Rectified Flow 只走 1 步 FID 378，完全不行；reflow 一次后 12.21；再加蒸馏 4.85。说明在高维里要“少步”需要额外手段把流拉直。
+注意：各论文的网络、训练时长、FID 实现都不同，只能看趋势；我们会在 E4 用公开权重测出自己的曲线。</aside>
+</section>

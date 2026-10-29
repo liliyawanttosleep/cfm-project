@@ -1,0 +1,28 @@
+<section id="framework" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Background</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">One framework: transport noise into data</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:center">
+<img src="/_blob/76c7c974902916d90acd95af5ed91833" alt="Probability paths on the two-moons data at t = 0, 0.25, 0.5, 0.75, 1: the top row (flow matching, linear interpolation) and bottom row (diffusion, variance-preserving noising) both move from a Gaussian cloud to the two moons" style="width:1040px;height:442px;object-fit:contain;border-radius:12px">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<div style="background:#FFFFFF;border-left:6px solid #14213D;padding:24px 32px">
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:36px;color:#14213D">dx/dt = vθ(x, t),  t ∈ [0, 1]</p>
+<p style="font-size:24px;color:#5B6B82">x(0) ~ N(0, I)  →  x(1) ~ p_data</p>
+</div>
+<div style="background:#FFFFFF;border-left:6px solid #14213D;padding:24px 32px">
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:36px;color:#14213D">∂ₜ pₜ + ∇·(pₜ vₜ) = 0</p>
+<p style="font-size:24px;color:#5B6B82">Continuity equation: a velocity field moves a density</p>
+</div>
+<div style="background:#FFFFFF;border-left:6px solid #14213D;padding:24px 32px">
+<p style="font-size:32px;font-weight:600;color:#14213D">NFE</p>
+<p style="font-size:24px;color:#5B6B82">Network calls per sample = sampling cost</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 5</p>
+<aside>【A 讲，约 1.5 分钟】
+两类方法的共同框架：从标准高斯 N(0, I) 出发，沿一条“概率路径” p_t 一路变成数据分布。左图是 moons 数据上的两条路径：上面是 flow matching 的线性插值，下面是 diffusion 的加噪路径（这里统一画成 t=0 噪声、t=1 数据）。
+网络学的就是一个随时间变化的向量场 v(x, t)；密度怎么随之变化由连续性方程描述。
+生成时解这个 ODE（diffusion 也可以解 SDE）。解 ODE 要调用网络多少次，就是 NFE——这是我们衡量“采样代价”的统一单位，后面所有比较都以 NFE 为横轴。</aside>
+</section>

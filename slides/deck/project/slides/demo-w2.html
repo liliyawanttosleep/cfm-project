@@ -1,0 +1,23 @@
+<section id="demo-w2" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">2D demo · our results</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Straight paths need fewer steps</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:center">
+<img src="/_blob/a93672477e02b5236eeef6d8da86da4f" alt="Generated two-moons samples at 1, 2, 5 and 20 steps: OT-CFM already shows both moons at 1 step, I-CFM needs about 5 steps, DDIM fails at 1 and 2 steps and recovers by 20" style="width:758px;height:560px;object-fit:contain">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<img src="/_blob/2d822b3f4aa50320b1d583e727fb9b59" alt="Log-log plot of W2 distance versus number of steps on two moons: OT-CFM stays near 0.1 from 1 step; I-CFM falls from 1.3 to 0.1; DDIM falls from 9.2 to 0.17; DDPM with 1000 steps reaches 0.15; real-vs-real floor 0.043" style="width:858px;height:420px;object-fit:contain">
+<table style="font-size:24px;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:28%;text-align:left">W2 at NFE</th><th style="width:18%;text-align:right">1</th><th style="width:18%;text-align:right">5</th><th style="width:18%;text-align:right">20</th><th style="width:18%;text-align:right">100</th></tr>
+<tr><td>OT-CFM</td><td style="text-align:right">0.12</td><td style="text-align:right">0.089</td><td style="text-align:right">0.092</td><td style="text-align:right">0.092</td></tr>
+<tr><td>I-CFM</td><td style="text-align:right">1.32</td><td style="text-align:right">0.30</td><td style="text-align:right">0.12</td><td style="text-align:right">0.10</td></tr>
+<tr><td>DDIM</td><td style="text-align:right">9.2</td><td style="text-align:right">0.56</td><td style="text-align:right">0.19</td><td style="text-align:right">0.17</td></tr>
+</table>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 19 · Moons, seed 0. DDPM, 1000 steps: 0.148. Real-vs-real floor: 0.043. Lower is better.</p>
+<aside>【A 讲，约 1 分钟】
+左边：三种方法在 1、2、5、20 步时的生成样本。OT-CFM 1 步就已经能看出两个月牙；I-CFM 1 步时全部挤在中间，5 步才成形；DDIM 1–2 步完全失败（原因在第 8 页讲过：除以 √ᾱ 放大了误差），20 步后恢复。
+右边：W2 距离随步数的变化（对数坐标）。OT-CFM 从 1 步起就稳定在 0.1 左右；I-CFM 从 1.32 降到 0.10；DDIM 从 9.2 降到 0.17；DDPM 走满 1000 步是 0.148。虚线是两份真实样本之间的距离 0.043，是有限样本下能达到的下限。
+注意这只是 1 个种子的初步结果，正式实验会跑 3 个种子、4 个数据集。</aside>
+</section>

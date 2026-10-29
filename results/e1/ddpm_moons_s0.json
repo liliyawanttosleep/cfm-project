@@ -1,0 +1,35 @@
+{
+  "method": "ddpm",
+  "data": "moons",
+  "seed": 0,
+  "config": {
+    "method": "ddpm",
+    "data": "moons",
+    "seed": 0,
+    "iters": 20000,
+    "batch": 256,
+    "lr": 0.001,
+    "width": 256,
+    "n_eval": 2000,
+    "nfes": [
+      1000
+    ],
+    "out": "C:\\Users\\Wentao\\Desktop\\cfm_project\\results\\e1",
+    "T": 1000,
+    "schedule": "linear"
+  },
+  "train_seconds": 89.91906428337097,
+  "reference": {
+    "w2": 0.04289802809045841,
+    "mmd": -0.0028245756486137835
+  },
+  "by_nfe": [
+    {
+      "nfe": 1000,
+      "w2": 0.14854902263081785,
+      "mmd": 0.0016993276634405113,
+      "straightness": null,
+      "sample_seconds": 1.4988996982574463
+    }
+  ]
+}

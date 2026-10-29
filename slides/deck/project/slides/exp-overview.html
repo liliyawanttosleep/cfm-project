@@ -1,0 +1,22 @@
+<section id="exp-overview" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Experimental design</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">From 2 to 3,072 dimensions in four experiments</h2>
+</div>
+<table style="font-size:26px;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:17%;text-align:left">Experiment</th><th style="width:22%;text-align:left">Data (dimension)</th><th style="width:31%;text-align:left">Methods</th><th style="width:30%;text-align:left">What we vary and measure</th></tr>
+<tr><td><b>E1</b> · 2D toy</td><td>moons, 8 Gaussians, swiss roll, checkerboard (2)</td><td>DDPM, DDIM, I-CFM, OT-CFM, FM; GMM and KDE baselines</td><td>NFE; W2, MMD, NLL, straightness</td></tr>
+<tr><td><b>E2</b> · Images</td><td>MNIST, Fashion-MNIST (784)</td><td>DDPM, DDIM, I-CFM, OT-CFM; one shared UNet</td><td>NFE 1–100 and adaptive; FID; noise schedule</td></tr>
+<tr><td><b>E3</b> · Course methods</td><td>60k generated MNIST images per model</td><td>LogReg, LDA, RF, SVM; PCA, t-SNE, UMAP; k-means, GMM</td><td>Utility (TSTR), real-vs-fake AUC, mode coverage</td></tr>
+<tr><td><b>E4</b> · Extension</td><td>CIFAR-10 (3,072)</td><td>OT-CFM, I-CFM (public weights); or MNIST reflow</td><td>FID vs NFE against published numbers</td></tr>
+</table>
+<p style="font-size:28px;line-height:1.4;color:#14213D">Status: E1 runs end to end (moons done); E2–E4 follow after this presentation.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 14</p>
+<aside>【B 讲，约 1.5 分钟】
+四个实验，维度从 2 维逐步升到 3072 维：
+E1：2D 玩具数据，能直接画出轨迹和密度，还能和 GMM、KDE 这些经典统计方法比，指标用 W2、MMD、负对数似然和直线度。
+E2：主实验，MNIST 和 Fashion-MNIST（784 维），四种方法共用同一个 UNet，扫描 NFE，用 FID 评价，并做噪声调度的消融。
+E3：用课程方法评估生成数据（下一页详细讲），这也满足课程对线性分类、树/SVM、聚类、降维的要求。
+E4：扩展到 CIFAR-10（3072 维），用公开权重画 FID–NFE 曲线并和论文数字对比；或者在 MNIST 上做 reflow 一步生成。
+目前进度：E1 的代码已经全部跑通，moons 已有结果；其余在 Pre 之后完成。</aside>
+</section>

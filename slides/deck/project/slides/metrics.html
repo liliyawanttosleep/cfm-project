@@ -1,0 +1,37 @@
+<section id="metrics" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Experimental design</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Metrics: distances between distributions</h2>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-left:6px solid #14213D;padding:28px 36px">
+<p style="font-size:28px;font-weight:600;color:#14213D">Wasserstein-2 (2D)</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:32px;color:#14213D">W₂² = min over π ∈ Π(μ, ν) of E_π ‖x − y‖²</p>
+<p style="font-size:24px;color:#5B6B82">Exact optimal transport between samples (POT)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-left:6px solid #14213D;padding:28px 36px">
+<p style="font-size:28px;font-weight:600;color:#14213D">MMD (2D)</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:32px;color:#14213D">MMD² = E k(x, x′) + E k(y, y′) − 2 E k(x, y)</p>
+<p style="font-size:24px;color:#5B6B82">Unbiased U-statistic, multi-bandwidth RBF kernel</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-left:6px solid #14213D;padding:28px 36px">
+<p style="font-size:28px;font-weight:600;color:#14213D">FID (images)</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:32px;color:#14213D">‖μᵣ − μ_g‖² + Tr(Σᵣ + Σ_g − 2(Σᵣ Σ_g)^½)</p>
+<p style="font-size:24px;color:#5B6B82">= W₂² between Gaussians fitted to Inception features</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-left:6px solid #14213D;padding:28px 36px">
+<p style="font-size:28px;font-weight:600;color:#14213D">Straightness (paths)</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:32px;color:#14213D">S = mean over steps of ‖(x_N − x₀) − Δx/Δt‖²</p>
+<p style="font-size:24px;color:#5B6B82">0 = perfectly straight trajectory</p>
+</div>
+</div>
+<p style="font-size:26px;line-height:1.4;color:#14213D;background:#EEF1F5;border-radius:12px;padding:20px 32px">Caveat: Inception features suit natural images, not digits, so on MNIST we also compute FID on features from our own MNIST classifier.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 16</p>
+<aside>【B 讲，约 1.5 分钟】
+所有指标本质上都是“两个分布之间的距离”：
+W2：2D 上直接算样本之间的精确最优传输（POT 库）。
+MMD：核方法的两样本统计量，我们用无偏 U 统计量和多带宽 RBF 核。
+FID：图像的标准指标。统计系可以强调：FID 其实就是在 Inception 特征空间里分别拟合两个高斯，然后算它们之间的 W2²（高斯之间的 W2 有闭式解）。
+直线度：衡量采样轨迹是否接近直线，0 表示完全直。
+注意：Inception 网络是在自然图像上训练的，用在 MNIST 手写数字上不太合适，所以 MNIST 上我们会补一个用自己训练的 MNIST 分类器特征计算的 FID。</aside>
+</section>

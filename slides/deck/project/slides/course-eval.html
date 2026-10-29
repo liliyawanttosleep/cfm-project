@@ -1,0 +1,47 @@
+<section id="course-eval" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Experimental design</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Course methods as evaluation tools (E3)</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center">
+<p style="font-size:28px;color:#FAF8F3;background:#14213D;border-radius:999px;padding:14px 32px">60k generated images per model</p>
+<x-shape kind="arrow-right" style="background:#8A94A3;width:64px;height:32px"></x-shape>
+<p style="font-size:28px;color:#14213D;background:#E2E6EC;border-radius:999px;padding:14px 32px">Labels from our classifier</p>
+<x-shape kind="arrow-right" style="background:#8A94A3;width:64px;height:32px"></x-shape>
+<p style="font-size:28px;color:#14213D;background:#E2E6EC;border-radius:999px;padding:14px 32px">Four analyses</p>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-top:6px solid #14213D;border-radius:12px;padding:28px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">Linear models</h3>
+<p style="font-size:24px;line-height:1.4">Logistic regression, LDA</p>
+<p style="font-size:24px;line-height:1.4"><b>TSTR</b>: train on synthetic, test on real; compare with real-trained</p>
+<p style="font-size:24px;color:#5B6B82">Answers Q3</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-top:6px solid #14213D;border-radius:12px;padding:28px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">Trees and SVM</h3>
+<p style="font-size:24px;line-height:1.4">Random forest, RBF-SVM</p>
+<p style="font-size:24px;line-height:1.4">TSTR, plus a <b>real-vs-fake</b> classifier: AUC near 0.5 means indistinguishable</p>
+<p style="font-size:24px;color:#5B6B82">Answers Q1, Q3</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-top:6px solid #14213D;border-radius:12px;padding:28px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">Dimension reduction</h3>
+<p style="font-size:24px;line-height:1.4">PCA, t-SNE, UMAP</p>
+<p style="font-size:24px;line-height:1.4">Real and generated in one embedding; compare PCA explained-variance curves</p>
+<p style="font-size:24px;color:#5B6B82">Answers Q1</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-top:6px solid #14213D;border-radius:12px;padding:28px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">Clustering</h3>
+<p style="font-size:24px;line-height:1.4">k-means (k = 10), GMM</p>
+<p style="font-size:24px;line-height:1.4">ARI and NMI against labels; <b>χ² test</b> that cluster shares are uniform</p>
+<p style="font-size:24px;color:#5B6B82">Answers Q4</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 17 · Covers the course requirements: linear, tree/SVM, clustering, dimension reduction</p>
+<aside>【A 讲，约 1.5 分钟】
+课程要求的四类方法，我们都用来评估生成数据，而不是生硬地附加：
+每个模型生成 6 万张 MNIST 图，用我们训练的 MNIST 分类器给它们打标签，然后做四种分析：
+1. 线性模型（逻辑回归、LDA）：TSTR，在生成数据上训练、在真实测试集上测试，再和用真实数据训练的结果对比——差距越小说明生成数据越“有用”。
+2. 树和 SVM（随机森林、RBF-SVM）：同样做 TSTR；另外训练一个“真 vs 假”判别器，AUC 越接近 0.5，说明越分不出来。
+3. 降维（PCA、t-SNE、UMAP）：把真实和生成数据放在同一个低维空间里看是否重合，并比较 PCA 解释方差曲线。
+4. 聚类（k-means k=10、GMM）：和标签算 ARI/NMI；再对各簇所占比例做 χ² 均匀性检验，检查有没有模式坍缩。</aside>
+</section>

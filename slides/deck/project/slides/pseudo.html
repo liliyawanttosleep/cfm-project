@@ -1,0 +1,37 @@
+<section id="pseudo" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Side by side</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Both algorithms fit on one slide</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:40px">
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border-top:8px solid #2F6DB5;border-radius:12px;padding:32px 40px">
+<h3 style="font-size:32px;font-weight:600;color:#2F6DB5">Diffusion (DDPM + DDIM)</h3>
+<p style="font-size:24px;font-weight:600;color:#14213D">Train</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">x₀ ~ data, t ~ U{1..T}, ε ~ N(0, I)</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">xₜ = √ᾱₜ x₀ + √(1 − ᾱₜ) ε</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">step on ‖ εθ(xₜ, t) − ε ‖²</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">Sample</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">x ~ N(0, I)</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">for N chosen steps t → s:</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">  x̂₀ = (x − √(1−ᾱₜ) εθ) / √ᾱₜ</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">  x = √ᾱₛ x̂₀ + √(1−ᾱₛ) εθ</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border-top:8px solid #B35C12;border-radius:12px;padding:32px 40px">
+<h3 style="font-size:32px;font-weight:600;color:#B35C12">Flow matching (I-CFM / OT-CFM)</h3>
+<p style="font-size:24px;font-weight:600;color:#14213D">Train</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">x₁ ~ data, x₀ ~ N(0, I), t ~ U(0, 1)</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">[OT-CFM: re-pair x₀, x₁ by OT]</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">xₜ = (1 − t) x₀ + t x₁</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">step on ‖ vθ(xₜ, t) − (x₁ − x₀) ‖²</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">Sample</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">x ~ N(0, I)</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">for k = 0 … N−1:</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">  x = x + vθ(x, k/N) / N</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 11 · Our implementations: code/e1_2d/train_ddpm.py, train_fm.py</p>
+<aside>【B 讲，约 1 分钟】
+左右对照：两种方法的训练都是“随机取数据点、噪声、时间 → 构造中间点 → 做一次 MSE 回归”，区别只在中间点怎么构造、回归的目标是什么（ε 还是 x_1 − x_0）。
+采样都是从高斯噪声出发、迭代 N 步，每步调用一次网络，所以 NFE = N。
+我们自己的实现就是这样写的：两边用同一个网络，只换目标和采样器——这是后面“公平比较”的基础。</aside>
+</section>

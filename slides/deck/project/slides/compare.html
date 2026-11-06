@@ -13,8 +13,6 @@
 </table>
 <p style="font-family:'Source Serif 4', Georgia, serif;font-size:40px;line-height:1.3;color:#14213D">All four learn a time-dependent vector field by least squares; they differ in <i>the path they regress along</i> and <i>how they integrate it</i>.</p>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 12</p>
-<aside>【B 讲，约 1 分钟】
-一张表总结四种方法：网络预测什么、回归目标、采样器、路径形状、典型 NFE。
-核心结论：四种方法都是用最小二乘学一个随时间变化的向量场，区别只在“沿哪条路径回归”和“怎么积分”。
-这就引出我们的实验问题：路径和积分方式的差别，在同样的预算下会带来多大的质量与速度差异？</aside>
+<aside>[Kaiming · ~1 min] One table for the four methods: what the network predicts, the regression target, the sampler, the shape of the path, and the typical number of steps.
+The takeaway: all four learn a time-dependent vector field by least squares. They differ only in the path they regress along and how they integrate it. That raises our experimental question: how much do these differences matter for quality and speed at the same budget?</aside>
 </section>

@@ -15,9 +15,7 @@
 </table>
 </div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 19 · Moons, seed 0. DDPM, 1000 steps: 0.148. Real-vs-real floor: 0.043. Lower is better.</p>
-<aside>【A 讲，约 1 分钟】
-左边：三种方法在 1、2、5、20 步时的生成样本。OT-CFM 1 步就已经能看出两个月牙；I-CFM 1 步时全部挤在中间，5 步才成形；DDIM 1–2 步完全失败（原因在第 8 页讲过：除以 √ᾱ 放大了误差），20 步后恢复。
-右边：W2 距离随步数的变化（对数坐标）。OT-CFM 从 1 步起就稳定在 0.1 左右；I-CFM 从 1.32 降到 0.10；DDIM 从 9.2 降到 0.17；DDPM 走满 1000 步是 0.148。虚线是两份真实样本之间的距离 0.043，是有限样本下能达到的下限。
-注意这只是 1 个种子的初步结果，正式实验会跑 3 个种子、4 个数据集。</aside>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 20 · Moons, seed 0. DDPM, 1000 steps: 0.148. Real-vs-real floor: 0.043. Lower is better.</p>
+<aside>[Wentao · ~1.5 min] Left: samples at 1, 2, 5 and 20 steps. OT-CFM already shows both moons after one step. I-CFM collapses to the center at one step and needs about five. DDIM fails completely at one and two steps — the division by root alpha-bar we discussed — and recovers by twenty.
+Right: W2 to the test set against the number of steps, log scale. OT-CFM stays near 0.1 from the first step; I-CFM goes from 1.32 to 0.10; DDIM from 9.2 to 0.17; DDPM with all 1,000 steps reaches 0.15. The dashed line, 0.043, is the distance between two independent real samples — the best any method can do at this sample size. This is one seed; the final version uses three.</aside>
 </section>

@@ -23,9 +23,7 @@
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 6</p>
-<aside>【B 讲，约 1.5 分钟】
-前向过程：一步步往数据上加高斯噪声，任意时刻 t 都有闭式分布 q(x_t | x_0)，等价于 x_t = √ᾱ_t x_0 + √(1−ᾱ_t) ε。没有参数，不用学。
-训练：随机取一个数据点、一个时间 t、一个噪声 ε，算出 x_t，让网络 ε_θ 从 x_t 猜出 ε，用均方误差。Ho 等人证明完整的 ELBO（变分下界）化简后就是这个加权 MSE，实践中直接用不加权的版本。
-统计角度：就是一个最小二乘回归问题。
-注意记号：DDPM 里 t=0 是数据、t=T 是噪声，和 flow matching 的约定相反。</aside>
+<aside>[Kaiming · ~1.5 min] DDPM's forward process adds Gaussian noise step by step. It has no parameters, and at any time t the noisy point has a closed form: x_t equals root alpha-bar times x_0 plus root one-minus-alpha-bar times epsilon.
+Training draws a data point, a time and a noise vector, builds x_t, and asks the network to recover the noise with a squared error. Ho et al. showed that the variational bound reduces to this weighted MSE, and in practice the unweighted version works best. So statistically this is just a least-squares regression.
+One notation warning: DDPM puts data at t = 0 and noise at t = T, the opposite of flow matching.</aside>
 </section>

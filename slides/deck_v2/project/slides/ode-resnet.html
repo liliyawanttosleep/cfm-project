@@ -1,0 +1,35 @@
+<section id="ode-resnet" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Part I · Generation as transport</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">A ResNet with many small steps is an ODE</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:flex-start">
+<div style="width:780px;display:flex;flex-direction:column;gap:8px">
+<img src="/_blob/fb76f3c1c1dbd7b15ae41b3b397240bc" alt="Velocity field in the time-position plane from noise at t = 0 to two data points at t = 1, with exact ODE paths in orange and a four-step Euler approximation in navy that stays close to them" style="width:780px;height:560px;object-fit:contain">
+<p style="font-size:24px;color:#5B6B82">Example: N(0, 1) to the two points ±2. Arrows show uₜ(x).</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-left:6px solid #14213D;padding:20px 32px">
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:32px;color:#14213D">xₖ₊₁ = xₖ + (1/K) · u(xₖ, tₖ)   (residual block)</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:36px;color:#14213D">dx/dt = uₜ(x),   x(0) ~ p₀   (K → ∞)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">In words</h3>
+<p style="font-size:26px;line-height:1.4">Each block adds a small correction to its input. In the limit, uₜ(x) is the velocity of a particle at position x and time t.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">Why it helps generation</h3>
+<p style="font-size:26px;line-height:1.4">To sample, start from noise and integrate to t = 1. The cost is the number of network calls, <b>NFE</b>.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">In code</h3>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">for k in range(K):</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D;padding:0px 0px 0px 62px">x = x + model(k / K, x) / K</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 6</p>
+<aside>[Kaiming · ~1.3 min] You all know residual blocks: the output is the input plus a correction. If we use many small blocks with step size one over K, and give the network the time as an input, this is exactly a forward Euler step. As K goes to infinity we get an ordinary differential equation: dx/dt equals u of x at time t. So u is a velocity field: it tells a particle at position x and time t where to move.
+The figure shows a simple example, from a standard Gaussian to two points at plus and minus two. The arrows are the velocity, and the orange curves are exact solutions. The navy line uses Euler with four steps, which means four network calls.
+This gives us the sampling algorithm: draw noise and integrate to time one. The number of network calls is NFE, the number of function evaluations. It is the cost we use on the x-axis for the rest of the talk. A straight path can be followed with few steps; a curved path needs more.</aside>
+</section>

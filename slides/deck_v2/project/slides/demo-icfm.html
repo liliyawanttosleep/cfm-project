@@ -1,0 +1,43 @@
+<section id="demo-icfm" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part III · 2D examples</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 1. See it: 8 Gaussians to two moons</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:flex-start">
+<img src="/_blob/073bf32d4d70f5499dff57d452afca30" alt="Animation of I-CFM moving samples from eight Gaussian clusters to two moons; twelve highlighted paths are strongly curved" style="width:786px;height:640px;object-fit:contain">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<div style="display:grid;grid-template-columns:150px 1fr;gap:10px 20px;background:#FFFFFF;border-left:6px solid #B35C12;padding:20px 32px">
+<p style="font-size:26px;font-weight:600;color:#14213D">Source</p>
+<p style="font-size:26px;line-height:1.3">p₀ = 8 Gaussians on a circle of radius 5</p>
+<p style="font-size:26px;font-weight:600;color:#14213D">Target</p>
+<p style="font-size:26px;line-height:1.3">p₁ = two moons</p>
+<p style="font-size:26px;font-weight:600;color:#14213D">Network</p>
+<p style="font-size:26px;line-height:1.3">vθ(x, t): MLP, 3 hidden layers, width 64</p>
+<p style="font-size:26px;font-weight:600;color:#14213D">Training</p>
+<p style="font-size:26px;line-height:1.3">The same five lines; 20,000 steps, batch 256</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">What to notice</h3>
+<p style="font-size:26px;line-height:1.35"><b>It works:</b> samples reach the moons, trained only on straight-line targets.</p>
+<p style="font-size:26px;line-height:1.35"><b>p₀ need not be Gaussian:</b> Parts I and II only needed to sample from it.</p>
+<p style="font-size:26px;line-height:1.35"><b>The paths are curved:</b> on average 35% longer than the straight line from start to end.</p>
+</div>
+<p style="font-size:30px;line-height:1.3;font-weight:600;color:#14213D;background:#F7EBDD;border-radius:12px;padding:16px 28px">Every training target is a straight line. Why do the paths bend?</p>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">See it</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Why it bends</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Change the pairs</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Straighter</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Fewer steps</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 15 · Flow_matching_tutorial.ipynb, our run, with σ = 0.01. Path length: 2,000 paths, Euler with 200 steps.</p>
+<aside>[Wentao · ~1 min] Now we train on real 2D data, using the experiment from the torchcfm tutorial notebook. The source is eight Gaussians on a circle, the target is two moons, and the network is a small MLP. Training uses exactly the five lines we just labelled.
+Three things to notice. First, it works: samples reach the moons, although the network only saw straight-line targets. Second, the source is not a standard Gaussian; we only had to sample from it. Third, look at the dark paths. They wander, and some loop back. On average, a path is 35 percent longer than the straight line from its start to its end.
+That is strange, since every training target was straight. It also matters, because a solver must follow the curve, and each step costs one network evaluation. So why do the paths bend?</aside>
+</section>

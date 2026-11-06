@@ -1,0 +1,35 @@
+<section id="why-bend" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part III · 2D examples</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 2. Why paths bend, and what one step does</h2>
+</div>
+<img src="/_blob/97bd47f265527af9903a725ec1be896a" alt="Three panels for the running example: independent pair lines cross at t = 0.5, x = 0.1 with velocities +3.8 and -4.2; the marginal path from x0 = 1 first moves down, then bends up to +2; one Euler step from t = 0 sends every point to 0, the mean of the data" style="width:1664px;height:400px;object-fit:contain">
+<div style="display:flex;flex-direction:row;gap:32px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-left:6px solid #B35C12;padding:16px 28px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Why they bend: the velocity is an average</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;color:#14213D;font-size:30px">uₜ(x) = ( E[x₁ │ xₜ = x] − x ) / (1 − t)</p>
+<p style="font-size:26px;line-height:1.3">Early on, a point says little about its destination, so it aims at the mean. Later, it knows, and it turns.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:16px 28px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">One step: x₀ is independent of x₁, so at t = 0</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;color:#14213D;font-size:30px">u₀(x) = E[x₁] − x  ⇒  x + u₀(x) = E[x₁]</p>
+<p style="font-size:26px;line-height:1.3">Predicted W2 = √tr Cov = 1.41 on standardized 2D data. Measured with I-CFM: 1.28–1.37.</p>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">See it</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">Why it bends</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Change the pairs</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Straighter</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Fewer steps</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 16 · Lines cross; marginal paths do not. W2: one step, four datasets, seed 0. The trained net only approximates u₀.</p>
+<aside>[Wentao · ~1.3 min] Back to our small example. On the left are the two lines through our point, with velocities plus 3.8 and minus 4.2. Independent pairing makes lines cross everywhere, and at a crossing the network can give only the average.
+In the middle is the consequence. Take a point starting at x equals 1. It will end at plus 2, but at time zero it knows nothing about its destination, so it aims at the mean, zero. It starts with velocity minus 1, moving away. As time passes, the posterior becomes sure, and the path turns. Be careful with the words: individual lines cross, but marginal paths do not.
+On the right is a prediction we can test. At time zero, x₀ is independent of x₁, so the velocity is the data mean minus x. One Euler step lands exactly on the mean, for every starting point. Here, that is zero, where there is no data.
+The W2 distance from the mean to the data is the square root of the trace of the covariance: 1.41 on our standardized data. We measured 1.28 to 1.37. So failure at one step is not a bug; this pairing implies it.</aside>
+</section>

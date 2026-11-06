@@ -27,11 +27,10 @@
 </div>
 <p style="font-size:26px;line-height:1.4;color:#14213D;background:#EEF1F5;border-radius:12px;padding:20px 32px">Caveat: Inception features suit natural images, not digits, so on MNIST we also compute FID on features from our own MNIST classifier.</p>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 16</p>
-<aside>【B 讲，约 1.5 分钟】
-所有指标本质上都是“两个分布之间的距离”：
-W2：2D 上直接算样本之间的精确最优传输（POT 库）。
-MMD：核方法的两样本统计量，我们用无偏 U 统计量和多带宽 RBF 核。
-FID：图像的标准指标。统计系可以强调：FID 其实就是在 Inception 特征空间里分别拟合两个高斯，然后算它们之间的 W2²（高斯之间的 W2 有闭式解）。
-直线度：衡量采样轨迹是否接近直线，0 表示完全直。
-注意：Inception 网络是在自然图像上训练的，用在 MNIST 手写数字上不太合适，所以 MNIST 上我们会补一个用自己训练的 MNIST 分类器特征计算的 FID。</aside>
+<aside>[Kaiming · ~1.5 min] Every metric is a distance between two distributions.
+W2: exact optimal transport between the two samples in 2D, computed with the POT library.
+MMD: the kernel two-sample statistic, unbiased, with several RBF bandwidths.
+FID, the standard image metric. A point for a statistics audience: FID fits a Gaussian to the Inception features of each set and takes the closed-form W2 distance between the two Gaussians.
+Straightness measures how close the sampling trajectory is to a straight line; zero means perfectly straight.
+Caveat: Inception was trained on natural images, not handwritten digits, so on MNIST we also compute FID on features from our own MNIST classifier.</aside>
 </section>

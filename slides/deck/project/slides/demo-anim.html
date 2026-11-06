@@ -1,0 +1,11 @@
+<section id="demo-anim" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">2D demo · our results</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Watching noise turn into data</h2>
+</div>
+<img src="/_blob/9b1fbf15b2eef9b9d2d61fac2895a6dd" alt="Animation of 1,500 particles moving from Gaussian noise to the two moons over 60 steps for OT-CFM, I-CFM and DDIM from the same starting points: OT-CFM moves steadily along nearly straight paths, I-CFM first contracts then spreads, DDIM changes little until the final steps" style="width:1664px;height:600px;object-fit:contain">
+<p style="font-size:24px;color:#5B6B82">Same 1,500 starting points, 60 steps per method. OT-CFM moves at a steady pace; DDIM does most of its work in the last few steps.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 18</p>
+<aside>[Wentao · ~1.5 min] Now our results. This animation shows the three trained models generating two-moons samples from the same 1,500 starting points, 60 steps each.
+Watch the timing. OT-CFM moves every point at a steady pace along almost straight lines — the moons are already visible halfway through. I-CFM first contracts toward the center and then spreads out, so its paths bend. DDIM barely moves for most of the time and does almost all the work in the last few steps, which is exactly why it fails when we give it only one or two steps.</aside>
+</section>

@@ -24,9 +24,8 @@
 </div>
 <p style="font-size:26px;line-height:1.4;color:#14213D;background:#E8EEF7;border-radius:12px;padding:20px 32px">Watch out: x̂₀ divides by √ᾱₜ ≈ 0.006 at t = T, so with 1–2 steps the error explodes (see our 2D demo).</p>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 8 · CIFAR-10 numbers: Song et al. (2021), DDIM Table 1</p>
-<aside>【B 讲，约 1.5 分钟】
-Song 等人把 DDPM 看成连续时间的 VP-SDE。关键事实：存在一个确定性的 probability flow ODE，它和 SDE 在每个时刻的边缘分布 p_t 完全相同，而 ODE 里需要的 score 正好可以由我们训练好的 ε 网络给出。
-DDIM（η=0）就是这个 ODE 的一种离散化：先用当前的 ε 估计 x̂_0，再“跳”到更早的时间 s。不用重新训练，同一个模型可以只走 10–100 步。文献数字：CIFAR-10 上 10 步 FID 13.36，100 步 4.16（DDIM 论文 Table 1）。
-提醒一个细节：t=T 时 √ᾱ_t 约 0.006，x̂_0 要除以它，所以只走 1–2 步时误差会被放大约 150 倍——我们 2D 实验里看到的就是这个现象，后面演示时会讲。
-这一页是连接两类方法的桥：diffusion 也可以被看作“学一个向量场然后解 ODE”。</aside>
+<aside>[Kaiming · ~2 min] Song et al. wrote DDPM as a variance-preserving SDE. The key fact: there is a deterministic probability-flow ODE whose marginals p_t match the SDE at every time, and the score it needs comes from our trained noise network.
+DDIM with eta = 0 is a discretization of that ODE. First estimate x_0 from the current noise prediction, then jump to an earlier time s. No retraining is needed, and the same model can sample in 10 to 100 steps; on CIFAR-10 the DDIM paper reports FID 13.36 at 10 steps and 4.16 at 100.
+One detail matters for our demo: at t = T, root alpha-bar is about 0.006, and the x_0 estimate divides by it, so with only one or two steps the error is amplified roughly 150 times.
+This slide is the bridge: diffusion, too, can be read as learning a vector field and solving an ODE.</aside>
 </section>

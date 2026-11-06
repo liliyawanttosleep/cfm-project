@@ -1,0 +1,56 @@
+<section id="ot-result" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part III · 2D examples</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 4. Same data, straighter paths</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:40px;align-items:flex-start">
+<img src="/_blob/708f4b6eef5ddc4b05aa46cfe2ecdb63" alt="I-CFM and OT-CFM trajectories from the same starting points to two moons: I-CFM paths curve and loop, OT-CFM paths are almost straight" style="width:1000px;height:452px;object-fit:contain">
+<div style="flex:1;display:grid;grid-template-columns:1fr 130px 130px;gap:26px 14px;align-items:baseline">
+<p style="font-size:24px;font-weight:600;color:#14213D"></p>
+<p style="font-size:24px;font-weight:600;color:#14213D">I-CFM</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">OT-CFM</p>
+<p style="font-size:24px">Length / straight line</p>
+<p style="font-size:24px">1.35</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">1.001</p>
+<p style="font-size:24px">Straightness S (0 is best)</p>
+<p style="font-size:24px">9.7</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">0.02</p>
+<p style="font-size:24px">Final loss</p>
+<p style="font-size:24px">7.9–9.2</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">0.14–0.18</p>
+<p style="font-size:24px">W2 to moons</p>
+<p style="font-size:24px">0.46 ± 0.06</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">0.34 ± 0.06</p>
+<p style="font-size:24px">Seconds / 5,000 steps</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">35–61</p>
+<p style="font-size:24px">116–122</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:6px;background:#F7EBDD;border-radius:12px;padding:14px 28px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Our example, with exact OT pairs</h3>
+<p style="font-size:26px;line-height:1.3">x₀ &lt; 0 → −2 and x₀ &gt; 0 → +2. Each point has one target, so the loss floor falls from 13.69 to 0, and one Euler step is exact.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px;background:#FFFFFF;border-radius:12px;padding:14px 28px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Read the table with care</h3>
+<p style="font-size:26px;line-height:1.3">The loss fell because targets stopped conflicting, not as a quality score. OT is slower per step, and its paths are nearly, not exactly, straight.</p>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">See it</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">Why it bends</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">Change the pairs</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">Straighter</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Fewer steps</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 18 · Notebook, one trained model each. W2: 1,024 samples, 100 runs (± std), dopri5. S: E‖v − (x₁ − x₀)‖², over 200 steps.</p>
+<aside>[Wentao · ~1 min] Same data, same network, same starting points; only that one line changed. I-CFM paths curve and loop. OT-CFM paths are almost straight.
+The table measures this. Path length relative to the straight line falls from 1.35 to 1.001, and straightness from about 10 to 0.02. W2 improves from 0.46 to 0.34, over 100 sampling runs of one trained model each.
+Remember the warning from step five: the loss falls from about 8 to 0.15 because targets stop conflicting, not because the model is fifty times better.
+Our small example shows the extreme case. With exact OT pairs, each reachable point has one target, the loss floor goes from 13.69 to zero, and one Euler step is exact. Our old point is not even visited any more.
+It is not free: training takes about 120 seconds instead of 35 to 61 per 5,000 steps. Does straighter really mean fewer steps?</aside>
+</section>

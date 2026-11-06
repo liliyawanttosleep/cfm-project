@@ -1,0 +1,56 @@
+<section id="formulas-code" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part II · Conditional Flow Matching</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 6. From formulas back to code</h2>
+</div>
+<div style="display:grid;grid-template-columns:300px 500px 1fr;gap:12px 28px;align-items:center;background:#FFFFFF;border-left:6px solid #B35C12;padding:20px 32px">
+<p style="font-size:24px;font-weight:600;color:#14213D">Step</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">Formula</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">Code</p>
+<p style="font-size:26px;color:#3D4756">Draw a pair</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">z = (x₀, x₁) ~ q</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">x1 = next(data_iter); x0 = torch.randn_like(x1)</p>
+<p style="font-size:26px;color:#3D4756">Draw a time</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">t ~ U[0, 1]</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">t = torch.rand(len(x1))</p>
+<p style="font-size:26px;color:#3D4756">Sample the path</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">xₜ = (1 − t) x₀ + t x₁ ~ pₜ</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">xt = (1 - t) * x0 + t * x1</p>
+<p style="font-size:26px;color:#3D4756">Compute the target</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">uₜ(x │ z) = x₁ − x₀</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">ut = x1 - x0</p>
+<p style="font-size:26px;color:#3D4756">Regress</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">‖ vθ(xₜ, t) − uₜ(x │ z) ‖²</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">loss = torch.mean((model(t, xt) - ut) ** 2)</p>
+<p style="font-size:26px;font-weight:600;color:#B35C12">Generate</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">x ← x + (1/K) vθ(x, k/K)</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">for k in range(K): x = x + model(k / K, x) / K</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center">
+<p style="flex:1;font-size:26px;line-height:1.3;color:#14213D;background:#F7EBDD;border-radius:12px;padding:16px 24px">Regress on a random target</p>
+<x-shape kind="arrow-right" style="background:#8A94A3;width:56px;height:28px"></x-shape>
+<p style="flex:1;font-size:26px;line-height:1.3;color:#14213D;background:#F7EBDD;border-radius:12px;padding:16px 24px">Learn its posterior mean</p>
+<x-shape kind="arrow-right" style="background:#8A94A3;width:56px;height:28px"></x-shape>
+<p style="flex:1;font-size:26px;line-height:1.3;color:#14213D;background:#F7EBDD;border-radius:12px;padding:16px 24px">It satisfies the continuity equation</p>
+<x-shape kind="arrow-right" style="background:#8A94A3;width:56px;height:28px"></x-shape>
+<p style="flex:1;font-size:26px;line-height:1.3;color:#14213D;background:#F7EBDD;border-radius:12px;padding:16px 24px">Integrating it generates data</p>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">One pair</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">All pairs</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">Posterior mean</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">Closed form</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">Same gradient</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">Code</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 14 · Simplified: t must be reshaped to match x. In torchcfm, sample_location_and_conditional_flow does rows 2–4.</p>
+<aside>[Wentao · ~1.3 min] Now we can go back to our five lines and label each of them. Draw a pair: that is z. Draw a time uniformly. Compute the point on the line: this is a sample from the path p_t. Compute the target: x₁ minus x₀. Regress with mean squared error: this is the conditional flow matching loss. In the torchcfm library, one function does the time, the point and the target together, and that is the long function name we saw earlier.
+Generation is the Euler loop from Kaiming’s part: start from noise, and add the network’s velocity divided by K, K times.
+The chain at the bottom is the whole argument. We regress on a random target. By the variance decomposition, the network learns its posterior mean. By linearity, the posterior mean satisfies the continuity equation with our path. By the continuity equation, integrating it from noise generates data.
+This answers our first two questions. The third question remains: if this already works, why would we change anything? The answer is cost. Next, we see what happens with real 2D data and few steps.</aside>
+</section>

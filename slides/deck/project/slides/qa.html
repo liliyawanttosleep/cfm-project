@@ -6,11 +6,10 @@
 <div style="width:120px;height:6px;background:#6FA3E0"></div>
 </div>
 <p style="font-size:28px;line-height:1.5;color:#AEB9CC">Code builds on torchcfm (github.com/atong01/conditional-flow-matching). Key papers: Ho et al. 2020; Song et al. 2021; Lipman et al. 2023; Liu et al. 2023; Tong et al. 2024.</p>
-<aside>【共同，约 2 分钟问答】
-总结一句话：两类方法都是在回归一个向量场，区别在路径——路径决定了采样要付出多少步的代价。
-可能被问到的问题（彩排时准备）：
-1. FM 和 diffusion 本质区别是什么？——回归目标和概率路径不同；diffusion 的 ODE 采样器（DDIM）本质上也是 flow，只是路径弯。
-2. 为什么高维时 OT 效果变弱？——batch 远小于维度时经验最优传输配对接近随机，见 H3。
-3. FID 用在 MNIST 上合适吗？——不完全合适，所以补充用 MNIST 分类器特征算的 FID，以及 E3 的 TSTR 等指标。
-4. 为什么不比较 GAN/VAE？——课程项目时间有限，聚焦当前主流的两类方法；GAN/VAE 在报告的 related work 中讨论。</aside>
+<aside>[Both · Q&A] Thank you — we are happy to take questions.
+Likely questions:
+1. What is the essential difference between flow matching and diffusion? The regression target and the probability path; diffusion's ODE sampler (DDIM) is itself a flow, just along a curved path.
+2. Why would OT help less in high dimensions? With a batch much smaller than the dimension, empirical OT pairing is close to random pairing (H3).
+3. Is FID meaningful on MNIST? Only partly, so we add FID on MNIST-classifier features and the E3 metrics (TSTR, discriminator AUC).
+4. Why not GANs or VAEs? We focus on the two families that define the current state of the art; GANs and VAEs appear in the related-work section of the report.</aside>
 </section>

@@ -1,0 +1,51 @@
+<section id="closed-form" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part II · Conditional Flow Matching</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 4. Check it: a velocity in closed form</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:flex-start">
+<div style="width:720px;display:flex;flex-direction:column;gap:8px">
+<img src="/_blob/2ddc4d1679b83d6865551db26e7affc1" alt="Density path from a Gaussian at t = 0 to two points at t = 1, with paths integrated from the exact formula: all paths reach plus or minus two and never cross; the point t = 0.5, x = 0.1 has velocity 1.32" style="width:720px;height:517px;object-fit:contain">
+<p style="font-size:24px;color:#5B6B82">Paths from integrating the formula, with no network.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:26px;line-height:1.35">Setup: x₀ ~ N(0, 1), and x₁ = ±a with probability ½ each.</p>
+<div style="display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:16px 28px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">1 · Rewrite the target on a line</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">x₁ − x₀ = (x₁ − xₜ) / (1 − t)</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">uₜ(x) = ( E[x₁ │ xₜ = x] − x ) / (1 − t)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:16px 28px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">2 · Apply Bayes, with xₜ │ x₁ ~ N( t x₁, (1 − t)² )</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">E[x₁ │ xₜ = x] = a · tanh( a t x / (1 − t)² )</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:16px 28px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">3 · Result</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">uₜ(x) = ( a · tanh( a t x / (1 − t)² ) − x ) / (1 − t)</p>
+<p style="font-size:24px;color:#3D4756">a = 2, t = 0.5, x = 0.1: (0.76 − 0.1) / 0.5 = 1.32, as on the last slide.</p>
+</div>
+<p style="font-size:26px;line-height:1.35">Numerical check: 200,000 N(0, 1) points integrated with this formula all reach ±2, about half to each.</p>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">One pair</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">All pairs</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">Posterior mean</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">Closed form</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Same gradient</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Code</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 12 · Numerical check uses Euler with 2,000 steps. Background color is scaled separately at each t.</p>
+<aside>[Wentao · ~1.5 min] Step four is a sanity check. For our small example, the posterior mean has a closed form, so we can test the claim directly, without any neural network.
+First, rewrite the target. On a line, x₁ minus x₀ equals x₁ minus x_t, divided by one minus t. Taking the conditional expectation gives the velocity in terms of one quantity: the expected data point given where we are now. This is a denoiser, and it will come back when we talk about diffusion.
+Second, apply Bayes’ rule. Given x₁, x_t is Gaussian with mean t x₁ and variance one minus t squared. With two data points, the posterior mean is a tanh.
+Third, put them together. This is the exact marginal velocity. Plug in our point, a equals 2, t equals 0.5 and x equals 0.1, and we get 1.32, the same number as on the last slide.
+Now the test: we integrated this formula from 200,000 Gaussian points. All of them end up at plus or minus two, about half on each side. Nothing was trained. So the velocity defined by the posterior mean really does transport noise to data.
+Also notice that the individual lines on the previous slides cross, but these marginal paths do not. A point at a given location and time has only one velocity. This becomes important when we discuss why paths bend.
+In real data we cannot compute this posterior mean, so we need a network to learn it. That is the next step.</aside>
+</section>

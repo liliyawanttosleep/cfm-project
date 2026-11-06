@@ -1,0 +1,36 @@
+<section id="project-goal" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Project goal</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">What we set out to do</h2>
+</div>
+<p style="font-family:'Source Serif 4', Georgia, serif;font-size:44px;line-height:1.3;color:#14213D">Explain how flow matching turns generation into regression, then measure how it trades sample quality against sampling cost compared with diffusion.</p>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-top:6px solid #14213D;border-radius:12px;padding:28px 32px">
+<h3 style="font-size:32px;font-weight:600;color:#14213D">Explain</h3>
+<p style="font-size:26px;line-height:1.4">Why does a least-squares regression give a correct generative model?</p>
+<p style="font-size:24px;color:#5B6B82">Most of today’s talk</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-top:6px solid #B35C12;border-radius:12px;padding:28px 32px">
+<h3 style="font-size:32px;font-weight:600;color:#14213D">Compare</h3>
+<p style="font-size:26px;line-height:1.4">With the same network and budget, how does quality change with the number of network calls?</p>
+<p style="font-size:24px;color:#5B6B82">Flow matching vs. diffusion</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-top:6px solid #2F6DB5;border-radius:12px;padding:28px 32px">
+<h3 style="font-size:32px;font-weight:600;color:#14213D">Evaluate</h3>
+<p style="font-size:26px;line-height:1.4">Is generated data useful: can it train classifiers, and does it cover every class?</p>
+<p style="font-size:24px;color:#5B6B82">Course methods</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center">
+<p style="font-size:26px;font-weight:600;color:#14213D">Scale</p>
+<p style="font-size:26px;color:#14213D;background:#E2E6EC;border-radius:999px;padding:10px 28px">2D toy data: d = 2</p>
+<x-shape kind="arrow-right" style="background:#8A94A3;width:56px;height:28px"></x-shape>
+<p style="font-size:26px;color:#14213D;background:#E2E6EC;border-radius:999px;padding:10px 28px">MNIST: d = 784</p>
+<x-shape kind="arrow-right" style="background:#8A94A3;width:56px;height:28px"></x-shape>
+<p style="font-size:26px;color:#14213D;background:#E2E6EC;border-radius:999px;padding:10px 28px">CIFAR-10: d = 3,072</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 2</p>
+<aside>[Wentao · ~1.2 min] Here is the project in one sentence. We want to explain how flow matching turns generation into a regression problem, and then measure how it trades sample quality against sampling cost compared with diffusion.
+That gives three goals. First, explain: why does a simple least-squares regression give a correct generative model? This is most of today’s talk. Second, compare: with the same network and the same training budget, how does quality change with the number of network calls per sample? Third, evaluate: is the generated data useful? We use the methods from this course to check whether it can train classifiers and whether it covers every class.
+We do this at three scales, so we can see what survives as the dimension grows: 2D toy data, MNIST with 784 dimensions and CIFAR-10 with 3,072.</aside>
+</section>

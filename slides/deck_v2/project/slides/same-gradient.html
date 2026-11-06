@@ -1,0 +1,49 @@
+<section id="same-gradient" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part II · Conditional Flow Matching</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 5. A random target has the same gradient</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:flex-start">
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-left:6px solid #B35C12;padding:18px 32px">
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:32px;color:#14213D">L_CFM(θ) = E<span style="color:#5B6B82"> t, z </span>‖ vθ(xₜ, t) − (x₁ − x₀) ‖²</p>
+<p style="font-size:24px;color:#5B6B82">With Y = x₁ − x₀, the standard decomposition gives:</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">E‖vθ − Y‖² = E‖vθ − E[Y │ xₜ, t]‖² + E[Var(Y │ xₜ, t)]</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:32px;color:#14213D">L_CFM(θ) = L_FM(θ) + C,   ∇θ L_CFM = ∇θ L_FM</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">In words</h3>
+<p style="font-size:26px;line-height:1.35">Least squares on a noisy response recovers the regression function. Here that function is uₜ(x), and C does not depend on θ.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">Why it helps generation</h3>
+<p style="font-size:26px;line-height:1.35">We train on the computable target x₁ − x₀, and the network still learns the correct field uₜ(x). <b>This answers question 1.</b></p>
+</div>
+</div>
+<div style="width:760px;display:flex;flex-direction:column;gap:14px">
+<img src="/_blob/d5f5c8efe3a4fe583327e895c583896c" alt="Parabola of expected loss against the network output at t = 0.5, x = 0.1: targets at -4.2 and +3.8, minimum at the posterior mean 1.32 and a floor of 13.69" style="width:760px;height:390px;object-fit:contain">
+<div style="display:flex;flex-direction:column;gap:6px;background:#F7EBDD;border-radius:12px;padding:16px 28px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Consequence: the loss does not go to 0</h3>
+<p style="font-size:26px;line-height:1.35">Its minimum is C, the variance of the target. Do not compare models by loss value: in the tutorial, I-CFM ends near 8 and OT-CFM near 0.15.</p>
+</div>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">One pair</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">All pairs</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">Posterior mean</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">Closed form</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">Same gradient</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Code</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 13 · Loss values: our run of Flow_matching_tutorial.ipynb, 8 Gaussians to moons (7.9–9.2 and 0.14–0.18).</p>
+<aside>[Wentao · ~1.7 min] Step five answers our first question. We want the network to learn the marginal velocity, but we can only compute x₁ minus x₀ for a single pair. Given the input, that target is still random: at our point, it is plus 3.8 or minus 4.2. So why is regressing on it correct?
+This is the statistics you already know. Call the target Y. Mean squared error decomposes into two terms: the squared distance from the network to the conditional mean of Y, plus the conditional variance of Y. The first term is the ideal flow matching loss, because the conditional mean is exactly the marginal velocity from step three. The second term does not depend on theta. So the two losses differ by a constant and have the same gradient. Least squares on a noisy response recovers the regression function.
+The plot shows this at our point. The horizontal axis is what the network outputs at t equals 0.5 and x equals 0.1. The target is plus 3.8 with probability 0.69, and minus 4.2 with probability 0.31. The network can output only one number. The expected loss is a parabola with its minimum at the posterior mean, 1.32, and not at either target.
+There is a practical consequence. The height of the minimum, here 13.69, is the conditional variance, so the loss does not go to zero even for the perfect network. In the tutorial notebook, independent pairing ends with a loss near 8, and optimal-transport pairing near 0.15. That difference mostly reflects how uncertain the target is, not how good the samples are. So never compare generative models by this loss value.</aside>
+</section>

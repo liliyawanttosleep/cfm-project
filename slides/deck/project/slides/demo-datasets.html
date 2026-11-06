@@ -1,0 +1,30 @@
+<section id="demo-datasets" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">2D demo · our results</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Same story on four datasets</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:center">
+<img src="/_blob/cfc22190ee49a30793e8d3a7d5dc3af8" alt="Grid of generated samples: rows are moons, 8 Gaussians, checkerboard and swiss roll; columns are real data, OT-CFM, I-CFM and DDIM with 5 steps, and DDPM with 1000 steps" style="width:776px;height:640px;object-fit:contain">
+<div style="flex:1;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #D9822B;padding:4px 0px 4px 24px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">OT-CFM, 5 steps</h3>
+<p style="font-size:26px;line-height:1.4">Recovers the moons, all eight modes and the spiral; the checkerboard squares are visible but soft.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #B8651B;padding:4px 0px 4px 24px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">I-CFM, 5 steps</h3>
+<p style="font-size:26px;line-height:1.4">Mass leaks between modes: the eight Gaussians merge into a ring and the moons fill in.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #2F6DB5;padding:4px 0px 4px 24px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">DDIM, 5 steps</h3>
+<p style="font-size:26px;line-height:1.4">Fails on every dataset; samples collapse into a distorted blob.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #1D4A80;padding:4px 0px 4px 24px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">DDPM, 1000 steps</h3>
+<p style="font-size:26px;line-height:1.4">Clean shapes at 200× the cost, yet still higher W2 than OT-CFM at 5 steps on all four datasets.</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 21 · Seed 0; same network, training budget and starting noise for every method</p>
+<aside>[Kaiming · ~1.5 min] Is the two-moons result special? Here are all four datasets at a small budget of five steps, with DDPM at its full 1,000 steps as a reference. Rows are moons, eight Gaussians, checkerboard and swiss roll; every method starts from the same noise.
+OT-CFM at five steps recovers the moons, all eight Gaussian modes and the spiral; only the checkerboard is soft at the edges. I-CFM leaks mass between modes: the eight Gaussians turn into a ring and the moons fill in. DDIM at five steps fails everywhere and collapses into a blob. DDPM gives clean shapes, but needs two hundred times more network calls, and its W2 is still higher than OT-CFM at five steps on all four datasets. The checkerboard is the hardest case for every method: its sharp corners are hard for a small MLP.</aside>
+</section>

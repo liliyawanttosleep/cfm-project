@@ -21,7 +21,7 @@
 
 ## 1. 分工
 
-| | 成员 A：________（填名字） | 成员 B：________（填名字） |
+| | 成员 A：**Wentao Yang** | 成员 B：**Kaiming Zhang** |
 |---|---|---|
 | 算法线 | **Flow Matching**：I-CFM、OT-CFM、Lipman FM、Rectified Flow | **Diffusion**：DDPM、DDIM、Score SDE 视角 |
 | 评估线 | 降维（PCA / t-SNE / UMAP）+ 聚类（k-means / GMM / χ² 检验） | 分类器评估（TSTR：LogReg / LDA / RF / SVM）+ real-vs-fake 判别器 + 统计基线（GMM / KDE） |

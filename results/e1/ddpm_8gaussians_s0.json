@@ -1,0 +1,35 @@
+{
+  "method": "ddpm",
+  "data": "8gaussians",
+  "seed": 0,
+  "config": {
+    "method": "ddpm",
+    "data": "8gaussians",
+    "seed": 0,
+    "iters": 20000,
+    "batch": 256,
+    "lr": 0.001,
+    "width": 256,
+    "n_eval": 2000,
+    "nfes": [
+      1000
+    ],
+    "out": "C:\\Users\\Wentao\\Desktop\\cfm_project\\results\\e1",
+    "T": 1000,
+    "schedule": "linear"
+  },
+  "train_seconds": 67.77548050880432,
+  "reference": {
+    "w2": 0.15401442218031383,
+    "mmd": -0.0018441204618608598
+  },
+  "by_nfe": [
+    {
+      "nfe": 1000,
+      "w2": 0.2902064908411221,
+      "mmd": 0.017127605355478637,
+      "straightness": null,
+      "sample_seconds": 1.3381407260894775
+    }
+  ]
+}

@@ -25,3 +25,7 @@ slides/build/
 
 # 例外：报告幻灯片的合并文件进 git，方便队友直接查看
 !slides/FM_vs_Diffusion_Talk.pdf
+
+# 运行日志和可重新下载的 FID 参考统计量不进 git
+*.log
+results/**/stats/

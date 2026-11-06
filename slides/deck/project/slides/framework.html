@@ -4,7 +4,7 @@
 <h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">One framework: transport noise into data</h2>
 </div>
 <div style="display:flex;flex-direction:row;gap:48px;align-items:center">
-<img src="/_blob/76c7c974902916d90acd95af5ed91833" alt="Probability paths on the two-moons data at t = 0, 0.25, 0.5, 0.75, 1: the top row (flow matching, linear interpolation) and bottom row (diffusion, variance-preserving noising) both move from a Gaussian cloud to the two moons" style="width:1040px;height:442px;object-fit:contain;border-radius:12px">
+<img src="/_blob/79ebb7a368ab48e00ce231ffb0c852fc" alt="Animated probability paths on the two-moons data as t goes from 0 to 1: flow matching's linear interpolation (orange) and diffusion's variance-preserving noising (blue) both turn a Gaussian cloud into the two moons" style="width:1040px;height:562px;object-fit:contain;border-radius:12px">
 <div style="flex:1;display:flex;flex-direction:column;gap:24px">
 <div style="background:#FFFFFF;border-left:6px solid #14213D;padding:24px 32px">
 <p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:36px;color:#14213D">dx/dt = vθ(x, t),  t ∈ [0, 1]</p>
@@ -21,8 +21,6 @@
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 5</p>
-<aside>【A 讲，约 1.5 分钟】
-两类方法的共同框架：从标准高斯 N(0, I) 出发，沿一条“概率路径” p_t 一路变成数据分布。左图是 moons 数据上的两条路径：上面是 flow matching 的线性插值，下面是 diffusion 的加噪路径（这里统一画成 t=0 噪声、t=1 数据）。
-网络学的就是一个随时间变化的向量场 v(x, t)；密度怎么随之变化由连续性方程描述。
-生成时解这个 ODE（diffusion 也可以解 SDE）。解 ODE 要调用网络多少次，就是 NFE——这是我们衡量“采样代价”的统一单位，后面所有比较都以 NFE 为横轴。</aside>
+<aside>[Wentao · ~1.5 min] Both families share one picture. Start from a standard Gaussian at t = 0 and move along a probability path p_t until we reach the data distribution at t = 1. The animation shows two such paths on the two-moons data: on the left flow matching's straight interpolation, on the right diffusion's noising path, written in the same direction. (The PDF shows still snapshots instead of the animation.)
+The network learns a time-dependent vector field v(x, t), and the continuity equation tells us how the density moves with it. To generate, we solve the ODE. The number of network calls the solver makes is the NFE — this is our unit of sampling cost, and it is the x-axis of every comparison later.</aside>
 </section>

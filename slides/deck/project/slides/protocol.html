@@ -17,7 +17,7 @@
 <table style="font-size:26px;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif">
 <tr><th style="width:36%;text-align:left">Setting</th><th style="width:32%;text-align:left">2D (E1)</th><th style="width:32%;text-align:left">Images (E2)</th></tr>
 <tr><td>Network</td><td>MLP 3 × 256</td><td>torchcfm UNet</td></tr>
-<tr><td>Training steps</td><td>20,000</td><td>[__]</td></tr>
+<tr><td>Training steps</td><td>20,000</td><td>set by pilot run</td></tr>
 <tr><td>Batch, Adam lr</td><td>256, 1e-3</td><td>128, 2e-4</td></tr>
 <tr><td>Diffusion T, schedule</td><td>1000, linear</td><td>1000, linear vs cosine</td></tr>
 <tr><td>Eval samples</td><td>2,000</td><td>10k–50k</td></tr>
@@ -26,8 +26,7 @@
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 15</p>
-<aside>【B 讲，约 1 分钟】
-公平比较的原则：只让算法变，其他全部固定。同一个网络结构、同样的训练步数/batch/优化器/EMA；采样时所有方法用同一份初始噪声；评估用同一份测试集；每个设定跑 3 个随机种子，报告均值 ± 标准差。
-另外我们会计算两份独立真实样本之间的距离，作为有限样本下指标的“噪声底”，用来判断一个数字到底算不算好。
-右边是计划的超参数：2D 已经定好并在用；图像实验的训练步数 [__] 待 MNIST 可行性验证后确定。</aside>
+<aside>[Kaiming · ~1 min] Fairness means only the algorithm changes. Same network, same number of training steps, batch size, optimizer and EMA. All methods sample from the same starting noise and are evaluated on the same held-out test set. Three seeds, mean and standard deviation.
+We also compute the distance between two independent real samples. That is the noise floor of each metric at our sample size, so we can tell whether a number is actually good.
+On the right are the settings: the 2D ones are in use; the image training length will be fixed after a pilot run on MNIST.</aside>
 </section>

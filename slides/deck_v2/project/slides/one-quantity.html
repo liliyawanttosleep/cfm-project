@@ -1,0 +1,58 @@
+<section id="one-quantity" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part IV · Link to diffusion</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 2. Velocity, noise, score: one posterior mean</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:flex-start">
+<div style="width:900px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">1 · Condition the path on xₜ = x (straight path)</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">x = t x̂₁ + (1 − t) ε̂</p>
+<p style="font-size:24px;line-height:1.3">with <span style="font-family:'STIX Two Text', serif">x̂₁</span> = E[x₁ │ xₜ = x] and <span style="font-family:'STIX Two Text', serif">ε̂</span> = E[x₀ │ xₜ = x]. One linear equation: know one, know the other.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">2 · The velocity is their difference</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">uₜ(x) = E[x₁ − x₀ │ xₜ = x] = x̂₁ − ε̂ = (x − ε̂) / t</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">3 · The score averages Gaussian scores</h3>
+<p style="font-size:24px;line-height:1.3">Given x₁, xₜ ~ N( t x₁, (1 − t)² I ), so</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">∇ log pₜ(x │ x₁) = −(x − t x₁) / (1 − t)² = −x₀ / (1 − t)</p>
+<p style="font-size:24px;line-height:1.3">Average over x₁ given xₜ = x (Fisher’s identity):</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">sₜ(x) = ∇ log pₜ(x) = −ε̂ / (1 − t)</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Our point: t = 0.5, x = 0.1</h3>
+<div style="display:grid;grid-template-columns:1fr auto;gap:6px 24px;align-items:baseline">
+<p style="font-size:26px">Data <span style="font-family:'STIX Two Text', serif">x̂₁</span> (slide 12)</p><p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">0.76</p>
+<p style="font-size:26px">Noise <span style="font-family:'STIX Two Text', serif">ε̂</span> = (0.1 − 0.38) / 0.5</p><p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">−0.56</p>
+<p style="font-size:26px">Velocity u = (0.1 + 0.56) / 0.5</p><p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">1.32</p>
+<p style="font-size:26px">Score s = 0.56 / 0.5</p><p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">1.12</p>
+</div>
+<p style="font-size:24px;line-height:1.3">Direct check from the mixture N(±1, 0.25): 0.69 · 3.6 − 0.31 · 4.4 = 1.12.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Where each step holds</h3>
+<p style="font-size:24px;line-height:1.3">Steps 1–2 are algebra: any source, any pairing.</p>
+<p style="font-size:24px;line-height:1.3">Step 3 needs x₀ │ x₁ Gaussian. That fails for the 8 Gaussians source of slide 15 and for OT pairs.</p>
+</div>
+<p style="font-size:26px;line-height:1.3">All three share one optimum. But a network’s error does not convert evenly, as the next slide shows.</p>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">Same regression</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">One quantity</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Samplers</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 21 · Running example from slide 12: x₀ ~ N(0, 1), x₁ = ±2. All values are exact, with no network.</p>
+<aside>[Kaiming · ~1.2 min] Both networks learn a posterior mean. How are they related? Take the path equation and condition on x_t equals x. That gives one linear equation linking the expected data and the expected noise, so if you know one, you know the other.
+The velocity is their difference. Substituting gives x minus epsilon-hat, over t. So a noise network gives a velocity, with no retraining.
+For the score, use Fisher’s identity: the score of a mixture is the posterior average of the component scores. Each component is Gaussian, with score minus x₀ over one minus t. Averaging gives minus epsilon-hat over one minus t.
+Check on our point from Part II: noise minus 0.56, velocity 1.32 as on slide 12, and score 1.12, which the two-Gaussian mixture confirms directly.
+Steps one and two always hold. The score step needs x₀ given x₁ to be Gaussian, so it fails for a mixture source and for OT pairs.
+All three have the same optimum, but a network’s errors do not convert evenly. That matters next.</aside>
+</section>

@@ -19,3 +19,9 @@ __pycache__/
 .ipynb_checkpoints/
 .vscode/
 .claude/
+
+# 幻灯片构建输出（用 python slides/build_pdf.py 重新生成）
+slides/build/
+
+# 例外：报告幻灯片的合并文件进 git，方便队友直接查看
+!slides/FM_vs_Diffusion_Talk.pdf

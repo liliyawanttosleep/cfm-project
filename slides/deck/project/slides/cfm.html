@@ -26,10 +26,8 @@
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 9</p>
-<aside>【A 讲，约 2 分钟】
-理想目标：让网络 v_θ 拟合把噪声推到数据的边缘速度场 u_t(x)。但 u_t(x) 我们算不出来。
-技巧：先随机抽一对 (x_0 噪声, x_1 数据)，沿两点之间的直线走，这条直线上的速度就是 x_1 − x_0，非常简单。于是训练目标变成：在 x_t 处回归 x_1 − x_0。
-定理：这个条件版本的 loss 和理想 loss 的梯度完全相同。
-统计直觉（重点讲）：边缘速度场其实就是条件期望 E[x_1 − x_0 | x_t = x]。我们用均方误差去回归一个带噪声的目标 x_1 − x_0，最优解就是条件期望——这就是回归函数。所以 flow matching 本质上是一个回归问题，和 DDPM 回归 ε 是同一类问题。
-采样：用 Euler 法解 ODE，走 N 步就是 NFE = N。</aside>
+<aside>[Wentao · ~2.5 min] The ideal objective is to regress the network onto the marginal velocity field u_t(x) that carries noise to data. But we cannot compute u_t(x).
+The trick: draw a pair, a noise point x_0 and a data point x_1, and move along the straight line between them. Along that line the velocity is simply x_1 minus x_0. So we regress the network at x_t onto x_1 minus x_0.
+Lipman et al. prove that this conditional loss has exactly the same gradient as the ideal one. The statistical reason is clean: the marginal velocity is the conditional expectation of x_1 minus x_0 given x_t. Least squares on a noisy target recovers the conditional mean — the regression function. So flow matching is a regression problem, just like DDPM's noise regression.
+To sample we integrate the ODE with Euler steps; N steps means NFE = N.</aside>
 </section>

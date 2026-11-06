@@ -1,0 +1,49 @@
+<section id="one-pair" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part II · Conditional Flow Matching</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 1. Start from one pair: a straight line</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:flex-start">
+<div style="width:780px;display:flex;flex-direction:column;gap:8px">
+<img src="/_blob/be4c17ff6fc412b5fe26d77620e46972" alt="A straight line in the time-position plane from a noise point x0 = -1.8 at t = 0 to a data point x1 = 2 at t = 1; arrows along the line show the same velocity 3.8 at every time" style="width:780px;height:560px;object-fit:contain">
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-left:6px solid #B35C12;padding:20px 32px">
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:32px;color:#14213D">z = (x₀, x₁),   x₀ ~ p₀,   x₁ ~ p_data</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:36px;color:#14213D">xₜ = (1 − t) x₀ + t x₁</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:36px;color:#14213D">uₜ(x │ z) = dxₜ/dt = x₁ − x₀</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">In words</h3>
+<p style="font-size:26px;line-height:1.4">Join one noise point to one data point at constant speed. Its velocity is simply the slope of the line.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">Why it helps generation</h3>
+<p style="font-size:26px;line-height:1.4">Now we have a velocity we can compute. But one line only reaches one data point, so this is not yet a generative model.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">In code</h3>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">xt = (1 - t) * x0 + t * x1;  ut = x1 - x0</p>
+</div>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">One pair</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">All pairs</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Posterior mean</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Closed form</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Same gradient</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Code</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 9 · General Gaussian path: uₜ(x │ z) = (σ′ₜ/σₜ)(x − μₜ) + μ′ₜ; with constant σ the first term is 0.</p>
+<aside>[Wentao · ~1.2 min] Thanks, Kaiming. We now build the target in six steps, shown in the bar at the top. In each step we keep the same small example: noise from a standard Gaussian, and data at the two points plus and minus two.
+Step one is the easiest possible case: forget the distribution and take a single pair, one noise point x₀ and one data point x₁. Throughout this talk, t equals 0 is noise and t equals 1 is data. Connect the two points with a straight line traveled at constant speed. The position at time t is the linear interpolation, and differentiating with respect to t gives the velocity, x₁ minus x₀. It does not depend on t.
+In the figure, x₀ is minus 1.8 and x₁ is 2, so the velocity is 3.8 at every time. This is the target in our five lines of code.
+A note on the footer: the general formula for a Gaussian path has an extra term, but with constant sigma that term vanishes, which is why torchcfm simply returns x1 minus x0.
+One line reaches only one data point, so this is not yet a generative model. The next step is to use many pairs.</aside>
+</section>

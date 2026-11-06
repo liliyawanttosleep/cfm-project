@@ -1,0 +1,28 @@
+<section id="continuity" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Part I · Generation as transport</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Velocity moves density: the continuity equation</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:center;background:#FFFFFF;border-left:6px solid #14213D;padding:12px 40px">
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:44px;color:#14213D">∂ₜ pₜ(x) + ∇ · ( pₜ(x) uₜ(x) ) = 0</p>
+<p style="flex:1;font-size:26px;line-height:1.4;color:#5B6B82">pₜ(x) uₜ(x) is the flux: density times velocity.</p>
+</div>
+<img src="/_blob/907654b7514a9e66192368e471751fe1" alt="Five panels at t = 0, 0.25, 0.5, 0.75 and 0.9: a Gaussian density splits into two narrowing peaks at plus and minus two, and arrows under each panel show the velocity carrying mass toward the peaks" style="width:1664px;height:350px;object-fit:contain">
+<div style="display:flex;flex-direction:row;gap:40px">
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">In words</h3>
+<p style="font-size:26px;line-height:1.35">Probability mass is conserved. Density at x rises when more mass flows in than flows out.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">Why it helps generation</h3>
+<p style="font-size:26px;line-height:1.35">It is our test: if a (pₜ, uₜ) pair satisfies it with p₁ = p_data, integrating uₜ from p₀ gives data.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">In code</h3>
+<p style="font-size:26px;line-height:1.35">Never computed. We use it only to prove that the regression target is correct.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 7 · Same example: N(0, 1) to ±2. Arrow lengths are capped for display.</p>
+<aside>[Kaiming · ~1.5 min] A velocity field moves individual points, but we care about the whole distribution. The continuity equation connects the two. The term p times u is the flux, how much probability crosses a location per unit time. The equation says that probability mass is conserved, as in fluid flow: the density at x changes only because mass flows in or out. For example, look at the arrows at t equals 0.75: they point toward the two peaks from both sides, so mass piles up there and the peaks grow.
+Why does this matter for generation? It gives us a test for correctness. Suppose we have a probability path p_t that starts at the noise distribution and ends at the data distribution, and a velocity field u_t that satisfies this equation with it. Then integrating u_t from noise gives samples from the data distribution. We never compute this equation in code. We use it once, later, to prove that our regression target is the right one.</aside>
+</section>

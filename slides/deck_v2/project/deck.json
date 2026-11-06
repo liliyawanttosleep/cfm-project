@@ -1,0 +1,71 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-05T20:40:00Z"
+  },
+  "lists": "css",
+  "title": "Flow Matching vs. Diffusion — Class Talk",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "project-goal",
+    "end-point",
+    "five-lines",
+    "push-forward",
+    "ode-resnet",
+    "continuity",
+    "ideal-loss",
+    "one-pair",
+    "all-pairs",
+    "posterior-mean",
+    "closed-form",
+    "same-gradient",
+    "formulas-code",
+    "demo-icfm",
+    "why-bend",
+    "ot-pairs",
+    "ot-result",
+    "fewer-steps",
+    "same-regression",
+    "one-quantity",
+    "samplers"
+  ],
+  "sections": {
+    "s1": {
+      "description": "Opening: the project goal, where it ends up, and the code the talk explains",
+      "start": "cover"
+    },
+    "s2": {
+      "description": "Part I: generation as transport, from the ODE to the ideal loss",
+      "start": "push-forward"
+    },
+    "s3": {
+      "description": "Part II: Conditional Flow Matching derived in six steps, from one pair to the code",
+      "start": "one-pair"
+    },
+    "s4": {
+      "description": "Part III: 2D examples, from curved paths to OT pairs and fewer solver steps",
+      "start": "demo-icfm"
+    },
+    "s5": {
+      "description": "Part IV: diffusion as the same regression on another path; velocity, noise and score; DDIM and DDPM as samplers",
+      "start": "same-regression"
+    }
+  },
+  "faces": {
+    "source-serif-4": {
+      "family": "Source Serif 4",
+      "href": "https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400..700;1,400&display=swap"
+    },
+    "ibm-plex-sans": {
+      "family": "IBM Plex Sans",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    },
+    "stix-two-text": {
+      "family": "STIX Two Text",
+      "href": "https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap"
+    }
+  },
+  "designSystems": []
+}

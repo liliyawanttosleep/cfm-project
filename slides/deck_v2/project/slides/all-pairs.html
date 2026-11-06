@@ -1,0 +1,44 @@
+<section id="all-pairs" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part II · Conditional Flow Matching</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 2. Mix over all pairs to get the path</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:center;background:#FFFFFF;border-left:6px solid #B35C12;padding:12px 40px">
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:44px;color:#14213D">pₜ(x) = ∫ pₜ(x │ z) q(z) dz</p>
+<p style="flex:1;font-size:26px;line-height:1.4;color:#5B6B82">pₜ(x │ z): the density on one line. q(z): how pairs are drawn, here independently.</p>
+</div>
+<img src="/_blob/0291b03702f2917e163ceaff62a61f2c" alt="Three panels in the time-position plane: 6 straight lines from noise to the two data points, then 200 lines, then the smooth density path they converge to as more pairs are added" style="width:1664px;height:370px;object-fit:contain">
+<div style="display:flex;flex-direction:row;gap:40px">
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">In words</h3>
+<p style="font-size:26px;line-height:1.35">Draw a pair, then a time. The point xₜ is one sample from pₜ. Many lines build the density.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">Why it helps generation</h3>
+<p style="font-size:26px;line-height:1.35">The endpoints are right: t = 0 gives p₀ and t = 1 gives p_data. We chose a path, and can sample it.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">In code</h3>
+<p style="font-size:26px;line-height:1.35">xt in the training loop is exactly this sample. We never need a formula for pₜ.</p>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">One pair</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">All pairs</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Posterior mean</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Closed form</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Same gradient</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Code</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 10 · σ = 0: pₜ(x │ z) is a point mass at xₜ. Right panel: color is scaled separately at each t.</p>
+<aside>[Wentao · ~1.3 min] Step two: use all the pairs. Draw many noise points and many data points, pair them independently, and draw all the lines. On the left we have six lines, in the middle two hundred. If we keep adding pairs, at each time the positions of the lines form a smooth density, shown on the right. That density is p_t.
+The formula says the same thing: p_t is a mixture of the single-line densities, weighted by how the pairs are drawn. With sigma equal to zero, each p_t given z is just a point mass on its line.
+Two things make this useful. First, the endpoints are correct by construction: at t equals 0 every line is at its noise point, so we get p₀; at t equals 1 every line is at its data point, so we get the data distribution. Remember the second problem on the last slide: there are many possible paths. Now we have chosen one.
+Second, we do not need a formula for p_t in order to sample from it. Draw a pair and a time, and compute x_t. That is the variable xt in our training loop.
+So we have the path. What is its velocity field?</aside>
+</section>

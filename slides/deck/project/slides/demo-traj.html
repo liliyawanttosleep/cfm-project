@@ -5,11 +5,6 @@
 </div>
 <img src="/_blob/a8e9b6c8b3d8aa10f9d1a061e2a10984" alt="Sampling trajectories on two moons for OT-CFM, I-CFM and DDIM: 250 paths each from the same Gaussian starting points (gray) to generated samples (navy); OT-CFM paths are nearly straight, I-CFM paths bend, DDIM paths wiggle" style="width:1664px;height:577px;object-fit:contain">
 <p style="font-size:24px;color:#5B6B82">Two moons, seed 0. 250 trajectories with 100 steps each, from the same starting noise (gray) to samples (navy).</p>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 18</p>
-<aside>【A 讲，约 1.5 分钟】
-这是我们已经跑完的 2D 实验：三个模型都用同一个 MLP、同样训练 2 万步，从同一批初始噪声（灰点）出发，各画 250 条采样轨迹，终点是生成样本（深蓝点）。
-OT-CFM：轨迹几乎是直线——因为训练时配对就是最优传输，直线很少交叉。
-I-CFM：轨迹明显弯曲，在中间区域绕来绕去。
-DDIM：轨迹更曲折。
-直观结论：路径越直，用越少的 Euler 步就能走到终点。下一页看定量结果。</aside>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 19</p>
+<aside>[Wentao · ~1 min] The same three models, now with 250 full trajectories from the same starting noise in gray to the samples in navy. OT-CFM paths are nearly straight because the training pairs were optimal-transport pairs that rarely cross. I-CFM paths visibly bend in the middle, and DDIM's paths wiggle the most. Straighter paths should need fewer Euler steps — the next slide checks that.</aside>
 </section>

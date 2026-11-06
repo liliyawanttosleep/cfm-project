@@ -1,0 +1,49 @@
+<section id="posterior-mean" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part II · Conditional Flow Matching</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 3. The velocity is a posterior mean</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:flex-start">
+<div style="width:720px;display:flex;flex-direction:column;gap:8px">
+<img src="/_blob/bffa23c02ded1621214080cd7a18bed5" alt="Two lines cross at t = 0.5, x = 0.1: one from x0 = -1.8 to 2 with velocity +3.8 and weight 0.69, one from x0 = 2.2 to -2 with velocity -4.2 and weight 0.31; an arrow at the crossing shows their weighted average 1.32" style="width:720px;height:545px;object-fit:contain">
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<div style="background:#FFFFFF;border-left:6px solid #B35C12;padding:16px 32px">
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:36px;color:#14213D">uₜ(x) = E[ x₁ − x₀ │ xₜ = x ]</p>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:28px;color:#3D4756">= ∫ uₜ(x │ z) · pₜ(x │ z) q(z) / pₜ(x) dz</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">In words</h3>
+<p style="font-size:26px;line-height:1.35">Average the velocities of all lines through (t, x), weighted by the posterior probability of each pair (Bayes’ rule).</p>
+</div>
+<table style="font-size:24px;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:44%;text-align:left">Example: t = 0.5, x = 0.1</th><th style="width:28%;text-align:right">velocity</th><th style="width:28%;text-align:right">posterior</th></tr>
+<tr><td>x₀ = −1.8, x₁ = +2</td><td style="text-align:right">+3.8</td><td style="text-align:right">0.69</td></tr>
+<tr><td>x₀ = +2.2, x₁ = −2</td><td style="text-align:right">−4.2</td><td style="text-align:right">0.31</td></tr>
+<tr style="background:#F7EBDD"><td><b>Weighted average</b></td><td style="text-align:right"><b>+1.32</b></td><td style="text-align:right"></td></tr>
+</table>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:26px;font-weight:600;color:#B35C12">Why it helps generation</h3>
+<p style="font-size:26px;line-height:1.35">Each line satisfies the continuity equation. Averaging over q(z) keeps it linear, so (pₜ, uₜ) satisfies it too: <b>integrating uₜ gives data.</b></p>
+</div>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">One pair</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">All pairs</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">Posterior mean</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Closed form</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Same gradient</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Code</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 11 · Same running example: N(0, 1) to ±2. Line width shows the posterior weight.</p>
+<aside>[Wentao · ~2 min] This is the most important slide of the talk. Step three: what is the velocity of the mixture?
+Stand at one point in space and time. Several lines pass through it, and each has its own direction. But a single velocity field can have only one value at that point. The theorem says that value is the average of the line velocities, weighted by how probable each line is, given that we observed a line at this point. That is a posterior mean: the expected value of x₁ minus x₀ given x_t equals x.
+Let’s compute it for the example at t equals 0.5 and x equals 0.1. Because the data has only two points, exactly two lines pass through here. One goes to plus two: it must start at minus 1.8, so its velocity is plus 3.8. The other goes to minus two: it must start at 2.2, so its velocity is minus 4.2. Which is more likely? Both data points have probability one half, so the weight depends on the noise density: minus 1.8 is more likely than 2.2 under a standard Gaussian. The posterior weights are 0.69 and 0.31. The average is 0.69 times 3.8, plus 0.31 times minus 4.2, which is 1.32. That is the marginal velocity at this point.
+Why does this generate data? Each single line, with its velocity, satisfies the continuity equation. The equation is linear in the density and flux, so we can integrate it over q(z). The mixture flux is exactly p_t times this average velocity, so the pair p_t and u_t satisfies the continuity equation. By Kaiming’s test, integrating u_t from noise gives data. So the first problem is solved in principle, because we can now write down the correct field. In general, though, the integral is intractable. On the next slide we can compute it, because the example is so simple.</aside>
+</section>

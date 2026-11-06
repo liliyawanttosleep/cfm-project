@@ -52,8 +52,6 @@
 <div style="display:flex;flex-direction:row;gap:16px;align-items:center"><div style="width:48px;height:8px;background:#B35C12"></div><p style="font-size:24px;color:#14213D">Flow matching line</p></div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 4</p>
-<aside>【B 讲，约 1.5 分钟】
-蓝色是 diffusion/score 这条线：2019 NCSN 用 score matching + Langevin 采样；2020 DDPM 把它变成去噪 + 预测噪声 ε；2021 DDIM 让采样可以少步且确定，Score SDE 把这些统一到 SDE 框架；2022 EDM 系统整理了设计空间。
-橙色是 flow matching 这条线：2023 年三篇几乎同时的工作（Lipman 的 FM、Liu 的 Rectified Flow、Albergo 的 Stochastic Interpolants）提出直接回归一个速度场，不需要模拟 ODE；2024 Tong 等人用 minibatch OT 改进配对（OT-CFM），SD3 把 rectified flow 用到大规模；2025 MeanFlow 做到一步生成。
-我们的主线就是比较蓝线和橙线。</aside>
+<aside>[Kaiming · ~1.5 min] The blue line is the diffusion and score line. In 2019 NCSN learned the score with score matching and sampled with Langevin dynamics. In 2020 DDPM turned this into denoising: predict the added noise. In 2021 DDIM made sampling deterministic and fast, and Score SDE unified everything as a stochastic differential equation. EDM in 2022 cleaned up the design space.
+The orange line is flow matching. In 2023 three papers at almost the same time — Lipman's flow matching, Liu's rectified flow and Albergo's stochastic interpolants — proposed regressing a velocity field directly, without simulating an ODE during training. In 2024 Tong et al. added minibatch optimal-transport pairing, and Stable Diffusion 3 used rectified flow at scale. MeanFlow in 2025 targets one-step generation. Our project compares the blue and the orange lines.</aside>
 </section>

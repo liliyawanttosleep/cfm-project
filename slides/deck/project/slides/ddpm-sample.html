@@ -22,7 +22,6 @@
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 7</p>
-<aside>【B 讲，约 1.5 分钟】
-采样：从纯噪声 x_T 开始，每一步用网络预测的 ε 算出后验均值，再加一点随机噪声，一共走 T=1000 步，所以 DDPM 采样很慢（NFE=1000）。
-和 score 的联系（统计系可以重点讲）：网络预测的噪声除以 −√(1−ᾱ_t)，就是对数密度的梯度（score）。再由 Tweedie 公式，E[x_0 | x_t] 可以用 score 表示——也就是说去噪器就是一个后验均值估计。这就是 denoising score matching（Vincent 2011；Song & Ermon 2019）。</aside>
+<aside>[Kaiming · ~1.5 min] To sample, start from pure noise and walk back one step at a time: use the predicted noise to form the posterior mean, then add a little fresh noise. With T = 1000 this costs a thousand network calls per sample.
+Why does predicting noise work? Divide the predicted noise by minus root one-minus-alpha-bar and you get the score, the gradient of the log density. Tweedie's formula then says the posterior mean of x_0 given x_t is a simple function of the score. So the denoiser is a posterior-mean estimator — this is denoising score matching.</aside>
 </section>

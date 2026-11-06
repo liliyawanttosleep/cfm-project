@@ -37,11 +37,10 @@
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 17 · Covers the course requirements: linear, tree/SVM, clustering, dimension reduction</p>
-<aside>【A 讲，约 1.5 分钟】
-课程要求的四类方法，我们都用来评估生成数据，而不是生硬地附加：
-每个模型生成 6 万张 MNIST 图，用我们训练的 MNIST 分类器给它们打标签，然后做四种分析：
-1. 线性模型（逻辑回归、LDA）：TSTR，在生成数据上训练、在真实测试集上测试，再和用真实数据训练的结果对比——差距越小说明生成数据越“有用”。
-2. 树和 SVM（随机森林、RBF-SVM）：同样做 TSTR；另外训练一个“真 vs 假”判别器，AUC 越接近 0.5，说明越分不出来。
-3. 降维（PCA、t-SNE、UMAP）：把真实和生成数据放在同一个低维空间里看是否重合，并比较 PCA 解释方差曲线。
-4. 聚类（k-means k=10、GMM）：和标签算 ARI/NMI；再对各簇所占比例做 χ² 均匀性检验，检查有没有模式坍缩。</aside>
+<aside>[Wentao · ~1.5 min] We use every course method as an evaluation tool, not as an add-on.
+Each model generates 60,000 MNIST images; our MNIST classifier labels them. Then four analyses.
+Linear models — logistic regression and LDA — for TSTR: train on synthetic, test on real, and compare with training on real. A small gap means useful synthetic data.
+Trees and SVM — random forest and RBF-SVM — the same TSTR, plus a real-versus-fake classifier: an AUC near 0.5 means the two sets are hard to tell apart. This is the classifier two-sample test of Lopez-Paz and Oquab.
+Dimension reduction — PCA, t-SNE and UMAP — put real and generated images in one embedding and compare PCA explained-variance curves.
+Clustering — k-means with ten clusters and a GMM — ARI and NMI against the labels, and a chi-square test that cluster shares are uniform, which detects mode collapse.</aside>
 </section>

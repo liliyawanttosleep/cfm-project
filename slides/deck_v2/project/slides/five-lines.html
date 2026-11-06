@@ -1,0 +1,36 @@
+<section id="five-lines" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Project goal</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Five lines that train a generative model</h2>
+</div>
+<div style="display:grid;grid-template-columns:960px 1fr;gap:14px 32px;align-items:center;background:#FFFFFF;border-left:6px solid #B35C12;padding:24px 32px">
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">x1 = next(data_iter)</p>
+<p style="font-size:24px;color:#5B6B82">a batch of real data</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">x0 = torch.randn_like(x1)</p>
+<p style="font-size:24px;color:#5B6B82">the same number of noise samples</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">t, xt, ut = FM.sample_location_and_conditional_flow(x0, x1)</p>
+<p style="font-size:24px;color:#5B6B82">a time, a point on a line, its velocity</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">loss = torch.mean((model(t, xt) - ut) ** 2)</p>
+<p style="font-size:24px;color:#5B6B82">plain least squares</p>
+<p style="font-family:'Courier New', monospace;font-size:26px;color:#14213D">loss.backward(); optimizer.step()</p>
+<p style="font-size:24px;color:#5B6B82">one gradient step</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:28px">
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border-radius:12px;padding:24px 32px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">1 · Why this target?</h3>
+<p style="font-size:26px;line-height:1.4">Given the input (xₜ, t), the target x₁ − x₀ is still random. Why does regressing on it work?</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border-radius:12px;padding:24px 32px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">2 · Why does it generate?</h3>
+<p style="font-size:26px;line-height:1.4">Training never computes a likelihood or solves an ODE. Why does the result produce data?</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border-radius:12px;padding:24px 32px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">3 · Why do pairs matter?</h3>
+<p style="font-size:26px;line-height:1.4">Changing how x₀ and x₁ are paired is one more line. Why can sampling then take fewer steps?</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 4 · Adapted from torchcfm, examples/images/mnist_example.ipynb</p>
+<aside>[Wentao · ~1.5 min] This is essentially the whole training code, adapted from the torchcfm MNIST example. Take a batch of real data and the same number of noise samples. Pick a random time, take the point on the straight line between each noise sample and its data point, and read off the velocity of that line. Then fit the network to that velocity by least squares. There is no likelihood, no ODE solve during training, and no discriminator.
+This looks too simple, and it raises three questions, which organize the rest of the talk. First, why this target? Given the input, x₁ minus x₀ is still random, because many pairs pass through the same point. Second, why does the trained network actually generate data? Third, why does changing how we pair noise with data let sampling take fewer steps?
+We will answer the first two with the theory, and the third with 2D experiments. We then connect the method to diffusion and scale it up to images. Kaiming will start with the basic setup.</aside>
+</section>

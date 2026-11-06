@@ -19,9 +19,8 @@
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 2</p>
-<aside>【A 讲，约 2 分钟】
-1. 统计视角：生成模型就是“从样本学分布，然后能从这个分布里采新样本”，难点在高维（MNIST 784 维、CIFAR 3072 维）。
-2. 意义：当前图像、视频、音频生成都是 diffusion / flow 类模型；Stable Diffusion 3（Esser et al. 2024）用的就是 rectified flow。
-3. 统计内核：score matching、条件期望回归、SDE/ODE、最优传输——都是统计/概率里熟悉的工具。
-4. 我们的问题：同一个网络、同样的训练预算下，两类方法在“生成质量 vs 采样代价（网络调用次数）”上如何取舍？</aside>
+<aside>[Wentao · ~1.5 min] From a statistician's point of view, a generative model answers one question: given samples from an unknown distribution, how do we draw new samples from it? The hard part is dimension: MNIST has 784 dimensions and CIFAR-10 has 3,072.
+Diffusion and flow models are the state of the art; Stable Diffusion 3 is a rectified-flow model.
+Their core is classical statistics: score matching, regression to a conditional mean, SDEs and ODEs, and optimal transport.
+Our question: with the same network and the same training budget, how do the two families trade sample quality against sampling cost?</aside>
 </section>

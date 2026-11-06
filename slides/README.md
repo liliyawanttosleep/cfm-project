@@ -1,10 +1,33 @@
 # Slides
 
+## 课堂报告（2026-11-12）：当前版本
+
+| 内容 | 位置 |
+|---|---|
+| **全部幻灯片合成一个文件** | [`FM_vs_Diffusion_Talk.pdf`](FM_vs_Diffusion_Talk.pdf)，目前 22 页（Opening 到 Part IV）；Part V 和 Close 尚未制作。动图在 PDF 中是静态图 |
+| 在线幻灯片（演示用，以它为准） | https://claude.ai/artifact/7Lpjq76Dw2ywYrmNCLgUDR |
+| 逐页源文件和讲者备注 | `deck_v2/project/deck.json` + `deck_v2/project/slides/<id>.html` |
+| 重新生成合并文件 | `python slides/build_pdf.py --deck deck_v2`；加 `--notes` 另外生成带讲者备注的 `build/FM_vs_Diffusion_Talk_notes.pdf` |
+
+## 旧版 Pre（开题报告）
+
+以下内容只针对旧版 `deck/`。
+
 | 内容 | 位置 |
 |---|---|
 | **在线幻灯片（演示用，以它为准）** | https://claude.ai/artifact/GRZZAyn8ir3RXQE1Hc8P5e （可导出 PPTX/PDF） |
 | 幻灯片源文件（版本记录） | `deck/project/deck.json` + `deck/project/slides/<id>.html`（每页一个文件） |
 | 幻灯片用图 | `figs/`，用 `python slides/make_slide_figs.py slides/figs` 重新生成（需先跑完 E1 的 moons 实验） |
+| **PDF（一个文件，审阅和发给别人用）** | `python slides/build_pdf.py` → `build/FM_vs_Diffusion_Pre.pdf`；加 `--notes` 另外生成每页后面附讲稿的 `build/FM_vs_Diffusion_Pre_notes.pdf` |
+
+## 修改流程（看 PDF → 提意见 → 改源文件 → 重新生成）
+
+1. 打开 `build/FM_vs_Diffusion_Pre.pdf`，按**页码**写意见，例如“第 7 页：公式太小”“第 19 页：右图放大”。
+2. Claude 修改对应的源文件 `deck/project/slides/<id>.html`。页码与 id 的对应关系见 `deck/project/deck.json` 的 `order`：第 1 页 = cover，第 2 页 = motivation，以此类推。
+3. 运行 `python slides/build_pdf.py`，重新生成 PDF 后再看。
+4. 定稿后，把改过的页发布到在线幻灯片（见下文方式 2），并提交到 git。
+
+PDF 用无头 Chrome/Edge 渲染，需要联网加载 Google Fonts。在线版和 PDF 用的是同一份源文件，排版基本一致。
 
 ## 怎么改幻灯片
 

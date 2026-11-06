@@ -16,11 +16,10 @@
 <tr style="background:#F7EBDD"><td style="color:#B35C12">2-RF + distillation</td><td>one step</td><td style="text-align:right">4.85</td><td>Liu et al. 2023</td></tr>
 </table>
 <p style="font-size:24px;line-height:1.4;color:#5B6B82">Networks, training lengths and FID code differ across papers: read trends, not exact gaps. We will measure our own curve on CIFAR-10 in E4.</p>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 20 · Values checked against each paper’s tables</p>
-<aside>【A 讲，约 1.5 分钟】
-高维的预期，先看文献在 CIFAR-10（3072 维）上的数字（都已对照原论文表格核实）：
-Diffusion：DDPM 走 1000 步 FID 3.17；如果硬把随机采样器减到 10 步，FID 爆到 367；换成确定性的 DDIM，10 步 13.36、100 步 4.16——说明 ODE 采样器对少步至关重要。
-Flow matching：用自适应 ODE 求解器（约 130–150 步）时，I-CFM 3.66、OT-CFM 3.58，几乎一样。
-一步生成：1-Rectified Flow 只走 1 步 FID 378，完全不行；reflow 一次后 12.21；再加蒸馏 4.85。说明在高维里要“少步”需要额外手段把流拉直。
-注意：各论文的网络、训练时长、FID 实现都不同，只能看趋势；我们会在 E4 用公开权重测出自己的曲线。</aside>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 23 · Values checked against each paper’s tables</p>
+<aside>[Wentao · ~1.5 min] What should we expect in high dimensions? Here are published CIFAR-10 numbers, all checked against the original tables.
+Diffusion: DDPM with 1,000 steps reaches FID 3.17. If you simply cut its stochastic sampler to 10 steps, FID explodes to 367; the deterministic DDIM gets 13.36 at 10 steps and 4.16 at 100. So an ODE sampler is essential for few steps.
+Flow matching with an adaptive solver, about 130 to 150 network calls: I-CFM 3.66 and OT-CFM 3.58 — almost identical.
+One-step generation: plain rectified flow with one step gives 378; after one reflow, 12.21; with distillation, 4.85. In high dimensions, few-step generation needs extra work to straighten the flow.
+Papers differ in networks, training length and FID code, so read trends, not exact gaps; we will measure our own curve in E4.</aside>
 </section>

@@ -17,11 +17,9 @@
 <p style="flex:1;font-size:28px;line-height:1.4">S = 0 means one Euler step is exact. <b>Reflow</b> retrains on the model’s own (x₀, x̂₁) pairs to straighten the flow further.</p>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 10</p>
-<aside>【A 讲，约 2 分钟】
-CFM 框架里唯一的自由度是“怎么把噪声点 x_0 和数据点 x_1 配对”。
-I-CFM / Rectified Flow：独立随机配对。不同的直线会交叉，交叉处网络只能学到平均方向，所以最终的流是弯的。
-Lipman 原版 FM：以 x_1 为条件的高斯路径，效果和 I-CFM 类似。
-OT-CFM：在每个 minibatch 里先解一个最优传输问题，让配对的总距离最小。OT 配对的直线几乎不交叉，所以学到的流接近直线。
-直线度 S 衡量轨迹有多直：S=0 时一步 Euler 就精确。Rectified flow 的另一招是 reflow：用模型自己生成的配对重新训练，把流进一步拉直。
-统计意义：OT 配对是在样本层面做最优传输——这在后面“高维时会怎样”的讨论里很关键。</aside>
+<aside>[Wentao · ~2 min] The only free choice in conditional flow matching is how to pair noise points with data points.
+Independent pairing, used by I-CFM and rectified flow: straight lines from different pairs cross, and where they cross the network can only learn the average direction, so the resulting flow curves.
+Lipman's original version uses a Gaussian path toward x_1 and behaves much like I-CFM.
+OT-CFM solves an optimal-transport problem inside each minibatch so that the total squared distance of the pairs is minimal. Optimal pairs rarely cross, so the learned flow is nearly straight.
+Straightness S measures this: if S = 0, one Euler step is exact. Rectified flow can straighten further with reflow — retraining on the model's own noise–sample pairs. Keep the minibatch OT in mind; it comes back when we discuss high dimensions.</aside>
 </section>

@@ -1,0 +1,31 @@
+<section id="push-forward" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Part I · Generation as transport</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">The goal: push noise forward to data</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:48px;align-items:center;background:#FFFFFF;border-left:6px solid #14213D;padding:28px 40px">
+<p style="flex:1;font-family:'STIX Two Text', 'Times New Roman', serif;font-size:44px;color:#14213D">T#p₀ ≈ p_data,   p₀ = N(0, I)</p>
+<p style="flex:1;font-size:28px;line-height:1.4">T#p₀ is the distribution of T(z) when z ~ p₀. Draw noise, apply T, and the outputs should look like data.</p>
+</div>
+<h3 style="font-size:32px;font-weight:600;color:#14213D">How can we learn T?</h3>
+<div style="display:flex;flex-direction:row;gap:28px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-radius:12px;padding:28px 32px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">Normalizing flow</h3>
+<p style="font-size:26px;line-height:1.4">A stack of invertible layers, trained by maximum likelihood.</p>
+<p style="font-size:26px;line-height:1.4;color:#5B6B82">Needs a cheap inverse and log-determinant, so the architecture is restricted.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border-radius:12px;padding:28px 32px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">Continuous flow</h3>
+<p style="font-size:26px;line-height:1.4">T solves an ODE, which frees the architecture.</p>
+<p style="font-size:26px;line-height:1.4;color:#5B6B82">Maximum-likelihood training solves the ODE at every step, which scales poorly.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#F7EBDD;border-radius:12px;padding:28px 32px">
+<h3 style="font-size:30px;font-weight:600;color:#14213D">Flow matching</h3>
+<p style="font-size:26px;line-height:1.4">T also solves an ODE, but its velocity is learned by regression.</p>
+<p style="font-size:26px;line-height:1.4;color:#3D4756">No likelihood and no ODE solve during training.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 5</p>
+<aside>[Kaiming · ~0.7 min] Let’s set up the problem. We want a map T that pushes simple noise forward to the data distribution: draw z from a Gaussian, apply T, and the output should look like data.
+Normalizing flows build T from invertible layers and train by maximum likelihood, but they need a cheap inverse and log-determinant, which restricts the architecture. Continuous normalizing flows define T through an ODE, which removes that restriction, but likelihood training has to solve the ODE at every step. Flow matching keeps the ODE and replaces likelihood training with regression. Let’s see what the ODE gives us.</aside>
+</section>

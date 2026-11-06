@@ -1,0 +1,35 @@
+{
+  "method": "ddpm",
+  "data": "checkerboard",
+  "seed": 0,
+  "config": {
+    "method": "ddpm",
+    "data": "checkerboard",
+    "seed": 0,
+    "iters": 20000,
+    "batch": 256,
+    "lr": 0.001,
+    "width": 256,
+    "n_eval": 2000,
+    "nfes": [
+      1000
+    ],
+    "out": "C:\\Users\\Wentao\\Desktop\\cfm_project\\results\\e1",
+    "T": 1000,
+    "schedule": "linear"
+  },
+  "train_seconds": 36.098933935165405,
+  "reference": {
+    "w2": 0.08072583660411499,
+    "mmd": -0.0015771984496770301
+  },
+  "by_nfe": [
+    {
+      "nfe": 1000,
+      "w2": 0.15001818774123948,
+      "mmd": 0.004782376837574161,
+      "straightness": null,
+      "sample_seconds": 0.5553033351898193
+    }
+  ]
+}

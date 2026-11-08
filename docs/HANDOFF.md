@@ -1,6 +1,6 @@
 # 交接文档（2026-11-07）
 
-> 新对话先读本文件，再按需读：`TEAM_PLAN.md`（开头的“项目全流程”）、`docs/FINAL_REPORT_PLAN.md`（实验 C1–C7）、`report/README.md`（report 格式）。
+> 新对话先读本文件，再按需读：`TEAM_PLAN.md`（开头的“项目全流程”）、`docs/FINAL_REPORT_PLAN.md`（实验 C1–C7）、`report/README.md`（report 格式）、`docs/notes/derivations.md`（公式推导 D1–D8）。
 > 取代 10/29 第一次会话的交接文档（旧内容见 git 历史）。
 
 ## 0. 工作规则
@@ -127,7 +127,7 @@
 **Final 实验（11/11–12/02，详见 `docs/FINAL_REPORT_PLAN.md`）**
 - **先做（必做）**
   - C1：I-CFM、OT-CFM 训练第 3 个种子；测采样噪声和样本数带来的 FID 误差；TV 的 bootstrap 区间。
-  - C2：Euler / Heun / RK4 × 均匀 / shift / 按曲率分配的时间网格，不需要训练。
+  - C2：Euler / Heun / RK4 × 均匀 / shift / 按曲率分配 / 校准网格，不需要训练。1D 核对显示按曲率分配的网格在目标平滑时略好、目标集中时更差，所以实际方法是校准网格（推导和核对见 `docs/notes/derivations.md` D5）。
 - **再做**
   - C5 reflow（必做）。
   - C3 OT batch 128–4,096（应做）。

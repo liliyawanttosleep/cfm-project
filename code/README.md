@@ -16,6 +16,28 @@ code/
     └── summarize.py        汇总所有结果 → results/e1/summary.csv + w2_vs_nfe_*.png
 ```
 
+## 图像实验（Part V）
+
+```bash
+python code/e2_mnist/train_mnist.py --method icfm --seed 0    # 也跑 otcfm、ddpm，每个约 33 分钟
+python -u code/e4_cifar/eval_images.py --data mnist --n 10000   # FID、样本网格等，可中断后续跑
+python slides/make_ot_numbers.py                                # 第 27 页的配对数字，只用 CPU
+python slides/make_image_figs.py slides/figs                     # 第 3、24–28 页的图
+```
+
+第二个训练种子和 E3（课程方法：k-means + χ²）：
+
+```bash
+python code/e2_mnist/train_mnist.py --method ddpm --seed 1    # 三个模型都用 --seed 1 再训练一次
+python -u code/e3_kmeans/cluster_coverage.py --seeds 0 1        # E3：生成图在真实图 k-means 簇上的比例，第 28 页
+python -u code/e3_kmeans/fid_seed.py --seed 1                   # 种子 1 的 FID，第 26、27 页
+```
+
+两个 E3 脚本默认限速（`--duty 0.5`，显卡超过 72°C 或可用内存不足时暂停，见 `code/common/throttle.py`），
+跑实验时电脑仍可使用；`--duty 1` 不限速。限速不改变结果。
+
+每个脚本开头都写了要完成的任务。结果在 `results/e2/`、`results/e3/` 和 `results/e4/`。
+
 ## 运行
 
 ```bash

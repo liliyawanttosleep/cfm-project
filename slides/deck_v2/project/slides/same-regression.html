@@ -29,7 +29,7 @@
 <p style="font-size:24px;line-height:1.3">Its x₀ is our data x₁. Its ε is our noise x₀. Its step 1,000 is our t = 0, and its step 0 is our t = 1.</p>
 </div>
 <div style="display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
-<h3 style="font-size:26px;font-weight:600;color:#14213D">Same argument as slides 10–11</h3>
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Same argument as slides 11 and 13</h3>
 <p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">min E‖ εθ(xₜ, t) − x₀ ‖²  →  εθ*(x, t) = E[x₀ │ xₜ = x]</p>
 </div>
 </div>
@@ -45,5 +45,5 @@
 <aside>[Kaiming · ~1.2 min] Wentao built flow matching from straight lines. Diffusion fits the same template: a weight on data times x₁, plus a weight on noise times x₀. For flow matching, the weights are t and one minus t. For DDPM, they are the square roots of alpha bar and one minus alpha bar, so their squares add to one. That is why it is called variance preserving.
 One warning: DDPM runs time backward, calls the data x₀, and calls the noise epsilon. I will say this once. In this talk, t equals 0 is noise, t equals 1 is data, and x₀ is the noise.
 The plots show the weights, then exact paths for our example, with nothing trained. On VP, the data weight stays below 0.3 until halfway, so paths stay nearly flat and move late.
-Training is the same idea. DDPM regresses on the noise instead of the velocity, and by the argument on slides 10 and 11, the best network is a posterior mean. So how does that relate to the velocity?</aside>
+Training is the same idea. DDPM regresses on the noise instead of the velocity, and by the argument on slides 11 and 13, the best network is a posterior mean. So how does that relate to the velocity?</aside>
 </section>

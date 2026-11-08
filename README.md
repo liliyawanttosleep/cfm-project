@@ -11,6 +11,11 @@ GitHub：https://github.com/liliyawanttosleep/cfm-project （私有）· 协作�
 | 文件 | 内容 |
 |---|---|
 | [TEAM_PLAN.md](TEAM_PLAN.md) | **总计划，以它为准** |
+| [docs/FINAL_REPORT_PLAN.md](docs/FINAL_REPORT_PLAN.md) | **报告之后的实验计划 C1–C7**（final report 用，主线：CFM 的生成效率与质量检测）：设计流程、理想结果、要验证的问题 |
+| [docs/notes/derivations.md](docs/notes/derivations.md) | Report 用的公式推导 D1–D8（英文），含数值核对 |
+| [report/README.md](report/README.md) | **Final report 的格式、提纲、页数分配和提交检查清单** |
+| [docs/SLIDE_PLAN.md](docs/SLIDE_PLAN.md) | 11/10 课堂报告的 slide 规划 |
+| [slides/README.md](slides/README.md) | slide、PPT、PDF、讲稿的生成方法 |
 | [code/README.md](code/README.md) | 代码结构与运行命令 |
 | [docs/meetings.md](docs/meetings.md) | 周会记录 |
 | [docs/00_选题讨论记录.md](docs/00_选题讨论记录.md) | 课程要求、为什么选这个题 |

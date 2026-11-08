@@ -1,4 +1,4 @@
-# 11/12 课堂报告 Slide 重做规划
+# 11/10 课堂报告 Slide 重做规划
 
 > 状态：规划稿，等 Wentao 和 Kaiming 确认（待决定事项见第 10 节）。确认后，第 4 节的逐页大纲取代 `TEAM_PLAN.md` §4 P6 的旧大纲。
 > 语言：规划用中文。**slide 上的文字、讲稿、图中文字一律用英文**，所以第 4 节的页标题直接写英文。
@@ -253,45 +253,52 @@ loss.backward(); optimizer.step()
 - ~~区别只在路径，所以 Part III 的步数差异来自路径形状，而不是"两类不同的模型"。~~ 已被实测否定，见本节开头。
 - 再放 `sampling.gif` 对比 OT-CFM / I-CFM / DDIM。
 
-### Part V · From 2D to images（6′）
+### Part V · From 2D to MNIST（6′）✅ 已完成（2026-11-06），等审阅
 
-**22. What changes from 2D to images, and what does not**（1.3′，K）
+> **实测结论（`results/e4/mnist_eval.json`，`results/e4/ot_numbers.json`，seed 0，每种方法一个模型）：**
+> - FID（NFE 1 / 5 / 20 / 100 / dopri5）：OT-CFM 223.1 / 26.7 / 17.0 / 13.9 / 11.5，I-CFM 332.5 / 45.3 / 20.7 / 14.5 / 12.1，DDIM 292.7 / 99.3 / 28.4 / 12.2 / —。real-vs-real 0.54。
+> - I-CFM 一步落到数据均值（RMS 0.04，真实数字离均值 0.52），预测成立。DDIM 在 1–2 步是白点（74% 像素超出范围），NFE 1 时 FID 反而排在 I-CFM 的模糊图之前，这是 FID 的缺陷，页面已说明。DDIM 在 100 步时最低（12.2），原因**没有分开**。
+> - H3 部分成立：batch 128 只省下配对上限的 17%（2D 为 85–94%），但 2–5 步时 FID 仍低约 40%；100 步时只差 4%。只有一个种子。
+> - 第 26 页按 MNIST 做，F10、F12 取消，第 27 页用表代替 F12。B7、B8 不做（B7 属于 CIFAR，B8 已并入第 22 页）。
 
-| | 2D（NB） | MNIST（`mnist_example.ipynb`） | CIFAR-10（`train_cifar10.py`） |
-|---|---|---|---|
-| 维度 | 2 | 784 | 3,072 |
-| 网络 | MLP（64 宽） | U-Net，32 通道，1.1M 参数 | U-Net，128 通道，35.7M 参数 |
-| 训练细节 | Adam | Adam，50 epochs（本地版本设置，库原版更少） | lr 2e-4，warmup，grad clip，EMA 0.9999，400k 步 |
-| **损失和循环** | **完全相同** | **完全相同** | **完全相同** |
+> **2026-11-06 改动：不再做 CIFAR-10 案例，图像部分只用我们自己训练的 MNIST。** 编号已按 Part IV 之后的实际页码（+1）。第 2、3 页也要同步：尺度只剩 2D 和 MNIST；第 3 页右侧换成我们自己的 MNIST 动图。
 
-**23. What the network sees**（1′，K）
-- 图 F8：一张图的 `x₀`，`x_{0.25}`，`x_{0.5}`，`x_{0.75}`，`x₁`，以及目标 `x₁ − x₀`。
+**23. What changes from 2D to images, and what does not**（1.2′，K）
+
+| | 2D（NB） | MNIST（`code/e2_mnist/train_mnist.py`） |
+|---|---|---|
+| 维度 | 2 | 784 |
+| 网络 | MLP（64 宽） | U-Net，32 通道，1.1M 参数 |
+| 训练细节 | Adam | Adam，batch 128，50 epochs，无 EMA |
+| **损失和循环** | **完全相同** | **完全相同** |
+
+**24. What the network sees**（1′，K）
+- 图 F8：MNIST 数字的 `x₀`，`x_{0.25}`，`x_{0.5}`，`x_{0.75}`，`x₁`，以及目标 `x₁ − x₀`。
 - `vθ(t, xₜ)` 输入和输出同尺寸，U-Net 是自然的选择（听众熟悉）；t 通过 time embedding 注入每个残差块。输出是每个像素的速度。
 
-**24. MNIST: flow from noise to digits**（1.2′，K）
-- 图 F9：生成轨迹条（t 从 0 到 1）；NFE = 1, 2, 5, 10, 100 的样本网格，I-CFM vs OT-CFM。DDIM 作为可选对比（若来得及）。
+**25. MNIST: flow from noise to digits**（1.3′，K）
+- 图 F9：生成轨迹条（t 从 0 到 1）；同一批噪声在 NFE = 1, 2, 5, 10, 100 的样本网格，I-CFM、OT-CFM、DDIM。旁边放真实数字和数据均值。
 - 讲法：重点看少步时的差距，以及第 16 页的"均值"现象在图像上是否出现：I-CFM 一步应接近模糊的平均图。
 
-**25. CIFAR-10: quality vs steps**（1.5′，W）
-- 图 F10：官方权重在 NFE = 2, 5, 10, 20, 100, dopri5 下同一批噪声的样本网格。
-- 表 F11：我们自己测的 FID vs NFE；旁边列文献基准（DDPM 3.17 / 1000 步；DDIM 13.36 / 10 步，4.16 / 100 步；I-CFM 3.66；OT-CFM 3.58，后两者为自适应求解器，引自现有 `expected.html`，已对照论文）。
-- 注明：不同论文的网络和 FID 实现不同，只看趋势。
+**26. MNIST: quality vs steps**（1.3′，W）
+- 图 F11：我们自己测的 FID vs NFE，1 万张，三种方法同一张图，带 real-vs-real 参考线。
+- 注明：Inception 特征是 ImageNet 上训练的，用在数字上只看趋势；seed 0，每种方法一个网络。
 
-**26. Does the OT advantage survive in high dimensions?**（1′，W）
-- 2D：1 步时 W2 相差 7–11 倍。CIFAR-10：FID 3.58 vs 3.66（自适应求解器）。
-- 解释：batch 相对维度很小时，minibatch OT 的配对接近随机配对。这是我们的核心假设 H3，也是项目想回答的统计问题。
-- 图 F12：若 F11 和 MNIST FID 都测出来，放三个维度的 OT 增益对比；否则只放这组数字。
+**27. Does the OT advantage survive in 784 dimensions?**（1.2′，W）
+- 对比 2D 和 MNIST：少步时 OT-CFM 相对 I-CFM 的优势，用实测数字说。
+- 配对代价：batch 128 下 OT 与随机配对的平均平方距离比值；路径长度 / 直线距离。训练 loss 曲线作为辅助。
+- 解释：batch 相对维度很小时，minibatch OT 的配对接近随机配对。这是我们的核心假设 H3。结论必须跟实测走，不预设结果。
 
 ### Close（2′）
 
-**27. Project plan**（1′，K）一页放 E1–E4 和课程方法（TSTR、real-vs-fake、PCA/t-SNE、聚类 + χ²），只讲它们回答什么问题。标明已完成和待完成的部分。
+**28. Project plan**（1′，K）一页放 E1–E4 和课程方法（TSTR、real-vs-fake、PCA/t-SNE、聚类 + χ²），只讲它们回答什么问题。标明已完成和待完成的部分。
 
-**28. Takeaways**（0.7′，W）
+**29. Takeaways**（0.7′，W）
 1. CFM 把生成变成回归：最小二乘恢复后验均值，后验均值就是正确的速度场。
 2. 配对决定路径，路径决定步数。
-3. Velocity、noise、score 是同一个量的不同写法；高维下 OT 优势还剩多少，是我们要测的。
+3. Velocity、noise、score 是同一个量的不同写法；MNIST 上 OT 优势还剩多少，用第 27 页的实测回答。
 
-**29. Questions**（0.2′）放主要参考文献和代码来源（torchcfm）。
+**30. Questions**（0.2′）放主要参考文献和代码来源（torchcfm）。
 
 ### Backup（不计时，答疑用）
 

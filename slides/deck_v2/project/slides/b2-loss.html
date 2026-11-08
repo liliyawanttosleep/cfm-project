@@ -1,0 +1,42 @@
+<section id="b2-loss" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Backup B2</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Full expansion: L_CFM = L_FM + C</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:stretch">
+<div style="flex:1.25;display:flex;flex-direction:column;gap:14px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">1. Expand the square, with v = vθ(t, xₜ)</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">‖v − (x₁ − x₀)‖² = ‖v‖² − 2⟨v, x₁ − x₀⟩ + ‖x₁ − x₀‖²</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">2. v depends only on (t, xₜ), so use the tower rule</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">E⟨v, x₁ − x₀⟩ = E⟨v, E[x₁ − x₀ │ xₜ]⟩ = E⟨v, uₜ(xₜ)⟩</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">3. Do the same for L_FM = E‖v − uₜ(xₜ)‖², and subtract</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">L_CFM(θ) = L_FM(θ) + E‖x₁ − x₀‖² − E‖uₜ(xₜ)‖²</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">4. The constant is a conditional variance, free of θ</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">C = E[ tr Var(x₁ − x₀ │ xₜ) ] ≥ 0</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Same gradient</h3>
+<p style="font-size:24px;line-height:1.3;">∇θ L_CFM = ∇θ L_FM, so regressing on single pairs trains the marginal field.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">The floor is not zero</h3>
+<p style="font-size:24px;line-height:1.3;">At (0.5, 0.1): 0.69 × (3.8 − 1.32)² + 0.31 × (−4.2 − 1.32)² = 13.69, the floor from slide 13.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Do not compare losses across pairings</h3>
+<p style="font-size:24px;line-height:1.3;">C depends on the coupling. A lower loss under OT pairs can mean fewer conflicts, not a better model, as on slides 18 and 27.</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · Backup B2 · Supports slide 13.</p>
+<aside>[Backup] Full version of slide 13. The only tool is the tower rule. The useful by-product is that C is an expected conditional variance, which gives the floor of 13.69 at our point, and explains why losses under different pairings cannot be compared.</aside>
+</section>

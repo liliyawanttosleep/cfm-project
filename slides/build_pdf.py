@@ -50,6 +50,14 @@ BLOBS = {
     "d7fac07126b7b98f1dd01c85dece77f9": "figs/moons_5steps.png",
     "626b4664653456a853619f9c7b6003f8": "figs/vp_paths.png",
     "49bf1e0c59ada058fc990d91de5e30ae": "figs/vp_overlay.png",
+    "1b8a087d9b7b868374d763e90dcb47bf": "figs/mnist_flow.png",       # mnist_flow.gif
+    "5bf9c5d3cd973a2b1c0c8e97870dc6a8": "figs/image_xt.png",
+    "d3c5b789d226678767cac9fd162f9aa0": "figs/mnist_grid.png",
+    "384fcaa74cc6aa06598e8db60d3c7685": "figs/mnist_real.png",
+    "0e835deb2c8b6338d2f1a20f4628f09d": "figs/fid_vs_nfe.png",       # two seeds
+    "50efa9244ffeddf2ff77ba3544678a64": "figs/e3_kmeans.png",
+    "8f315397c2a9e3389a6233646a2f1d10": "figs/mnist_loss.png",
+    "60f84fc37571754972278d2da75f1191": "figs/mnist_traj.png",
 }
 
 BROWSERS = [

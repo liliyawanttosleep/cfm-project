@@ -1,12 +1,14 @@
 # Slides
 
-## 课堂报告（2026-11-12）：当前版本
+## 课堂报告（2026-11-10）：当前版本
 
 | 内容 | 位置 |
 |---|---|
-| **全部幻灯片合成一个文件** | [`FM_vs_Diffusion_Talk.pdf`](FM_vs_Diffusion_Talk.pdf)，目前 22 页（Opening 到 Part IV）；Part V 和 Close 尚未制作。动图在 PDF 中是静态图 |
+| **全部幻灯片合成一个文件** | [`FM_vs_Diffusion_Talk.pdf`](FM_vs_Diffusion_Talk.pdf)，共 37 页：主体 31 页（Opening 到 Close，第 28 页是 E3）和备份 B1–B6 |
 | 在线幻灯片（演示用，以它为准） | https://claude.ai/artifact/7Lpjq76Dw2ywYrmNCLgUDR |
 | 逐页源文件和讲者备注 | `deck_v2/project/deck.json` + `deck_v2/project/slides/<id>.html` |
+| **PowerPoint（演讲用，动图能播放，讲稿在备注里）** | [`FM_vs_Diffusion_Talk.pptx`](FM_vs_Diffusion_Talk.pptx)，由 `python slides/build_pptx.py` 生成（需要 `pip install python-pptx`；讲者备注来自 `speech/script.md`），改完 HTML 后重新运行 |
+| Word 讲稿的源文件 | `speech/script.md`（`speech/build.py` + `speech/finish.ps1` 生成 Word 版） |
 | 重新生成合并文件 | `python slides/build_pdf.py --deck deck_v2`；加 `--notes` 另外生成带讲者备注的 `build/FM_vs_Diffusion_Talk_notes.pdf` |
 
 ## 旧版 Pre（开题报告）

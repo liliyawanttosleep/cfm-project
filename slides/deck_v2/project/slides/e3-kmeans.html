@@ -1,0 +1,35 @@
+<section id="e3-kmeans" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">E3 · A course method</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Are all kinds of digits generated in the right shares?</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:stretch">
+<div style="flex:1.3;display:flex;flex-direction:column;gap:12px">
+<img src="/_blob/50efa9244ffeddf2ff77ba3544678a64" alt="Left: total variation distance between cluster shares of generated and real images, against NFE 5, 20 and 100, for two training seeds. DDIM seed 0 is far highest, near 0.19 at 100 steps; all other runs lie between 0.04 and 0.09; the real test set gives 0.017. Right: digit shares at 100 steps. DDIM seed 0 makes 19 percent ones and under 5 percent threes; DDIM seed 1 stays between 8 and 13 percent for every digit" style="width:1010px;height:385px;object-fit:contain">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Method: k-means + χ², fit on real images only</h3>
+<p style="font-size:24px;line-height:1.3;">1. k-means with k = 10 on 30,000 real training images. 2. Each generated image goes to its nearest real center. 3. Compare the shares p̂ₖ with the real shares pₖ:</p><p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:26px;color:#14213D">TV = ½ Σₖ |p̂ₖ − pₖ|,&emsp;χ² = Σₖ (Oₖ − Eₖ)² / Eₖ,&emsp;w = √(χ² / n)</p><p style="font-size:24px;line-height:1.3;">With n = 10,000, χ² rejects for every model from 5 steps on (p < 10⁻¹⁸), so we read the size: TV and the effect size w (real test set: w = 0.04).</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">One seed would have misled us</h3>
+<p style="font-size:24px;line-height:1.3;">DDIM seed 0 has the best FID at 100 steps (12.2) but the most uneven shares: TV 0.19, with 19% ones (real 11.5%) and 4.5% threes (real 10.1%). Seed 1 is even, TV 0.06, yet its FID is 32.8.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Holds on both seeds</h3>
+<p style="font-size:24px;line-height:1.3;">Every model stays 2.6–11× above the real baseline, TV 0.017. Shares improve from 5 to 20 steps, then stop. The training seed moves TV by up to 0.13; new noise, by at most 0.012.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">What FID cannot show, and limits</h3>
+<p style="font-size:24px;line-height:1.3;">FID gives one score; shares show which kinds are missing. But clusters are not digits (ARI 0.38 on real images), and below 5 steps blur sits near the centers, so TV looks too good there.</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 28 · 10,000 samples per model; at 100 steps, mean and range of 3 noise draws. Digit labels: RBF-SVM, 97% accurate.</p>
+<aside>[Kaiming · ~1.3 min] FID gives one number, from ImageNet features. Our course method asks a different question: does the generator make every kind of digit in the right proportion?
+We fit k-means with ten clusters on real training images only, so the clusters do not depend on any model. Each generated image goes to its nearest real center, and we compare the shares with the real ones: total variation, which is half the sum of the absolute differences, and a chi-squared test. With ten thousand images the test rejects for every model, so we read the size of the gap: TV, and the effect size w.
+Left panel: solid lines are seed 0, dashed lines the second training run. On seed 0, DDIM in blue is far the worst, at 0.19. The right panel shows why: too many ones, too few twos and threes. And this is the model with the best FID at 100 steps.
+But DDIM’s second training run is even, at 0.06, like the others, while its FID got worse. So the imbalance came from one training run, not from the method, and FID and shares measure different things.
+Two things hold on both seeds: every model stays 2.6 to 11 times above the real baseline, and shares stop improving after about 20 steps. The limits: clusters are not digits, and at one or two steps blurry images sit near the centers, so we do not read those.</aside>
+</section>

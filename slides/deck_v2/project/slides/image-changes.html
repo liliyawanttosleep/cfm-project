@@ -1,0 +1,74 @@
+<section id="image-changes" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part V · From 2D to MNIST</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 1. From 2D to images: what changes</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:stretch">
+<div style="flex:1.25;display:flex;flex-direction:column;gap:14px">
+<div style="display:grid;grid-template-columns:1.05fr 1.2fr 1.45fr;gap:10px 16px;align-items:baseline;background:#FFFFFF;padding:16px 24px;border-radius:12px">
+<p style="font-size:24px;font-weight:600;color:#14213D"></p>
+<p style="font-size:24px;font-weight:600;color:#14213D">2D (slide 19)</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">MNIST</p>
+<p style="font-size:24px;color:#14213D">Data</p>
+<p style="font-size:24px">2 numbers</p>
+<p style="font-size:24px">784 pixels, scaled to [−1, 1]</p>
+<p style="font-size:24px;color:#14213D">Source</p>
+<p style="font-size:24px">N(0, I)</p>
+<p style="font-size:24px">N(0, I)</p>
+<p style="font-size:24px;color:#14213D">Network</p>
+<p style="font-size:24px">MLP, width 256</p>
+<p style="font-size:24px">U-Net, 32 channels, 1.08M weights</p>
+<p style="font-size:24px;color:#14213D">Training</p>
+<p style="font-size:24px">20,000 steps, batch 256</p>
+<p style="font-size:24px">23,400 steps (50 epochs), batch 128</p>
+<p style="font-size:24px;color:#14213D">Time per model</p>
+<p style="font-size:24px">0.6–4.7 min</p>
+<p style="font-size:24px">32–35 min</p>
+<p style="font-size:24px;color:#14213D">Quality metric</p>
+<p style="font-size:24px">W2</p>
+<p style="font-size:24px">FID</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">What does not change: the loop</h3>
+<p style="font-family:Consolas, 'Courier New', monospace;font-size:24px;line-height:1.45;color:#14213D">x0 = torch.randn_like(x1)<br>t = torch.rand(len(x1))<br>xt = (1 - t) * x0 + t * x1<br>loss = ((model(t, xt) - (x1 - x0))**2).mean()</p><p style="font-size:24px;line-height:1.3;">Part II never used the dimension, so its results hold pixel by pixel.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">What must change: the metric</h3>
+<p style="font-size:24px;line-height:1.3;">Empirical W2 converges like n^(−1/d). At d = 784, no sample size we can afford makes it reliable, so slide 26 uses FID.</p>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Test 1 (slide 16)</h3>
+<p style="font-size:24px;line-height:1.3;">I-CFM: one step lands on the data mean, a blurry image.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Test 2 (slide 19)</h3>
+<p style="font-size:24px;line-height:1.3;">OT-CFM: pairs are straighter, so fewer steps are enough.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Test 3 (slide 22)</h3>
+<p style="font-size:24px;line-height:1.3;">DDIM: weakest at very few steps, because it divides by a small aₜ.</p>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">What stays</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">What it sees</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Samples</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Quality vs. steps</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">OT in 784-d</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 23 · Our runs: code/e2_mnist/train_mnist.py, Adam with default learning rate, no EMA. All three models share one U-Net.</p>
+<aside>[Kaiming · ~1.2 min] So far everything lived in two dimensions. Now we move to images, and the first question is what has to change.
+The table shows the honest answer. The data go from 2 numbers to 784 pixels. The MLP becomes a U-Net with about a million weights, and training takes half an hour per model instead of a few minutes.
+But look at the orange card. These are the same lines as on slide 4, and on MNIST the library call does exactly this. That is not luck. The derivation in Part II never used the dimension.
+One thing must change: the metric. Empirical W2 converges like n to the minus one over d, which is hopeless at 784 dimensions. So we use FID, and Wentao will explain it on slide 26.
+We carry three predictions from 2D. I-CFM in one step should land on the data mean. OT-CFM should need fewer steps. DDIM should be weakest at very few steps. Let us see which survive.</aside>
+</section>

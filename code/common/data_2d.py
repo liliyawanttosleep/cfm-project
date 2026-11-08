@@ -1,4 +1,4 @@
-"""2D toy 数据集。所有数据集都标准化到大致均值 0、标准差 1，方便不同方法共用同一个噪声分布 N(0, I)。"""
+"""2D toy 数据集。要完成的任务：给 E1 提供 moons / 8gaussians / swissroll / checkerboard，全部标准化到大致均值 0、标准差 1，方便不同方法共用同一个噪声分布 N(0, I)。"""
 
 import numpy as np
 import torch

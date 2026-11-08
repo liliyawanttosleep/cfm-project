@@ -228,7 +228,7 @@
 | DDPM 1000 步、DDIM 的时间网格消融 | 不做 | 研究对象是 CFM；DDIM 已有两个种子的曲线，作参照足够 |
 | DDPM 网络的第 3 个种子 | 不做 | 同上；report 中注明 diffusion 参照只有两个种子 |
 | Fashion-MNIST | 不做 | 换数据集不回答效率问题；泛化性由 C7 检查 |
-| TSTR、real-vs-fake 分类器、PCA + Fréchet | 只在附录引用预实验 | 课程只要求一种方法，k-means 已在 C1 中作为质量检测的一部分；预实验说明了另外三种为什么不合适 |
+| TSTR、real-vs-fake 分类器、PCA + Fréchet | 只在附录引用预实验 | 课程只要求一种方法（11/07 确认），k-means 已在 C1 中作为质量检测的一部分；预实验说明了另外三种为什么不合适 |
 | 2D 补齐 3 个种子、Lipman FM、GMM / KDE 基线 | 不做 | 2D 只用于解释机制，report 中用种子 0 的结果作示意 |
 | EMA、cosine 调度、classifier-free guidance、MNIST-FID | 不做 | 和少步效率无关，或需要额外的模型 |
 | Consistency model、MeanFlow 等一步生成方法 | 只在 Related Work 中提到 | 需要不同的训练目标，超出 CFM 框架和时间预算 |
@@ -237,19 +237,7 @@
 
 ## 8. Report 的结构和图表
 
-约 5 页正文 + 附录。正文的每个结论都要能指到一个结果文件。
-
-| 章节 | 内容 | 图表 | 来自 |
-|---|---|---|---|
-| 1 Introduction | 生成 = 回归；采样代价 = NFE；RQ1–RQ4；贡献 | — | — |
-| 2 Background | CFM 定理、后验均值、为什么路径会弯、OT 配对和 reflow | 图 1：2D 路径示意 | slides 9–19、E1 |
-| 3 Evaluation protocol | 质量指标、效率指标、误差（种子、采样噪声、样本数） | 表 1：误差大小 | C1 |
-| 4.1 Inference-side | 求解器 × 网格；曲率分布 κ(t) | 图 2：κ(t)；图 3：FID vs NFE | C2 |
-| 4.2 Training-side | OT batch、训练时间分布、reflow | 表 2：1 步 / 5 步 FID、NFE@20、训练代价；图 4：配对节省比例 vs batch | C3、C4、C5 |
-| 4.3 Synthesis | 质量–效率前沿；直线度诊断；类别覆盖 | 图 5：前沿；图 6：直线度 vs 少步 FID | C6 |
-| 5 Discussion | 哪种办法最划算；局限（训练预算、种子数、FID 在 MNIST 上的局限、只有 2 个 diffusion 种子）；CIFAR 验证 | — | C7 |
-| 6 Individual Contributions | 课程硬性要求 | — | — |
-| 附录 | 完整证明（backup B1、B2）；E3 预实验；DDIM 参照曲线 | — | — |
+Report 的格式、提纲、页数分配、图表清单和提交检查清单统一写在 **[report/README.md](../report/README.md)**。本文件的每个实验在那里都对应到一个章节和一张图表：C1 → 4.2，C2 → 4.3，C3–C5 → 4.4，C6 → 4.5，C7 → 附录 D。
 
 ---
 

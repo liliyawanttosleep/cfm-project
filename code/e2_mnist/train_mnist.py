@@ -1,9 +1,17 @@
-"""Demo-level MNIST models for the talk, following examples/images/mnist_example.ipynb.
+"""E2 · MNIST 训练脚本，演示级，参照 examples/images/mnist_example.ipynb。
+
+要完成的任务
+    任务 1  训练第 23–27 页用的三个模型，网络和预算完全相同，只有配对或回归目标不同
+    任务 2  每 5 个 epoch 存一次续跑点，GPU 驱动重置后可以接着训练
+    任务 3  输出 results/e2/ckpt/{method}_s{seed}.pt 给 code/e4_cifar/eval_images.py 评估，
+            输出 results/e2/{method}_s{seed}_train.json 给第 27 页的 loss 曲线
+
+理论目标：同样的五行训练循环从 2 维搬到 784 维，只换数据和网络。
 
 Same U-Net (32 channels, 1 residual block), Adam with its default lr, batch 128, 50 epochs, no EMA.
     icfm  : independent pairs, target x1 - x0
     otcfm : minibatch OT pairs, target x1 - x0
-    ddpm  : linear beta schedule, T = 1000, target eps. Sampled with DDIM in eval_mnist.py.
+    ddpm  : linear beta schedule, T = 1000, target eps. Sampled with DDIM in code/e4_cifar/eval_images.py.
 
     python code/e2_mnist/train_mnist.py --method icfm --seed 0
 """

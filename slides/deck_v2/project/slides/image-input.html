@@ -1,0 +1,46 @@
+<section id="image-input" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part V · From 2D to MNIST</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 2. What the network sees</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:stretch">
+<div style="flex:1.2;display:flex;flex-direction:column;gap:14px">
+<img src="/_blob/5bf9c5d3cd973a2b1c0c8e97870dc6a8" alt="Two MNIST digits, a 3 and a 5, along the straight path. At t = 0 the image is pure noise, at t = 0.5 the digit is faintly visible, at t = 1 it is clean. The last column shows the regression target x1 minus x0, which looks like noise with a faint digit" style="width:1000px;height:375px;object-fit:contain">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Input and output have the same shape</h3>
+<p style="font-size:24px;line-height:1.3;">Input: the 28 × 28 image xₜ and the time t. Output: a 28 × 28 velocity, one number per pixel. That is why a U-Net fits: it maps an image to an image, and t enters every residual block through a time embedding.</p><p style="font-size:24px;line-height:1.3;">In code, model(t, xt) has the shape of x1 − x0: 1 × 28 × 28.</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">The same formula, for 784 coordinates</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">uₜ(x) = E[ x₁ − x₀ │ xₜ = x ]</p><p style="font-size:24px;line-height:1.3;">Each target is mostly noise, so the loss cannot reach 0. The network learns the average.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Example: a corner pixel</h3>
+<p style="font-size:24px;line-height:1.3;">It equals −1 in all 60,000 training images, so x₁ is known. The posterior mean has one term, and the path is exactly straight:</p><p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:28px;color:#14213D">uₜ(x) = (−1 − x) / (1 − t)</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Example: the center pixel</h3>
+<p style="font-size:24px;line-height:1.3;">Its mean is 0.02 and its standard deviation 0.89: stroke or background. At t = 0 the network can only aim at the mean. Later, the nearby pixels reveal the digit, and its aim changes. That change bends the path.</p>
+</div>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">What stays</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">What it sees</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Samples</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Quality vs. steps</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">OT in 784-d</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 24 · Each target is rescaled for display. 67 of the 784 pixels are −1 in every training image.</p>
+<aside>[Kaiming · ~1 min] Here is what training looks like for two digits. Each row is one pair: noise on the left, a digit on the right, and the straight-line mix in between.
+The last column is the regression target, x-one minus x-zero. It is mostly noise, with a faint digit. So no network can match it exactly, and the loss will never reach zero, as on slide 13.
+Input and output have the same shape, so a U-Net is natural, and time enters each residual block.
+The target is still the posterior mean, now in 784 coordinates. Two pixels make this concrete. The corner pixel is minus 1 in every training image, so the posterior is certain, and the velocity is just minus 1 minus x, over one minus t. That path is straight.
+The center pixel is either stroke or background. At the start the network can only aim at the mean. Later the neighbors reveal the digit, the aim changes, and the path bends. This is slide 16 again, one pixel at a time.</aside>
+</section>

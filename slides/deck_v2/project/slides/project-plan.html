@@ -1,0 +1,53 @@
+<section id="project-plan" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Close</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Project plan: what is done, what comes next</h2>
+</div>
+<div style="display:grid;grid-template-columns:0.72fr 1.5fr 2.1fr 1.05fr;gap:8px 16px;align-items:baseline;background:#FFFFFF;padding:14px 28px;border-radius:12px">
+<p style="font-size:24px;font-weight:600;color:#14213D"></p>
+<p style="font-size:24px;font-weight:600;color:#14213D">Data</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">Question it answers</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">Status</p>
+<p style="font-size:24px;color:#14213D">E1</p>
+<p style="font-size:24px">2D, four datasets</p>
+<p style="font-size:24px">Do straighter paths need fewer steps?</p>
+<p style="font-size:24px"><b>Done</b>, seed 0</p>
+<p style="font-size:24px;color:#14213D">E2</p>
+<p style="font-size:24px">MNIST</p>
+<p style="font-size:24px">Does this survive at 784 dimensions?</p>
+<p style="font-size:24px"><b>Done</b>, two seeds</p>
+<p style="font-size:24px;color:#14213D">E3</p>
+<p style="font-size:24px">MNIST samples</p>
+<p style="font-size:24px">Are digit types made in the right shares?</p>
+<p style="font-size:24px"><b>Done</b>, two seeds</p>
+<p style="font-size:24px;color:#14213D">E4</p>
+<p style="font-size:24px">MNIST, optional</p>
+<p style="font-size:24px">Can reflow reach one-step generation?</p>
+<p style="font-size:24px">Optional</p>
+</div>
+<div style="display:grid;grid-template-columns:1.45fr 2.3fr 1.6fr;gap:10px 16px;align-items:baseline;background:#FFFFFF;padding:16px 28px;border-radius:12px">
+<p style="font-size:24px;font-weight:600;color:#14213D">Course method for E3</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">Pilot at 100 steps (seed 0, 5,000 samples)</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">Verdict</p>
+<p style="font-size:24px;color:#14213D">Train on fake, test on real</p>
+<p style="font-size:24px">Test accuracy 0.89–0.90 for every model; real data 0.90</p>
+<p style="font-size:24px">No contrast</p>
+<p style="font-size:24px;color:#14213D">Real vs. fake classifier</p>
+<p style="font-size:24px">Random forest 89–95% for every model</p>
+<p style="font-size:24px">Background pixels give it away</p>
+<p style="font-size:24px;color:#14213D">PCA + Fréchet distance</p>
+<p style="font-size:24px">0.40, 1.06, 3.57 (OT-CFM, I-CFM, DDIM); real 0.18</p>
+<p style="font-size:24px">Works, but one score, like FID</p>
+<p style="font-size:24px;color:#14213D">k-means + χ²</p>
+<p style="font-size:24px">Shows which kinds are missing or too frequent</p>
+<p style="font-size:24px"><b>Chosen</b> (slide 28)</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Next</h3>
+<p style="font-size:24px;line-height:1.3;">More seeds: two seeds already disagree on class balance and from 10 steps on. Then DDPM with 1,000 steps, and Fashion-MNIST as a second dataset. Report due 12/16.</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 29 · E1: one seed. E2 and E3: two training seeds per method.</p>
+<aside>[Kaiming · ~1 min] This is where the project stands. E1, the 2D experiment, is done, for one seed. E2 and E3 on MNIST are done for two training seeds per method.
+The course asks for one course method, and the second table shows why we chose k-means. In a pilot, train on fake and test on real gave about 90 percent for every model, so it could not tell them apart. A real-versus-fake classifier was right almost every time, but mostly because generated backgrounds are not exactly black. PCA with a Fréchet distance worked, but it is one more score like FID. k-means shows which kinds of digits are missing or too frequent.
+E4 is optional: reflow, aiming at one-step generation. Next: more seeds, since two already disagree, then DDPM with 1,000 steps and Fashion-MNIST.</aside>
+</section>

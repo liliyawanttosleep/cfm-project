@@ -1,4 +1,4 @@
-"""2D 实验的样本质量指标。输入都是 [n, 2] 的 tensor 或 ndarray。"""
+"""2D 实验的样本质量指标。要完成的任务：算 W2（第 19 页的纵轴）、MMD 和直线度。输入都是 [n, 2] 的 tensor 或 ndarray。"""
 
 import numpy as np
 import ot

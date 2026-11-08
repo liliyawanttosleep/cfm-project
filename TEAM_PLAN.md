@@ -1,7 +1,19 @@
 # TEAM PLAN · Flow Matching vs. Diffusion（Data Mining Final Project）
 
 > **本文件是项目的唯一总计划（single source of truth）。** 队友和队友的 Claude 读这一份就能开工；`docs/` 下其他文件是补充细节。
-> 最后更新：2026-10-29
+> 最后更新：2026-11-07（新增下面的“当前进度”；完整实验改以 [docs/FINAL_REPORT_PLAN.md](docs/FINAL_REPORT_PLAN.md) 为准）
+
+---
+
+## 当前进度（2026-11-07）
+
+- **课堂报告**：改到 **11/10（周二）**，30 分钟，两人讲。37 页（正文 31 + backup 6）已定稿：`slides/FM_vs_Diffusion_Talk.pptx`（带讲者备注）、`slides/FM_vs_Diffusion_Talk.pdf`、讲稿 `slides/FM_vs_Diffusion_Speech_Script.docx`。规划见 `docs/SLIDE_PLAN.md`。
+- **已完成的实验**（数字见 `docs/FINAL_REPORT_PLAN.md` §1）：
+  - E1 2D：4 个数据集 × I-CFM / OT-CFM / DDIM / DDPM，种子 0。
+  - E2 MNIST：I-CFM / OT-CFM / DDPM（DDIM 采样）× 2 个训练种子，FID vs NFE。
+  - E3 课程方法：k-means + χ²（课程只要求一种方法），两个种子；TSTR、real-vs-fake、PCA 只做了预实验。
+  - E4：CIFAR-10 官方权重已下载，未正式评估。
+- **报告之后（11/11–12/02）**：做 `docs/FINAL_REPORT_PLAN.md` 中的 R1–R7。R1（第三个种子）和 R2（E3 统计分析）是必做；R3–R5 是体现复杂度的主要实验；R6、R7 选做。下面 §5 是 10/29 的原始设想，保留作参考。
 
 ---
 
@@ -12,7 +24,7 @@
 **两个硬截止**
 | 事项 | 时间 | 内容 |
 |---|---|---|
-| **Pre（项目汇报，30 分钟）** | **2026-11-12（周四）** | **以“方法 + 实验设计”为主**：文献脉络、核心公式、算法、实验怎么搭、评估方法、高维下的预期结果（引用文献数字）；只用已完成的 2D 示例做演示。完整实验放到 Pre 之后再做 |
+| **Pre（项目汇报，30 分钟）** | **2026-11-10（周二）**（原定 11/12） | **以“方法 + 实验设计”为主**：文献脉络、核心公式、算法、实验怎么搭、评估方法、高维下的预期结果（引用文献数字）；只用已完成的 2D 示例做演示。完整实验放到 Pre 之后再做 |
 | **Final report** | **2026-12-16 23:59** | 约 5 页，技术论文格式，**必须写明每个人的贡献** |
 
 **如果你是 Claude（队友的 AI 助手）**：先读完第 0、1、2 节和第 10 节的工作规则，然后找到你的用户是 **A** 还是 **B**（第 1 节），从第 3 节 Step 0 开始，按阶段顺序执行属于该成员的任务。每完成一项，就在本文件中把 `[ ]` 改为 `[x]` 并写上日期。
@@ -225,6 +237,8 @@ A 讲约 14.5 分钟，B 讲约 13.5 分钟。
 ---
 
 ## 5. 阶段 E：完整实验（W3–W5）
+
+> **11/07 起以 [docs/FINAL_REPORT_PLAN.md](docs/FINAL_REPORT_PLAN.md) 为准。** 本节是 10/29 的原始设想：其中 E2 的两个种子、E3 的 k-means 已经完成；TSTR、判别器、降维改为附录中的预实验；EMA、cosine 调度、classifier-free guidance、MNIST-FID 暂不做。
 
 所有实验遵守**公平对比约定**：同一网络结构、同样的训练步数 / batch / lr / EMA、同一份采样噪声、同一份测试集、**3 个种子，报告均值 ± 标准差**。
 

@@ -1,0 +1,47 @@
+<section id="b4-reflow" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Backup B4</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Rectified flow and reflow</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:stretch">
+<div style="flex:1.2;display:flex;flex-direction:column;gap:14px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Reflow: use the model’s own pairs</h3>
+<p style="font-size:24px;line-height:1.3;"><b>1.</b> Train on independent pairs. This first flow is I-CFM with σ = 0.</p><p style="font-size:24px;line-height:1.3;"><b>2.</b> Sample x₀ and solve the ODE to get x̂₁. Keep (x₀, x̂₁).</p><p style="font-size:24px;line-height:1.3;"><b>3.</b> Retrain on these pairs, with the same straight-line regression.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Why it works</h3>
+<p style="font-size:24px;line-height:1.3;">Marginal paths of an ODE cannot cross, so the pairs (x₀, x̂₁) are less tangled. Each reflow keeps the marginals and does not raise any convex transport cost (Liu et al. 2023).</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Our example</h3>
+<p style="font-size:24px;line-height:1.3;">A 1D flow keeps order, so negative noise goes to −2 and positive noise to +2. One reflow on the exact field gives the exact OT pairs of slide 18, and one Euler step is then exact.</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<div style="display:grid;grid-template-columns:1.05fr 1.3fr 1.3fr;gap:12px 14px;align-items:baseline;background:#FFFFFF;padding:16px 24px;border-radius:12px">
+<p style="font-size:24px;font-weight:600;color:#14213D"></p>
+<p style="font-size:24px;font-weight:600;color:#14213D">OT-CFM</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">Reflow</p>
+<p style="font-size:24px;color:#14213D">Pairs from</p>
+<p style="font-size:24px">OT on each batch</p>
+<p style="font-size:24px">A trained model’s ODE</p>
+<p style="font-size:24px;color:#14213D">Cost</p>
+<p style="font-size:24px">Assignment, each step</p>
+<p style="font-size:24px">One extra training run and a pair dataset</p>
+<p style="font-size:24px;color:#14213D">Error source</p>
+<p style="font-size:24px">Batch too small</p>
+<p style="font-size:24px">First model’s error</p>
+<p style="font-size:24px;color:#14213D">At d = 784</p>
+<p style="font-size:24px">Pairs stay near random (slide 27)</p>
+<p style="font-size:24px">Not limited by batch size</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Status</h3>
+<p style="font-size:24px;line-height:1.3;">We have not run reflow. It is the optional experiment E4, so this slide reports the method and the paper’s result, not ours.</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · Backup B4 · Liu, Gong, Liu 2023. Referenced on slide 19.</p>
+<aside>[Backup] Rectified flow is another way to straighten. Instead of solving an assignment on each batch, train once, generate pairs with the model, and retrain on them. Because marginal paths do not cross, the new pairs are less tangled. In one dimension one reflow on the exact field gives the exact optimal transport pairs. We have not run this ourselves: it is the optional experiment E4.</aside>
+</section>

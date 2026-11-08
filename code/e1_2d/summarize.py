@@ -1,4 +1,7 @@
-"""汇总 results/e1/*.json：输出“方法 × 数据集 × NFE”的指标表（多个种子取均值 ± 标准差），并画 W2 vs NFE 曲线。
+"""E1 汇总。
+
+要完成的任务：读 results/e1/*.json，输出“方法 × 数据集 × NFE”的指标表（多个种子取均值 ± 标准差），
+并画 W2 vs NFE 曲线。第 19 页的数字来自这里的 results/e1/summary.csv。
 
 用法：python code/e1_2d/summarize.py
 """

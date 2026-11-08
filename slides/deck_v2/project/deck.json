@@ -29,7 +29,22 @@
     "fewer-steps",
     "same-regression",
     "one-quantity",
-    "samplers"
+    "samplers",
+    "image-changes",
+    "image-input",
+    "mnist-samples",
+    "mnist-fid",
+    "ot-784",
+    "e3-kmeans",
+    "project-plan",
+    "takeaways",
+    "questions",
+    "b1-continuity",
+    "b2-loss",
+    "b3-lipman",
+    "b4-reflow",
+    "b5-schrodinger",
+    "b6-metrics"
   ],
   "sections": {
     "s1": {
@@ -51,6 +66,18 @@
     "s5": {
       "description": "Part IV: diffusion as the same regression on another path; velocity, noise and score; DDIM and DDPM as samplers",
       "start": "same-regression"
+    },
+    "s6": {
+      "description": "Part V: from 2D to MNIST, testing the 2D predictions on 784 dimensions",
+      "start": "image-changes"
+    },
+    "s7": {
+      "description": "Close: project plan, takeaways and questions",
+      "start": "project-plan"
+    },
+    "s8": {
+      "description": "Backup: proofs, Lipman paths, reflow, Schrodinger bridges and metrics",
+      "start": "b1-continuity"
     }
   },
   "faces": {

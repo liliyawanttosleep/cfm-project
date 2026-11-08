@@ -1,0 +1,78 @@
+<section id="ot-784" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part V · From 2D to MNIST</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 5. Does the OT advantage survive at d = 784?</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:stretch">
+<div style="flex:1.15;display:flex;flex-direction:column;gap:12px">
+<div style="display:grid;grid-template-columns:1.75fr 1.1fr 1.05fr;gap:7px 12px;align-items:baseline;background:#FFFFFF;padding:12px 24px;border-radius:12px">
+<p style="font-size:24px;font-weight:600;color:#14213D"></p>
+<p style="font-size:24px;font-weight:600;color:#14213D">2D (four datasets)</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">MNIST, seed 0 / 1</p>
+<p style="font-size:24px;color:#14213D">Pair cost, OT / random</p>
+<p style="font-size:24px">0.07–0.13</p>
+<p style="font-size:24px">0.96</p>
+<p style="font-size:24px;color:#14213D">Share of the largest saving</p>
+<p style="font-size:24px">85–94%</p>
+<p style="font-size:24px"><b>17%</b></p>
+<p style="font-size:24px;color:#14213D">Path / line, I-CFM → OT-CFM</p>
+<p style="font-size:24px">1.8–2.5 → 1.01</p>
+<p style="font-size:24px">1.02 → 1.01</p>
+<p style="font-size:24px;color:#14213D">I-CFM / OT-CFM at 1 step</p>
+<p style="font-size:24px">6.6–10.8×</p>
+<p style="font-size:24px">1.5× / 1.5×</p>
+<p style="font-size:24px;color:#14213D">I-CFM / OT-CFM at 5 steps</p>
+<p style="font-size:24px">1.5–3.3×</p>
+<p style="font-size:24px">1.7× / 1.0×</p>
+<p style="font-size:24px;color:#14213D">I-CFM / OT-CFM at 100 steps</p>
+<p style="font-size:24px">1.1–1.5×</p>
+<p style="font-size:24px">1.04× / <b>0.77×</b></p>
+<p style="font-size:24px;color:#14213D">OT-CFM, 1 step / 100 steps</p>
+<p style="font-size:24px">1.0–1.3×</p>
+<p style="font-size:24px"><b>16× / 12×</b></p>
+</div>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center">
+<img src="/_blob/8f315397c2a9e3389a6233646a2f1d10" alt="Training loss per pixel over 50 epochs: OT-CFM settles near 0.12, below I-CFM near 0.17" style="width:396px;height:240px;object-fit:contain">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Loss is not a quality score</h3>
+<p style="font-size:24px;line-height:1.3;">OT-CFM’s final loss is lower, 0.118 vs. 0.168, partly because the floor changes with the pairing (B2).</p>
+</div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Answer: left only at very few steps</h3>
+<p style="font-size:24px;line-height:1.3;">On both seeds OT-CFM’s FID is 33–42% lower at 1–2 steps. At 5 steps: 41% vs. 3%. From 10 steps on, the seeds disagree.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Why weaker: only one term can change</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:26px;color:#14213D">E‖x₀ − x₁‖² = E‖x₀‖² + E‖x₁‖² − 2E⟨x₀, x₁⟩</p><p style="font-size:24px;line-height:1.3;">No pairing can save more than 2 tr Σ^(1/2) = 386. A batch of 128 saves 66, and a batch of 2,048 saves 88. Pairs stay closer to random than to exact OT.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Our hypothesis: largely supported</h3>
+<p style="font-size:24px;line-height:1.3;">We expected near-random batch pairs to erase the advantage. With two seeds it is gone from 5–10 steps on, but not at 1–2 steps.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Path length hides this</h3>
+<p style="font-size:24px;line-height:1.3;">Most of each path’s length, about 39, only removes noise, so a ratio of 1.02 can still hide the 14.5 from mean to digit.</p>
+</div>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">What stays</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">What it sees</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">Samples</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">Quality vs. steps</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">OT in 784-d</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 27 · W2 in 2D, FID on MNIST: compare within a column. Batch 128; pairs, paths: seed 0. Bound: Gelbrich 1990.</p>
+<aside>[Wentao · ~1.2 min] W2 in 2D and FID on MNIST are different scales, so read down each column, not across.
+In 2D, OT pairing changes almost everything: the cost falls by about 90 percent. On MNIST the ratio looks tiny, 0.96. But only the inner product can change. The most any pairing can save is 386, a bound from the covariance. A batch of 128 saves 66, which is 17 percent of that. Even a batch of 2,048 saves only 88. So minibatch pairs stay closer to random than to exact OT.
+We expected that to erase the advantage, and with two seeds it nearly does. At one and two steps OT-CFM is still 33 to 42 percent lower on both seeds. At five steps the gap is 41 percent on seed 0 but only 3 on seed 1, and from ten steps on the seeds disagree.
+Path length hides this: 1.02 looks straight, because most of the length just removes noise. And the lower loss is not a quality score, since the floor moves with the pairing.
+So our hypothesis is largely supported. FID is one score, though. Kaiming will now ask a different question with a course method.</aside>
+</section>

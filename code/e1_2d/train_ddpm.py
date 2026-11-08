@@ -1,5 +1,12 @@
 """E1 · Diffusion 线（成员 B）。最小的 DDPM 实现（Ho et al. 2020）+ DDIM 采样（Song et al. 2021）。
 
+要完成的任务
+    任务 1  用和 FM 相同的 MLP、迭代数和 batch 训练噪声预测网络 eps_theta
+    任务 2  用 DDIM（少步、确定性）和 DDPM（1000 步、随机）采样
+    任务 3  算同样的指标，作为第 19 页和第 22 页的对照
+
+理论目标：同一个回归问题换一条路径和一种参数化（第 20–22 页），看步数差距从哪里来。
+
 前向过程：q(x_t | x_0) = N(sqrt(abar_t) x_0, (1 - abar_t) I)，线性 beta schedule，T = 1000。
 训练目标：预测噪声 eps，loss = E||eps - eps_theta(x_t, t)||^2（等价于 denoising score matching，
     score = -eps / sqrt(1 - abar_t)）。

@@ -1,5 +1,13 @@
 """E1 · Flow Matching 线（成员 A）。
 
+要完成的任务
+    任务 1  在 2D 数据上训练速度场 v_theta(x, t)，目标是条件速度 x1 - x0（第 19 页）
+    任务 2  用 Euler 法从噪声走到数据，在 NFE 1–100 下采样
+    任务 3  算 W2、MMD、直线度，存 json / png / 权重，供 summarize.py 汇总成第 19 页的图
+
+理论目标：检验“配对决定路径，路径决定步数”。OT-CFM 只比 I-CFM 多一步 batch 内 OT 配对，
+预期 OT-CFM 一步就接近数据，而 I-CFM 一步落到数据均值。
+
 从 N(0, I) 到 2D 数据分布，训练速度场 v_theta(x, t)，用 Euler 法解 ODE 采样。
     icfm      : I-CFM，x0 与 x1 独立配对，直线路径；sigma=0 时等价于 Rectified Flow（1-RF）
     otcfm     : OT-CFM，在每个 minibatch 内用精确 OT 配对 x0 与 x1（Tong et al. 2024）

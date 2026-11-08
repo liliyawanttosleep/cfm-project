@@ -1,0 +1,43 @@
+<section id="b3-lipman" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Backup B3</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Lipman’s Gaussian path</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:stretch">
+<div style="flex:1.2;display:flex;flex-direction:column;gap:14px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Lipman et al.: condition on x₁ only</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">pₜ(x│x₁) = N( t x₁, σₜ² I ),   σₜ = 1 − (1 − σ_min) t</p><p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">uₜ(x│x₁) = ( x₁ − (1 − σ_min) x ) / ( 1 − (1 − σ_min) t )</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">With σ_min = 0 it is our target</h3>
+<p style="font-size:24px;line-height:1.3;">Write xₜ = t x₁ + (1 − t) x₀ with x₀ ~ N(0, I). Then:</p><p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">(x₁ − xₜ) / (1 − t) = x₁ − x₀</p><p style="font-size:24px;line-height:1.3;">So on a Gaussian source, the two regressions coincide.</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<div style="display:grid;grid-template-columns:1.1fr 1.2fr 1.2fr;gap:10px 14px;align-items:baseline;background:#FFFFFF;padding:16px 24px;border-radius:12px">
+<p style="font-size:24px;font-weight:600;color:#14213D"></p>
+<p style="font-size:24px;font-weight:600;color:#14213D">Lipman</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">I-CFM</p>
+<p style="font-size:24px;color:#14213D">Condition on</p>
+<p style="font-size:24px">x₁</p>
+<p style="font-size:24px">(x₀, x₁)</p>
+<p style="font-size:24px;color:#14213D">Source</p>
+<p style="font-size:24px">Gaussian only</p>
+<p style="font-size:24px">Any we can sample</p>
+<p style="font-size:24px;color:#14213D">End point</p>
+<p style="font-size:24px">N(x₁, σ²_min I)</p>
+<p style="font-size:24px">x₁ when σ = 0</p>
+<p style="font-size:24px;color:#14213D">OT pairs</p>
+<p style="font-size:24px">No</p>
+<p style="font-size:24px">Yes</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Two different meanings of “OT”</h3>
+<p style="font-size:24px;line-height:1.3;">Lipman’s “OT path” is the straight path within one pair. OT-CFM’s OT is how the pairs are chosen. They are separate choices.</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · Backup B3 · Lipman et al. 2023. Code: TargetConditionalFlowMatcher in torchcfm.</p>
+<aside>[Backup] The original flow matching paper conditions on the data point only. With sigma-min zero and a Gaussian source it gives exactly our regression target. Conditioning on the pair is what frees the source and lets us choose the coupling.</aside>
+</section>

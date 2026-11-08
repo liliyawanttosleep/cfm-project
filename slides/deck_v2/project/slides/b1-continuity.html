@@ -1,0 +1,42 @@
+<section id="b1-continuity" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Backup B1</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">The marginal field satisfies the continuity equation</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:stretch">
+<div style="flex:1.2;display:flex;flex-direction:column;gap:14px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">1. Mix the conditional paths, with z = (x₀, x₁)</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">pₜ(x) = E_z[ pₜ(x│z) ]</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">2. Each conditional path obeys its own equation</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">∂ₜ pₜ(x│z) + ∇·( uₜ(x│z) pₜ(x│z) ) = 0</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">3. Average over z, swapping E with ∂ₜ and ∇·</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">∂ₜ pₜ(x) + ∇·( E_z[ uₜ(x│z) pₜ(x│z) ] ) = 0</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">4. Name the inside. By Bayes, it is the posterior mean</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">uₜ(x) pₜ(x) = E_z[ uₜ(x│z) pₜ(x│z) ]  ⇒  uₜ(x) = E[ uₜ(x│z) │ xₜ = x ]</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Without densities, in one line</h3>
+<p style="font-size:24px;line-height:1.3;">With σ = 0, pₜ(x│z) is a point mass. Test against any smooth φ and use the tower rule:</p><p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:26px;color:#14213D">d/dt E φ(xₜ) = E⟨∇φ(xₜ), x₁ − x₀⟩</p><p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:26px;color:#14213D">= E⟨∇φ(xₜ), uₜ(xₜ)⟩</p><p style="font-size:24px;line-height:1.3;">This is the weak form of the continuity equation.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Assumptions</h3>
+<p style="font-size:24px;line-height:1.3;">pₜ(x) > 0 where we divide, enough integrability to swap E with ∂ₜ and ∇·, and uₜ regular enough for the ODE to have a unique solution.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Our example</h3>
+<p style="font-size:24px;line-height:1.3;">At (t, x) = (0.5, 0.1): weights 0.69 and 0.31, velocities +3.8 and −4.2, so uₜ(x) = 1.32.</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · Backup B1 · Lipman et al. 2023, Theorem 1. Supports slides 7 and 11.</p>
+<aside>[Backup] Full proof for slide 11. Step 3 is the only analytic step: swapping expectation with the derivatives. The point-mass case is handled by the test-function line on the right, which is the cleanest version for a statistics audience: it is just the tower rule.</aside>
+</section>

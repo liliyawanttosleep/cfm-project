@@ -1,0 +1,57 @@
+<section id="mnist-samples" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#B35C12">Part V · From 2D to MNIST</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Step 3. From noise to digits, with the same noise</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:28px;align-items:flex-start">
+<div style="flex:none;width:860px;display:flex;flex-direction:column;gap:12px">
+<img src="/_blob/d3c5b789d226678767cac9fd162f9aa0" alt="A grid of generated digits from the same noise. Rows: I-CFM, OT-CFM, DDIM. Columns: 1, 2, 5, 10 and 100 network calls. At one call I-CFM gives the same gray blur in every cell, OT-CFM gives blurry but distinct digits, and DDIM gives white specks. At 100 calls all three give clean digits" style="width:860px;height:521px;object-fit:contain">
+<img src="/_blob/60f84fc37571754972278d2da75f1191" alt="OT-CFM generation at t = 0, 0.25, 0.5, 0.75 and 1: noise, then faint digits, then clean digits" style="width:860px;height:112px;object-fit:contain">
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center">
+<img src="/_blob/384fcaa74cc6aa06598e8db60d3c7685" alt="Real digits next to the data mean, a blurry gray blob" style="width:330px;height:165px;object-fit:contain">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Test 1 holds</h3>
+<p style="font-size:24px;line-height:1.3;">I-CFM’s one step is the same blur for all noise: the data mean, as slide 16 predicted.</p>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1.7fr 0.8fr 0.8fr;gap:6px 12px;align-items:baseline;background:#FFFFFF;padding:10px 20px;border-radius:12px">
+<p style="font-size:24px;font-weight:600;color:#14213D">After one step (RMS per pixel)</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">I-CFM</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">OT-CFM</p>
+<p style="font-size:24px;color:#14213D">Distance to the data mean</p>
+<p style="font-size:24px"><b>0.04</b></p>
+<p style="font-size:24px">0.22</p>
+<p style="font-size:24px;color:#14213D">Spread across noise</p>
+<p style="font-size:24px"><b>0.04</b></p>
+<p style="font-size:24px">0.22</p>
+<p style="font-size:24px;color:#14213D">To nearest training image</p>
+<p style="font-size:24px">0.39</p>
+<p style="font-size:24px">0.35</p>
+</div>
+<p style="font-size:24px;line-height:1.3;">A real digit is 0.52 from the mean. OT-CFM’s one step is blurry, but already distinct digits.</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">DDIM at 1–2 calls: specks</h3>
+<p style="font-size:24px;line-height:1.3;">74% of pixels leave [−1, 1], with values up to 19, and are clipped for display: the division by aₜ from slide 22. A second call changes little, because it comes at the last grid step.</p>
+</div>
+</div>
+</div>
+<div style="position:absolute;left:128px;top:56px;width:1664px;display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">What stays</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#14213D;background:#F7EBDD;border-radius:999px;padding:4px 18px">What it sees</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#FAF8F3;background:#B35C12;border-radius:999px;padding:4px 18px">Samples</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">Quality vs. steps</p>
+<p style="font-size:24px;color:#8A94A3">→</p>
+<p style="font-size:24px;color:#3D4756;background:#E2E6EC;border-radius:999px;padding:4px 18px">OT in 784-d</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · 25 · Every panel starts from the same 16 noise images. Bottom strip: OT-CFM. One-step numbers: 256 samples.</p>
+<aside>[Kaiming · ~1.3 min] Each cell starts from the same noise. Rows are methods, columns are network calls. The bottom strip shows generation over time with OT-CFM: digits appear by about t equals 0.5.
+Look at the first column. I-CFM gives the same gray blur in every cell. Compare it with the data mean, top right: it is the same picture. That is the prediction from slide 16, now at 784 dimensions. The numbers agree: after one step, I-CFM is 0.04 from the mean, while a real digit is 0.52 away.
+OT-CFM at one call is different. It is blurry, but you can already read digits, and different noise gives different digits.
+DDIM at one or two calls gives white specks. About three quarters of the pixels leave the valid range, with values up to 19. That is the division by a small a from slide 22. A second call adds little, because it comes at the last grid step.
+By 10 calls all three look like digits, and pictures stop being a fine enough test. So Wentao will now measure this.</aside>
+</section>

@@ -1,0 +1,44 @@
+<section id="b5-schrodinger" data-transition="fade" style="background:#FAF8F3;color:#3D4756;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#5B6B82">Backup B5</p>
+<h2 style="font-family:'Source Serif 4', Georgia, serif;font-size:64px;font-weight:600;line-height:1.1;color:#14213D">Schrödinger bridge CFM</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:stretch">
+<div style="flex:1.3;display:flex;flex-direction:column;gap:14px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#F7EBDD;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Entropic pairs, and a noisy bridge</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:28px;color:#14213D">(x₀, x₁) ~ π,  the Sinkhorn OT plan with regularization 2σ²</p><p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:30px;color:#14213D">pₜ(x│x₀, x₁) = N( t x₁ + (1 − t) x₀, t(1 − t) σ² I )</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">The target has one extra term</h3>
+<p style="font-family:'STIX Two Text', 'Times New Roman', serif;font-size:28px;color:#14213D">uₜ(x│x₀, x₁) = (1 − 2t) / (2t(1 − t)) · (x − μₜ) + (x₁ − x₀)</p><p style="font-size:24px;line-height:1.3;">μₜ = t x₁ + (1 − t) x₀. The new term is the rate at which the bridge width changes: it spreads points out until t = 0.5, then pulls them back.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Limit</h3>
+<p style="font-size:24px;line-height:1.3;">As σ → 0, the plan tends to exact OT and the bridge width to 0, so SB-CFM reduces to OT-CFM.</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:10px 12px;align-items:baseline;background:#FFFFFF;padding:16px 20px;border-radius:12px">
+<p style="font-size:24px;font-weight:600;color:#14213D">Slide 18 setup</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">I-CFM</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">OT-CFM</p>
+<p style="font-size:24px;font-weight:600;color:#14213D">SB-CFM</p>
+<p style="font-size:24px;color:#14213D">W2 to moons</p>
+<p style="font-size:24px">0.46</p>
+<p style="font-size:24px">0.34</p>
+<p style="font-size:24px">0.37</p>
+<p style="font-size:24px;color:#14213D">± std</p>
+<p style="font-size:24px">0.06</p>
+<p style="font-size:24px">0.06</p>
+<p style="font-size:24px">0.05</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-radius:12px;padding:14px 26px">
+<h3 style="font-size:26px;font-weight:600;color:#14213D">Read with care</h3>
+<p style="font-size:24px;line-height:1.3;">One trained model each, σ = 0.5, 1,024 samples over 100 runs, dopri5. SB-CFM and OT-CFM overlap within one standard deviation, so we do not rank them.</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A94A3">Flow Matching vs. Diffusion · Backup B5 · Tong et al. 2024. Our run of the tutorial notebook. Code: SchrodingerBridgeConditionalFlowMatcher in torchcfm.</p>
+<aside>[Backup] Schrodinger bridge flow matching softens both choices: an entropic plan instead of exact OT, and a noisy bridge instead of a line. The extra term is the rate of change of the bridge width. In the notebook setup its W2 of 0.37 overlaps OT-CFM at 0.34, so we do not rank them.</aside>
+</section>

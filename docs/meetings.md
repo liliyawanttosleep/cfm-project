@@ -11,7 +11,8 @@
 ## 2026-11-07（报告定稿，规划 final report 实验）
 - 已完成：11/10 报告 37 页定稿（PPT、PDF、讲稿）；E2 第二个训练种子；E3 k-means + χ²（两个种子）
 - 主要发现：OT-CFM 的优势在 MNIST 上只在 1–2 步时两个种子都成立；DDIM 种子 0 FID 最好但类别最不均衡，种子 1 相反
-- 下一步：按 `docs/FINAL_REPORT_PLAN.md` 做 R1–R7，先做 R1（第三个种子）和 R2（E3 统计分析）
+- 决定：final report 的主线收窄为 CFM 的生成效率（少步生成的优化办法）和质量检测，diffusion 只作参照
+- 下一步：按 `docs/FINAL_REPORT_PLAN.md` 做 C1–C7，先做 C1（第三个种子、误差测量）和 C2（求解器和时间网格，不需要训练）
 
 ---
 

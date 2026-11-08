@@ -13,7 +13,7 @@
   - E2 MNIST：I-CFM / OT-CFM / DDPM（DDIM 采样）× 2 个训练种子，FID vs NFE。
   - E3 课程方法：k-means + χ²（课程只要求一种方法），两个种子；TSTR、real-vs-fake、PCA 只做了预实验。
   - E4：CIFAR-10 官方权重已下载，未正式评估。
-- **报告之后（11/11–12/02）**：做 `docs/FINAL_REPORT_PLAN.md` 中的 R1–R7。R1（第三个种子）和 R2（E3 统计分析）是必做；R3–R5 是体现复杂度的主要实验；R6、R7 选做。下面 §5 是 10/29 的原始设想，保留作参考。
+- **报告之后（11/11–12/02）**：主线收窄为 **CFM 的生成效率与质量检测**，做 `docs/FINAL_REPORT_PLAN.md` 中的 C1–C7。必做：C1 质量检测的可靠性、C2 求解器和时间网格、C5 reflow、C6 综合分析；应做：C3 OT batch 大小、C4 训练时间分布；选做：C7 CIFAR-10 验证。新的 diffusion 实验、Fashion-MNIST、分类器类评估不再做。下面 §5 是 10/29 的原始设想，保留作参考。
 
 ---
 

@@ -37,7 +37,7 @@
 | 章节 | 页数 | 内容 | 图表 | 数据来源 |
 |---|---|---|---|---|
 | **Abstract** | 0.15 | 4–5 句：问题（CFM 采样要多少步）→ 做法（同一个网络上比较训练端和推理端的优化，并检查评估本身的误差）→ 主要发现（用数字）→ 意义 | — | C6 |
-| **1 Introduction** | 0.5 | 生成 = 从样本学分布再采样；CFM 把它变成回归，采样代价 = NFE；高维中 OT 配对的优势会消失（我们在 MNIST 上看到的现象）；研究问题 RQ1–RQ4；3 条贡献 | — | — |
+| **1 Introduction** | 0.5 | 生成 = 从样本学分布再采样；CFM 把它变成回归，采样代价 = NFE；高维中 OT 配对的优势会消失（我们在 MNIST 上看到的现象）；说明 diffusion 是 CFM 在高斯噪声、独立配对下的一种参数化（推导 D9），我们研究的是两者共用的采样问题和只有 CFM 能改的配对；研究问题 RQ1–RQ4；3 条贡献 | — | — |
 | **2 Related Work** | 0.4 | Score matching → DDPM / DDIM / score SDE；Flow Matching、Rectified Flow、Stochastic Interpolants；OT-CFM；少步生成：reflow、蒸馏、consistency model、MeanFlow；ODE 求解器和时间网格（DDIM、EDM）；生成模型评估（FID 及其局限） | — | papers/ |
 | **3 Methods** | 1.3 | 3.1 CFM：条件路径、CFM 损失、后验均值定理（证明放附录）<br>3.2 为什么路径会弯、NFE 意味着什么（一步 Euler 落在 E[x₁] 上）<br>3.3 四种优化办法：配对与 OT batch；训练时间分布；reflow；求解器与时间网格（包括**校准网格**，我们的实用方法；以及按曲率分配的网格，推导见 `docs/notes/derivations.md` D5）<br>3.4 评估：FID、类别覆盖（k-means + χ²，课程方法）、直线度、效率指标（NFE@20、训练代价） | 图 1：2D 中 I-CFM 与 OT-CFM 的路径（一张小图说明“路径弯 → 少步差”） | E1、slides 9–19 |
 | **4 Experiments** | 2.2 | 4.1 设定：MNIST、同一个 U-Net、训练预算、种子、FID 协议（一张表）<br>4.2 评估本身的误差：训练种子 vs 采样噪声 vs 样本数；类别覆盖的区间<br>4.3 推理端：求解器 × 网格；曲率分布 κ(t)<br>4.4 训练端：OT batch、训练时间分布、reflow，以及各自的训练代价<br>4.5 综合：质量–效率前沿；直线度能否预测少步质量；DDIM 作参照 | 表 1：设定和误差<br>图 2：κ(t) 和不同网格<br>图 3：FID vs NFE（前沿）<br>表 2：各办法的 1 步 / 5 步 FID、NFE@20、训练代价<br>图 4：直线度 vs 少步 FID | C1–C6 |

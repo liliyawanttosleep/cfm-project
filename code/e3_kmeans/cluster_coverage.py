@@ -28,7 +28,7 @@ for _k in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):  # 任
     os.environ.setdefault(_k, "4")
 import numpy as np
 import torch
-from scipy.stats import chisquare
+from scipy.stats import chi2_contingency, chisquare
 from sklearn.cluster import KMeans
 from sklearn.svm import SVC
 from torchcfm.models.unet import UNetModel
@@ -79,14 +79,23 @@ def generate(net, step, k, n, seed, device, batch=250, th=None):
     return np.concatenate(out)[:n].reshape(n, -1) / 255.0
 
 
-def compare(km, X, ref_share):
-    """任务 3：X 落在各簇的比例，和真实比例比较。"""
+def compare(km, X, ref_counts):
+    """任务 3：X 落在各簇的比例，和真实比例比较。
+
+    chi2 / p：拟合优度检验，把真实比例当作已知（E3 报告用的口径）。
+    chi2_2s / p_2s：两样本齐性检验（C1），真实比例本身也是 3 万张图上的估计值。
+    counts：每簇计数，供 C1 做 bootstrap 区间和噪声下限的核对。"""
     k = km.n_clusters
     counts = np.bincount(km.predict(X), minlength=k)
+    ref_share = ref_counts / ref_counts.sum()
     share = counts / counts.sum()
     chi2, p = chisquare(counts, ref_share * counts.sum())
+    keep = (counts + ref_counts) > 0
+    chi2_2s, p_2s, _, _ = chi2_contingency(np.stack([counts[keep], ref_counts[keep]]), correction=False)
     return {"tv": float(0.5 * np.abs(share - ref_share).sum()), "chi2": float(chi2), "p": float(p), "w": float(np.sqrt(chi2 / counts.sum())),
-            "max_ratio": float((share / ref_share).max()), "min_ratio": float((share / ref_share).min())}
+            "chi2_2s": float(chi2_2s), "p_2s": float(p_2s),
+            "max_ratio": float((share / ref_share).max()), "min_ratio": float((share / ref_share).min()),
+            "counts": counts.tolist()}
 
 
 def main():
@@ -116,7 +125,7 @@ def main():
     # 任务 1、7
     t0 = time.time()
     kms = {"k10": KMeans(10, n_init=10, random_state=0).fit(fit), "k10_init1": KMeans(10, n_init=10, random_state=1).fit(fit), "k20": KMeans(20, n_init=10, random_state=0).fit(fit)}
-    refs = {name: np.bincount(km.predict(ref), minlength=km.n_clusters) / len(ref) for name, km in kms.items()}
+    refs = {name: np.bincount(km.predict(ref), minlength=km.n_clusters) for name, km in kms.items()}  # 真实图（3 万张）的每簇计数
     print("k-means fitted", f"{time.time() - t0:.0f}s", flush=True)
     # 任务 6
     labeller = SVC(kernel="rbf", C=10, gamma="scale").fit(X[perm[30000:40000]], Y[perm[30000:40000]])
@@ -124,7 +133,8 @@ def main():
     print("labeller test accuracy", round(lab_acc, 4), flush=True)
 
     res = json.loads(args.out.read_text()) if args.out.exists() else {}
-    res.update({"n": args.n, "fit_images": 30000, "labeller_test_accuracy": lab_acc, "ref_digit_share": (np.bincount(labeller.predict(ref), minlength=10) / len(ref)).tolist(), "runs": res.get("runs", {})})
+    res.update({"n": args.n, "fit_images": 30000, "labeller_test_accuracy": lab_acc, "ref_digit_share": (np.bincount(labeller.predict(ref), minlength=10) / len(ref)).tolist(),
+                "ref_counts": {name: c.tolist() for name, c in refs.items()}, "runs": res.get("runs", {})})
 
     def save():
         tmp = args.out.with_suffix(".tmp")

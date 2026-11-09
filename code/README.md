@@ -38,6 +38,24 @@ python -u code/e3_kmeans/fid_seed.py --seed 1                   # 种子 1 的 F
 
 每个脚本开头都写了要完成的任务。结果在 `results/e2/`、`results/e3/` 和 `results/e4/`。
 
+## Final report 的实验（C1–C7，见 `docs/FINAL_REPORT_PLAN.md`）
+
+```bash
+python -u code/c2_solvers/sample_grid.py --method otcfm --seed 0        # C2：求解器 × 时间网格，终点误差 + FID
+python -u code/c2_solvers/sample_grid.py --method icfm --seed 0
+python -u code/c2_solvers/sample_grid.py --method otcfm --quick         # 冒烟测试，2,000 张，写到 *_quick.json
+python code/c2_solvers/check_derivations.py                             # 推导笔记 D4/D5/D8/D9 的数值核对，只用 CPU
+
+python code/e2_mnist/train_mnist.py --method icfm --seed 2              # C1：第三个种子（设定和种子 0、1 相同）
+python code/e2_mnist/train_mnist.py --method otcfm --seed 0 --ot-batch 2048   # C3：在 2,048 个样本上求 OT 计划
+python code/e2_mnist/train_mnist.py --method icfm --seed 0 --t-dist logitnormal   # C4（kappa 需要先跑 C2）
+python -u code/e3_kmeans/cluster_coverage.py --seeds 0 1 2 --out results/c1_reliability/kmeans.json   # C1：带每簇计数和两样本 χ²
+```
+
+- 训练脚本现在也默认限速（`--duty 0.5`）；默认参数下的随机数顺序和以前完全相同，所以种子 2 与种子 0、1 可比。
+- 变体模型的文件名带后缀（`otcfm_s0_otb2048.pt`、`icfm_s0_tlogitnormal.pt`、`icfm_s0_tkappa.pt`），不会覆盖原模型。
+- C2 结果在 `results/c2_solvers/{method}_s{seed}.json`：`kappa`（κ(t) 和 D5 的 G）、`endpoint_error`（A 组校准 / B 组测试）、`calibrated`（每个求解器和 NFE 选中的网格）、`fid`。
+
 ## 运行
 
 ```bash

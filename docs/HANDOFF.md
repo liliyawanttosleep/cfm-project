@@ -130,10 +130,11 @@
   - C4 训练时间分布：logit-normal 和按曲率加权（应做）。
   - C6 综合分析（必做）。
   - C7 CIFAR-10 验证（选做）。
-- **需要先改的代码**
-  - 给 `train_mnist.py` 加 `--ot-batch` 和 `--t-dist`；
-  - 新建 `code/c2_solvers/sample_grid.py`；
-  - `cluster_coverage.py` 改为额外保存每簇计数。
+- **代码（11/09 已完成）**
+  - `train_mnist.py` 加了 `--ot-batch`（C3）、`--t-dist logitnormal|kappa`（C4）和限速；默认参数下的随机数顺序不变。
+  - 新建 `code/c2_solvers/sample_grid.py`（C2）。
+  - `cluster_coverage.py` 额外保存每簇计数、真实图计数和两样本 χ²（C1）。
+- **C2 正在跑**（11/09 开始，后台、限速，约 5–6 小时）。冒烟测试发现：终点误差预测不了 FID，高阶求解器用均匀网格时 FID 很差。假设是它们在 t = 1 处调用网络，详见 FINAL_REPORT_PLAN 的 C2“进展”。
 
 **Report（12/03–12/16，格式见 `report/README.md`）**
 - [ ] 向老师确认附录是否允许、是否计入 5 页

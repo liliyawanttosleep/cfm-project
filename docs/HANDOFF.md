@@ -1,6 +1,6 @@
 # 交接文档（2026-11-07）
 
-> 新对话先读本文件，再按需读：`TEAM_PLAN.md`（开头的“项目全流程”）、`docs/FINAL_REPORT_PLAN.md`（实验 C1–C7）、`report/README.md`（report 格式）、`docs/notes/derivations.md`（公式推导 D1–D8）。
+> 新对话先读本文件，再按需读：`TEAM_PLAN.md`（开头的“项目全流程”）、`docs/FINAL_REPORT_PLAN.md`（实验 C1–C7）、`report/README.md`（report 格式）、`docs/notes/derivations.md`（公式推导 D1–D9）。
 > 取代 10/29 第一次会话的交接文档（旧内容见 git 历史）。
 
 ## 0. 工作规则
@@ -110,13 +110,9 @@
 ## 5. 下一步待办
 
 **Git**
-- PR #3（https://github.com/liliyawanttosleep/cfm-project/pull/3）还没合并。分支 `update/talk-final-report-plan` 上有两个提交：报告定稿和结果、C1–C7 计划。
-- 下面这些改动还没提交：
-  - `TEAM_PLAN.md` 的“项目全流程”；
-  - `report/README.md`；
-  - 课程方法的更正；
-  - 本交接文档。
-- 用户同意后推到 PR #3，再合并。
+- PR #3（报告定稿、C1–C7 计划、项目全流程、report 格式、推导笔记 D1–D8）已于 11/08 合并进 main。
+- 推导笔记 D9 和本文件的更新走新分支 `update/derivations-d9` 的 PR。
+- `slides/FM_vs_Diffusion_Talk.pptx` 本地被 PowerPoint 重新保存过，没有提交；需要时由用户决定是否提交。
 
 **报告前（11/08–11/10）**
 - [ ] 用 PowerPoint 放映（F5），确认第 3、15 页的动图在动

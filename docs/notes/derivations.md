@@ -2,7 +2,19 @@
 
 > Written 2026-11-07. Source for **Section 3 (Methods)** and **Appendix A** of the report; see `report/README.md` for where each part goes.
 > Each derivation states what it is used for and which experiment in `docs/FINAL_REPORT_PLAN.md` tests it.
-> D1–D4 restate what the talk already showed (slides 9–16, 27, backup B1–B2). D5–D8 are new and support the final experiments.
+> D1–D4 and D9 restate what the talk already showed (slides 9–16, 20–22, 27, backup B1–B2). D5–D8 are new and support the final experiments. Numerical checks: `python code/c2_solvers/check_derivations.py` (CPU, about 1 minute).
+
+| | Result | Report section | Experiment |
+|---|---|---|---|
+| D1 | CFM and FM losses have the same gradient; the minimiser is the posterior mean | 3.1, App. A | — |
+| D2 | The posterior-mean field transports noise to data | 3.1, App. A | — |
+| D3 | One step to the end lands on the posterior mean; with independent pairs, on the data mean | 3.2 | C1, C5 |
+| D4 | No pairing saves more than $2\operatorname{tr}\Sigma^{1/2}$ | 3.3 | C3 |
+| D5 | Step density $\propto\sqrt\kappa$, its predicted gain, and when it fails | 3.3 | C2 |
+| D6 | The training-time distribution is a weight in the loss | 3.3 | C4 |
+| D7 | Straightness, one-step exactness, reflow theorems | 3.3 | C5, C6 |
+| D8 | FID error sources, paired comparison, TV noise floor | 3.4 | C1 |
+| D9 | Diffusion = CFM with Gaussian noise and independent pairs, up to a change of variables | 1, 3.1 | DDIM reference |
 
 ## D0. Notation
 
@@ -272,6 +284,105 @@ $$
   For $k = 10$, $p_k \approx 0.1$, $n = 10{,}000$ and $m = 30{,}000$, this is about 0.014. The real-test-set baseline is TV = 0.017, so the baseline is mostly sampling noise. Generated models at 2.6–11× the baseline are well above it.
 - Because $p_k$ is itself estimated, the correct test is a two-sample χ² test of homogeneity (generated vs real counts), not a goodness-of-fit test against fixed $p_k$. C1 switches to it.
 - **Bootstrap interval**: resample generated and reference assignments with replacement ($B = 1{,}000$), recompute TV, and take the 2.5% and 97.5% percentiles.
+
+---
+
+## D9. CFM and diffusion: the same regression up to a change of variables
+
+**Used for**: how the project relates to diffusion (Introduction, Methods 3.1; talk slides 20–22). It explains what is shared, so the DDIM curve is a fair reference, and what only CFM can change, which is where C3 and C5 work.
+
+**Gaussian paths.** Write a general path as
+
+$$
+x_t = a_t\,x_1 + b_t\,x_0,\qquad a_0 = 0,\ b_0 = 1,\ a_1 = 1,\ b_1 = 0 .
+$$
+
+- Straight path (I-CFM): $a_t = t$, $b_t = 1 - t$.
+- Variance-preserving path (DDPM): $a = \sqrt{\bar\alpha}$, $b = \sqrt{1 - \bar\alpha}$, so $a^2 + b^2 = 1$. DDPM's step index runs the other way: its step $T$ is our $t = 0$. With the linear schedule, $a = 0.0064$ there, so DDPM starts from almost, but not exactly, pure noise.
+
+**Three predictions from two posterior means.** Let $\hat x_1 = \mathbb E[x_1 \mid x_t = x]$ and $\hat x_0 = \mathbb E[x_0 \mid x_t = x]$. Taking the conditional expectation of the path identity and of its time derivative gives, **for any coupling**,
+
+$$
+x = a_t\,\hat x_1 + b_t\,\hat x_0,
+\qquad
+u_t(x) = \dot a_t\,\hat x_1 + \dot b_t\,\hat x_0 .
+$$
+
+- A noise-prediction network ($\epsilon$-prediction, DDPM) learns $\hat x_0$, because the noise is $x_0$.
+- A velocity network (CFM) learns $u_t$.
+- If in addition $x_0 \sim \mathcal N(0, I)$ is **independent** of $x_1$, then $x_t \mid x_1 \sim \mathcal N(a_t x_1, b_t^2 I)$, and Fisher's identity gives the score
+
+$$
+\nabla \log p_t(x) = \mathbb E\Big[-\frac{x - a_t x_1}{b_t^2}\,\Big|\,x_t = x\Big] = -\frac{\hat x_0}{b_t} .
+$$
+
+So with Gaussian noise and independent pairs, velocity, noise and score are linear functions of each other at each $(x, t)$. From a noise prediction $\hat\epsilon$:
+
+$$
+\hat x_1 = \frac{x - b_t\,\hat\epsilon}{a_t},
+\qquad
+u_t = \frac{\dot a_t}{a_t}\,x + \Big(\dot b_t - \frac{\dot a_t\,b_t}{a_t}\Big)\hat\epsilon .
+$$
+
+On the straight path this is $u_t = (x - \hat x_0)/t$ (talk slide 21).
+
+**The paths are the same up to rescaling.** Let $s_t = a_t + b_t$ and $\tau = a_t / s_t$. Then
+
+$$
+\frac{x_t}{s_t} = \tau\,x_1 + (1 - \tau)\,x_0,
+$$
+
+so a Gaussian path, seen in the coordinates $y = x/s$ and time $\tau$, *is* the straight path, and $\hat x_0, \hat x_1$ are the same functions in both coordinates. The ODEs match too. If $y(\tau)$ solves the straight-path ODE $dy/d\tau = \hat x_1 - \hat x_0$, then $x(t) = s_t\,y(\tau_t)$ satisfies
+
+$$
+\dot x = \dot s\,y + s\,\dot\tau\,(\hat x_1 - \hat x_0)
+= \big(\dot s\,\tau + s\,\dot\tau\big)\hat x_1 + \big(\dot s\,(1-\tau) - s\,\dot\tau\big)\hat x_0
+= \dot a\,\hat x_1 + \dot b\,\hat x_0 = u_t(x),
+$$
+
+using $y = \tau\,\hat x_1 + (1-\tau)\,\hat x_0$, $s\tau = a$ and $s(1 - \tau) = b$. **With independent pairs, DDPM's probability-flow ODE and I-CFM's ODE have the same trajectories after rescaling.**
+
+**DDIM is Euler on the straight path.** A deterministic DDIM step from $t$ to $t'$ estimates both ends and re-mixes them: $x' = a_{t'}\,\hat x_1 + b_{t'}\,\hat x_0$, with $\hat x_0 = \hat\epsilon$ and $\hat x_1$ from the formula above. Dividing by $s_{t'}$ and subtracting $y = x/s_t$,
+
+$$
+y' - y = (\tau' - \tau)\,(\hat x_1 - \hat x_0),
+$$
+
+which is exactly one Euler step of the straight-path ODE, on the time grid $\tau_k = a_k/(a_k + b_k)$ (talk slide 22). So, for the same trained field, **DDIM and CFM-Euler differ only in the time grid and in what the network outputs**:
+- *Time grid*: DDIM's equal steps in the DDPM index give an uneven $\tau$ grid. With 5 calls, one call jumps from $\tau = 0.51$ to $0.99$ (slide 22). This is one of the grids C2 can compare.
+- *Output*: an $\epsilon$-network's error $\delta$ becomes an error $(b_t/a_t)\,\delta$ in $\hat x_1$. At DDIM's first call $b/a = 157$, so in one or two steps the endpoint error is multiplied by 157 (talk slide 22). A velocity network outputs $u_t$ directly and has no such division.
+
+**The losses differ only by a weight in time.** On the straight path, $x_1 - x_0 = (x_t - x_0)/t$. If a velocity is formed from a noise prediction as $v = (x_t - \hat\epsilon)/t$, then
+
+$$
+\|v - (x_1 - x_0)\|^2 = \frac{\|\hat\epsilon - x_0\|^2}{t^2}.
+$$
+
+The CFM loss is therefore the $\epsilon$-loss with weight $1/t^2$. Both have the same minimiser, and as in D6, only the weighting over time differs. DDPM's $L_{\text{simple}}$ uses its own weight, induced by sampling its step index uniformly.
+
+**What diffusion cannot express.** The identities above need two assumptions.
+
+| Assumption | Holds for | Fails for |
+|---|---|---|
+| $x_0$ is Gaussian | DDPM, I-CFM, OT-CFM on MNIST | CFM from any other source, e.g. 8 Gaussians → moons (talk slide 15) |
+| $x_0$ independent of $x_1$ | DDPM, I-CFM | OT-CFM, reflow |
+
+- When either assumption fails, $x_t \mid x_1$ is no longer $\mathcal N(a_t x_1, b_t^2 I)$, so the score link breaks. The velocity–noise relation $x = a\hat x_1 + b\hat x_0$ still holds, because it is algebra.
+- More importantly, **changing the coupling changes the paths themselves**, not just their parametrisation. The rescaling argument maps every independent-pair model onto the same set of paths, but an OT or reflow coupling gives different, straighter paths.
+
+**Numerical check** (`python code/c2_solvers/check_derivations.py`, target $\tfrac12\mathcal N(\pm 2, 0.5^2)$, VP path $a = \sin(\pi t/2)$, $b = \cos(\pi t/2)$, posterior means computed directly on each path). All four agree to rounding error:
+
+| Check | Max difference |
+|---|---|
+| $\hat x_1$ on the VP path vs on the straight path after rescaling | $9 \times 10^{-16}$ |
+| VP probability-flow ODE solution $/\,s$ vs straight-path ODE solution at $\tau(t)$ | $4 \times 10^{-14}$ |
+| One DDIM step vs one Euler step in $(y, \tau)$ | $9 \times 10^{-16}$ |
+| $\|v - (x_1 - x_0)\|^2$ vs $\|\hat\epsilon - x_0\|^2 / t^2$ | $3 \times 10^{-12}$ |
+
+**Summary.** Diffusion is CFM with Gaussian noise, independent pairs and a particular path and output parametrisation. The project compares these choices inside one regression framework:
+- *the parametrisation and time grid*: DDIM vs I-CFM, which share their paths;
+- *the coupling*: I-CFM vs OT-CFM vs reflow, which only CFM can change;
+- *the solver and grid*: C2, which applies to both.
 
 ---
 

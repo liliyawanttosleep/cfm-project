@@ -134,7 +134,66 @@
   - `train_mnist.py` 加了 `--ot-batch`（C3）、`--t-dist logitnormal|kappa`（C4）和限速；默认参数下的随机数顺序不变。
   - 新建 `code/c2_solvers/sample_grid.py`（C2）。
   - `cluster_coverage.py` 额外保存每簇计数、真实图计数和两样本 χ²（C1）。
-- **C2 正在跑**（11/09 开始，后台、限速，约 5–6 小时）。冒烟测试发现：终点误差预测不了 FID，高阶求解器用均匀网格时 FID 很差。假设是它们在 t = 1 处调用网络，详见 FINAL_REPORT_PLAN 的 C2“进展”。
+- **C2 结果（11/10）**：OT-CFM 已全部跑完；I-CFM 主要格子已完成，其余的固定 shift 正在补跑。详见 FINAL_REPORT_PLAN 的 C2“结果”和 `results/c2_solvers/summary.md`。
+  - 按曲率分配的网格（√κ）在 8 次调用以上一致地降低 FID。OT-CFM 用 Euler 32 次调用时 FID 12.5，dopri5 要约 270 次调用才到 11.5。
+  - 高阶求解器离不开 √κ 网格：均匀网格上，Heun、RK4 比 Euler 差得多。
+  - 终点误差预测不了 FID：按终点误差校准选出的网格，FID 反而更差。所以实际采用的方法改为 √κ，而不是校准网格。
+- **11/10 晚的后台任务链**（依次运行，限速）：
+  1. `t1_check.py`（OT-CFM、I-CFM）：检验 t = 1 假设；
+  2. 补完 I-CFM 的 C2；
+  3. C1 第三个种子的训练（I-CFM、OT-CFM 的 `--seed 2`）。
+  - 日志在 `results/c2_solvers/logs/` 和 `results/c1_reliability/logs/`。
+  - 用户的 MuMu 模拟器在用显卡时温度 80°C，限速模块会让任务暂停，进度会慢。
+- **11/11 重新排队**：11/10 晚的任务链在 MuMu 占用显卡时暂停，之后两个会话的后台进程都已结束，没有新结果（I-CFM 的 C2 仍停在 11/10 16:38）。11/11 按同样顺序重新开始：`t1_check.py`（OT-CFM、I-CFM）→ 补完 I-CFM 的 C2 → C1 第三个种子的训练。
+- **11/11 结果**（任务链 08:24–13:05 跑完，中间没有中断）：
+  - t = 1 假设成立：网络在 t = 1 处的相对误差在真实图上约 43%，在生成图上约 85%。Heun / RK4 的最后一步不在 t = 1 调用网络后，均匀网格 32 次调用的 FID 从 50.4 / 40.7 降到约 16（OT-CFM）。NFE@20：OT-CFM 9.2 → 6.6，I-CFM 23.7 → 9.9。详见 FINAL_REPORT_PLAN 的 C2。
+  - I-CFM 的 C2 已补完，`summarize_c2.py` 已重跑，表和图包含 heun_e / rk4_e。
+  - 种子 2 的 I-CFM、OT-CFM 已训练完（各 50 个 epoch，约 70 分钟）。
+  - 11/11 13:07 起的 C1 任务链（依次运行，限速）：
+    1. `fid_seed.py --seed 2 --dopri`：Euler 1–100 步、dopri5、路径长度比；再给种子 1 补 dopri5 和路径长度比。结果在 `results/e3/fid_s{1,2}.json`。
+    2. `code/c1_reliability/fid_noise.py`：种子 0 在 NFE 2 / 10 / 100 换 5 份采样噪声；NFE 100 时 2k–20k 张的 FID 和 1/n 外推。
+    3. `cluster_coverage.py --seeds 0 1 2 --methods icfm otcfm`，写到 `results/c1_reliability/kmeans_c1.json`，带每簇计数。
+    - 日志都在 `results/c1_reliability/logs/`。跑完后运行 `summarize_c1.py`，生成 `results/c1_reliability/summary.md` 和改进门槛。
+  - 第 1 步 14:58 跑完：I-CFM 种子 2 明显更差（100 步 FID 23.7，种子 0、1 是 14.5 / 12.9），所以 I-CFM 的门槛很大（11.6）；OT-CFM 在 1–5 步时三个种子都优于 I-CFM；直线度在种子之间很稳定。详见 FINAL_REPORT_PLAN 的 C1“结果”。
+  - 第 2–4 步 19:20 跑完：采样噪声的 FID 标准差只有 0.05–0.6，比训练种子小 10–100 倍；10k 张的 FID 比外推值高约 0.9；两样本 χ² 下真实测试集不再被拒绝；TV 门槛约 0.05。C1 全部完成，详见 FINAL_REPORT_PLAN 的 C1“结果”。
+  - 之后排队的是 C2 复核：种子 1、2 的 `sample_grid.py --core` 和 `t1_check.py`（OT-CFM、I-CFM），日志在 `results/c2_solvers/logs/{method}_s{1,2}.log` 和 `t1_{method}_s{1,2}.log`。
+  - C3 第 1 步（CPU）19:22 跑完：OT batch 从 16 到 4,096，省下的代价只从 2.9% 升到 6.1%，每翻一倍多省约 0.4%。详见 FINAL_REPORT_PLAN 的 C3“结果”。
+  - C2 复核之后排队的是 C3 第 2、3 步：OT-CFM `--ot-batch 512`、`2048` 的训练和评估，日志在 `results/c3_otbatch/logs/`。
+
+- **11/14 重新开始**：11/11 20:02 电脑意外关机（Kernel-Power 41），当时的任务链只完成了 OT-CFM 种子 1 的 C2 复核。11/14 用 `code/run_queue.sh` 重新排队，依次是：
+  1. C5 reflow（I-CFM 种子 0）：`code/c5_reflow/make_pairs.py` 生成 60,000 对配对 → `train_mnist.py --reflow`（从 I-CFM 权重微调 50 epoch）→ `fid_seed.py --tag _reflow --dopri`；
+  2. C2 种子 1、2 复核（`--core` 和 `t1_check.py`）；
+  3. C3：OT batch 512、2,048 的训练和评估；
+  4. C4：logit-normal、按 κ 加权的 t 分布（I-CFM 种子 0）的训练和评估；
+  5. C5 第 4 步：从 OT-CFM 出发的 reflow。
+  - 每一步都能中断后续跑：脚本内部会跳过已完成的部分，训练完成的模型会被整步跳过。电脑再关机时，重新运行 `bash code/run_queue.sh` 即可。
+  - 冒烟测试中 100 对 reflow 配对的平均代价是 1,316，随机配对约 1,510，minibatch OT 在 batch 4,096 时是 1,418。
+- **Report 初稿（11/14）**：`report/` 已整理成完整的写作文件夹（结构见 `report/README.md` 开头）。正文分节放在 `report/sections/`；附录 A 是完整推导（D1–D9），附录 B 是课程方法（k-means + 两样本 χ²），附录 C 是补充结果，附录 D 是设定和算力。图由 `make_figs.py` 生成，共 6 张，包括样本展示图和 2D 路径图；表由 `make_tables.py` 直接从 `results/` 生成。每张图表的数据来源、文献数字的出处和课程要求的对照都写在 `report/materials/README.md`。编译用 `bash report/build.sh`。还在跑的结果用红色 `\pending{}` 标出，目前剩 11 处；正文约 9 页，结果齐了以后压缩到约 5 页。Individual Contributions 要两人按实际分工填写。
+
+- **11/15 凌晨的进度和 report 更新**
+  - 已跑完：C5 reflow（I-CFM）；C2 种子 1、2 的复核（只差 I-CFM 种子 2 的 `t1_check`，02:23 开始运行）；reflow 模型的类别覆盖（CPU，只差最后一份噪声）。
+  - 排队中：C3 OT batch 512 / 2,048 → C4 t 分布 → OT-CFM 的 reflow → reflow 模型上的 C2（`code/run_queue.sh`）。
+  - Report：
+    - 新增附录表 `tab_seeds`（由 `make_tables.py` 生成）：三个种子上，C2 的每个结论方向都一致。正文 4.3 节和附录 C 已改写。
+    - reflow 的类别覆盖已写进 4.4 节：TV 在 1–100 步都是 0.066–0.078，多步时和原模型的差别在门槛之内。
+    - 红色 `\pending{}` 从 11 处减到 7 处，剩下的是：C3、C4、4.5 节综合、结论、Individual Contributions（要两人填写）、I-CFM 种子 2 的最后一步变体、算力总计。
+    - 现在是 21 页（正文约 9 页），结果齐了以后压缩到约 5 页。
+
+- **11/15 13:35 电脑第二次意外断电**（Kernel-Power 41，13:57 重启；第一次是 11/11），两次都发生在 GPU 任务运行期间。
+  - 断电前跑完的：OT batch 512 的训练和 FID（05:10）；I-CFM 种子 2 的 `t1_check`。
+  - 断电时 OT batch 2,048 训练到第 21 个 epoch，存档是第 20 个 epoch。
+  - 13:59 重新运行 `bash code/run_queue.sh`，日志在 `results/run_queue_1115.log`。已完成的步骤会自动跳过，OT batch 2,048 从第 20 个 epoch 接着训练。
+  - OT batch 512 的结果：1 步 FID 195.5（原模型 223.1），5 步以上每个 NFE 都略差（+2.6 到 +5.2），只有 dopri5 超过门槛，路径长度比 1.0098。结论是在种子波动之内，没有改进。
+  - `report/` 由“CFM project: finish Pre slides”会话负责修改，这些数字已发给它写入。
+
+- **11/16 05:23 GPU 队列全部跑完**（各步都正常退出）。门槛 = 三个训练种子 FID 标准差的 2 倍。
+  - **C3 OT batch 2,048**：没有改进。1 步 FID 208.1，落在原模型三个种子的范围 205–223 之内；2 步以上比种子 0 差 3–11，只有 dopri5 超过门槛。路径最直（R = 1.0085），loss 最低（0.100 对 0.118），但都没有反映到 FID 上。训练中途因断电续跑，总共 2.37 h（其中 OT 求解占 20%）；`*_train.json` 里的 `seconds` 只记了续跑后的 30 个 epoch。
+  - **C4 logit-normal t**：每个预算下都更好。2 步 FID 从 131.9 降到 102.5（超过门槛）；20 步从 20.7 降到 14.1；从 2 步到 100 步，每个 NFE 都好于原模型的全部三个种子；NFE@20 从 23.7 降到 9.1。但只有一个训练种子，按严格规则只算 2 步的改进。dopri5 只要 111 NFE，FID 14.2，反而比它自己 50 步的 12.0 差。
+  - **C4 按 κ 加权的 t**：没有超过门槛的差别；R = 1.024，dopri5 要 345 NFE。结论：采样时应把步数放在 t≈1 附近，训练时却不应把样本集中到那里。
+  - **C5 从 OT-CFM 出发的 reflow**：1 步和 2 步 FID 是 61.2 / 28.9（原模型 223 / 76），20 步以上变差且超过门槛（dopri5 21.1 对 11.5），和 I-CFM 的 reflow 几乎一样。生成配对 1.84 h，重新训练 1.56 h，共约 2.8 倍原模型的训练时间。这个模型没有算类别覆盖。
+  - **C6 reflow 模型上的 C2**：√κ 网格从 4–8 步起改善 0.7–2.4。均匀网格上的 Heun 和 RK4 在几乎是直线的 reflow 模型上仍然失败（32 NFE：46.2 / 34.6，Euler 是 21.7 / 21.9）。综合下限：1–4 NFE 时 reflow 最好，约 5–8 NFE 以上原模型加 Heun* 最好。
+  - **R 和 1 步 FID**：12 个模型的 Spearman ρ = 0.92，主要来自组间差别。
+  - 全部数字和建议写法在共享笔记 `queue_results_1116.md`，已发给负责 report 的会话。今后不再排 GPU 任务。
 
 **Report（12/03–12/16，格式见 `report/README.md`）**
 - [ ] 向老师确认附录是否允许、是否计入 5 页

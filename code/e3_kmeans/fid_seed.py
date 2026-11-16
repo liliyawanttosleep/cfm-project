@@ -43,16 +43,18 @@ def main():
     p.add_argument("--max-temp", type=int, default=72)
     p.add_argument("--resume-temp", type=int, default=65)
     p.add_argument("--min-free-gb", type=float, default=3.0)
+    p.add_argument("--tag", default="", help="C3/C4 变体模型的文件名后缀，例如 _otb2048（读 {method}_s{seed}{tag}.pt，写 fid_s{seed}{tag}.json）")
+    p.add_argument("--dopri", action="store_true", help="C1：流模型再加 dopri5 的 FID、平均调用次数和路径长度比")
     args = p.parse_args()
     th = Throttle(args.duty, args.max_temp, args.resume_temp, args.min_free_gb, threads=int(os.environ["OMP_NUM_THREADS"]))
-    out = ROOT / f"results/e3/fid_s{args.seed}.json"
+    out = ROOT / f"results/e3/fid_s{args.seed}{args.tag}.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     res = json.loads(out.read_text()) if out.exists() else {"seed": args.seed, "n": args.n, "fid": {}}
 
     real = ev.real_images("mnist")
     meter = ev.FID("mnist", real)
     for m in args.methods:
-        net = ev.load_mnist(m, args.seed)
+        net = ev.load_mnist(m, f"{args.seed}{args.tag}")  # 文件名是 {method}_s{seed}{tag}.pt
         step = ev.ddim if m == "ddpm" else ev.euler
         rec = res["fid"].setdefault(m, {})
         for k in ev.NFES:
@@ -71,6 +73,33 @@ def main():
             tmp.write_text(json.dumps(res, indent=2))
             os.replace(tmp, out)
             print(m, k, round(rec[str(k)], 2), f"{time.time() - t0:.0f}s", flush=True)
+        if args.dopri and m != "ddpm":
+            # C1 第 1、5 步：dopri5 参照和直线度，做法和 eval_images.py 的任务 5、7 相同
+            if "dopri5" not in rec:
+                nfes = []
+                t0 = time.time()
+                torch.manual_seed(100)
+                th.reset()
+
+                def gen_d(i, b):
+                    y, c = ev.dopri(net, torch.randn(b, *real.shape[1:], device=ev.device), 1e-5)
+                    nfes.append(c)
+                    th.step()
+                    return y
+
+                rec["dopri5"] = meter.score(gen_d, args.n)
+                res.setdefault("dopri5_mean_nfe", {})[m] = sum(nfes) / len(nfes)
+                tmp = out.with_suffix(".tmp")
+                tmp.write_text(json.dumps(res, indent=2))
+                os.replace(tmp, out)
+                print(m, "dopri5", round(rec["dopri5"], 2), "mean NFE", round(res["dopri5_mean_nfe"][m], 1), f"{time.time() - t0:.0f}s", flush=True)
+            if m not in res.get("path_ratio", {}):
+                torch.manual_seed(201)
+                res.setdefault("path_ratio", {})[m] = ev.path_ratio(net, real.shape[1:])
+                tmp = out.with_suffix(".tmp")
+                tmp.write_text(json.dumps(res, indent=2))
+                os.replace(tmp, out)
+                print(m, "path ratio", res["path_ratio"][m], flush=True)
         del net
         torch.cuda.empty_cache()
     print("saved", out, flush=True)

@@ -32,3 +32,13 @@ results/**/stats/
 
 # Office 打开文件时的锁文件
 ~$*
+
+# C5 reflow 配对（每个模型约 376 MB）
+results/**/pairs/
+
+# LaTeX 中间文件
+report/*.aux
+report/*.bbl
+report/*.blg
+report/*.out
+report/build.log

@@ -1,0 +1,9 @@
+\begin{abstract}
+Conditional flow matching (CFM) turns generative modelling into a least-squares regression, but each sample costs one network evaluation per ODE step (NFE).
+With one network and one training budget fixed, we ask on MNIST which changes reduce the NFE most per unit of training cost.
+Training seeds move FID by up to 7.8 points (sd) against under 0.6 for sampling noise, and a $k$-means class-coverage test with a two-sample $\chi^2$ test shows that FID and class balance can disagree.
+A time grid derived from the local Euler error (step density $\propto\sqrt{\kappa}$) and second-order solvers whose last step avoids the network at $t=1$ cut the NFE needed for FID 20 by 28--58\% at no training cost.
+Minibatch optimal transport saves at most 6\% of the pairing cost (a covariance bound we derive allows 26\%), and larger OT batches do not improve FID; logit-normal training times match the best sampler's gain (one training seed).
+Reflow makes the paths almost straight and lowers one-step FID from 332 to 65 (I-CFM) and from 223 to 61 (OT-CFM) for 2.7--2.8 times the training time, but raises the many-step FID to about 21.
+Reflow is the best choice for one to four steps, improved samplers or training times from about seven steps on.
+\end{abstract}

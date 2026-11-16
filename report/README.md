@@ -1,5 +1,20 @@
 # Final report：格式、提纲和提交检查
 
+> **文件夹结构（11/14 起）**
+> ```
+> report/
+> ├── main.tex                导言区 + \input 各节
+> ├── sections/               00_abstract … 06_contributions（正文），A_derivations / B_course_method / C_additional_results / D_setup_and_compute（附录）
+> ├── figs/                   make_figs.py 生成的矢量 PDF 图
+> ├── tables/                 make_tables.py 从 results/ 生成的 LaTeX 表
+> ├── materials/              README.md（每张图表的数据来源、推导对应、文献数字出处、课程要求对照）和 numbers.json
+> ├── refs.bib                参考文献
+> ├── make_figs.py / make_tables.py
+> ├── build.sh                一键：重画图表 → pdflatex + bibtex + pdflatex ×2 → FM_vs_Diffusion_Final_Report.pdf
+> └── README.md               本文件
+> ```
+> 编译：`bash report/build.sh`。红色 `\pending{}` 是还在跑的实验，提交前必须全部替换；脚本最后会打印剩余数量。
+
 > 写于 2026-11-07。这是 12/16 要交的 final report 的规格说明。实验内容见 `docs/FINAL_REPORT_PLAN.md`，全流程见 `TEAM_PLAN.md` 开头的“项目全流程”。
 > 规划用中文；**report 全文用英文**。
 

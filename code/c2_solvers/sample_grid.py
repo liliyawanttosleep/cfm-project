@@ -134,6 +134,8 @@ def main():
     p.add_argument("--tol", type=float, default=1e-5)
     p.add_argument("--n-ref", type=int, default=256, help="每组参照路径数")
     p.add_argument("--no-fid", action="store_true", help="只算终点误差和校准")
+    p.add_argument("--core", action="store_true", help="FID 只算均匀网格和按曲率分配的网格（用于其他训练种子的复核）")
+    p.add_argument("--tag", default="", help="C5/C6：变体模型的文件名后缀，例如 _reflow（读 {method}_s{seed}{tag}.pt，写 {method}_s{seed}{tag}.json）")
     p.add_argument("--quick", action="store_true", help="冒烟测试：2,000 张，NFE 4 和 16，写到 *_quick.json")
     p.add_argument("--duty", type=float, default=0.5, help="显卡忙碌时间的比例，1 = 不限速")
     p.add_argument("--max-temp", type=int, default=72)
@@ -144,7 +146,7 @@ def main():
     n_fid = 2000 if args.quick else args.n
 
     th = Throttle(args.duty, args.max_temp, args.resume_temp, args.min_free_gb, threads=int(os.environ["OMP_NUM_THREADS"]))
-    out = ROOT / "results" / "c2_solvers" / f"{args.method}_s{args.seed}{'_quick' if args.quick else ''}.json"
+    out = ROOT / "results" / "c2_solvers" / f"{args.method}_s{args.seed}{args.tag}{'_quick' if args.quick else ''}.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     res = json.loads(out.read_text()) if out.exists() else {}
     if res and (res.get("n_fid"), res.get("tol"), res.get("n_ref")) != (n_fid, args.tol, args.n_ref):
@@ -156,7 +158,7 @@ def main():
         tmp.write_text(json.dumps(res, indent=2))
         os.replace(tmp, out)
 
-    net = ev.load_mnist(args.method, args.seed)
+    net = ev.load_mnist(args.method, f"{args.seed}{args.tag}")  # 文件名是 {method}_s{seed}{tag}.pt
     shape = (1, 28, 28)
 
     # 任务 1、2：参照解和曲率（每次重算，约 1 分钟；A、B 两组噪声固定）
@@ -220,7 +222,8 @@ def main():
                 else:
                     names = [shift_key(s) for s in FIXED_SHIFTS]
                 for name in names:
-                    jobs.append((solver, nfe, name))
+                    if not args.core or name in ("uniform", "sqrt_kappa"):
+                        jobs.append((solver, nfe, name))
     real = ev.real_images("mnist")
     meter = ev.FID("mnist", real)
     fids = res.setdefault("fid", {})

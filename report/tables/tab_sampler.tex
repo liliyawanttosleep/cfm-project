@@ -1,0 +1,34 @@
+\begin{table}[t]
+\centering
+\caption{Inference-side samplers on the seed-0 base models: FID (10,000 samples, lower is better) at about 8, 16 and 32 network calls (exact count in parentheses when it differs), and NFE@20. The last-step variants never evaluate the network at $t=1$. Paired comparisons on one model: the sampling-noise sd is 0.05--0.6 (Table~\ref{tab:c1}).}
+\label{tab:sampler}
+\small
+\setlength{\tabcolsep}{4pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llcccc}
+\toprule
+Model & Sampler & NFE $\approx$ 8 & 16 & 32 & NFE@20 \\
+\midrule
+I-CFM & Euler, uniform & 32.0 & 22.4 & 18.4 & 23.7 \\
+ & Euler, $\sqrt\kappa$ & 31.3 & 19.8 & 15.2 & 15.8 \\
+ & Heun, uniform & 126 & 78.4 & 48.0 & $>32$ \\
+ & Heun, $\sqrt\kappa$ & 61.9 & 22.1 & 13.7 & 19.0 \\
+ & RK4, uniform & 125 & 65.9 & 37.1 & $>32$ \\
+ & RK4, $\sqrt\kappa$ & 114 & 31.3 & 13.2 & 24.6 \\
+ & Heun, last step Euler, uniform & 23.9$^{(7)}$ & 17.8$^{(15)}$ & 16.5$^{(31)}$ & 11.4 \\
+ & Heun, last step Euler, $\sqrt\kappa$ & 23.8$^{(7)}$ & 16.0$^{(15)}$ & 12.9$^{(31)}$ & 10.2 \\
+ & RK4, last step Heun, uniform & -- & 17.5$^{(14)}$ & 16.3$^{(30)}$ & 9.91 \\
+\midrule
+OT-CFM & Euler, uniform & 20.5 & 17.4 & 16.2 & 9.15 \\
+ & Euler, $\sqrt\kappa$ & 19.7 & 14.3 & 12.5 & 7.88 \\
+ & Heun, uniform & 134 & 83.3 & 50.4 & $>32$ \\
+ & Heun, $\sqrt\kappa$ & 61.1 & 22.8 & 13.3 & 19.6 \\
+ & RK4, uniform & 114 & 66.1 & 40.7 & $>32$ \\
+ & RK4, $\sqrt\kappa$ & 97.0 & 31.8 & 12.8 & 24.6 \\
+ & Heun, last step Euler, uniform & 18.4$^{(7)}$ & 15.5$^{(15)}$ & 15.9$^{(31)}$ & 6.60 \\
+ & Heun, last step Euler, $\sqrt\kappa$ & 19.0$^{(7)}$ & 15.6$^{(15)}$ & 12.4$^{(31)}$ & 6.67 \\
+ & RK4, last step Heun, uniform & -- & 16.4$^{(14)}$ & 16.5$^{(30)}$ & 7.73 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+% sources: results/e4/mnist_eval.json, results/c2_solvers/{icfm,otcfm}_s0.json, results/c2_solvers/t1_{icfm,otcfm}_s0.json

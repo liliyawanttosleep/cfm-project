@@ -1,0 +1,24 @@
+\section{The course method: clustering-based class coverage}\label{app:course}
+\paragraph{Why a clustering method.} FID summarises quality in one number computed from ImageNet features. It cannot say whether a model drops or over-produces particular kinds of digits. The course method we use answers that question without labels or ImageNet features: unsupervised $k$-means clustering of the real images defines ``kinds of digits'', and a contingency-table test compares how often generated and real images fall into each cluster.
+
+\paragraph{Procedure.}
+(1) Split the 60,000 training images at random into a fitting half and a reference half (30,000 each).
+(2) Fit $k$-means ($k=10$, 10 initialisations) on the fitting half only, so the clusters do not depend on any generative model; repeat with another initialisation and with $k=20$ as robustness checks.
+(3) Assign the reference half and 10,000 generated images to the nearest centre and count them per cluster.
+(4) Compare the two count vectors with TV \eqref{eq:tv}, the two-sample $\chi^2$ test of homogeneity and Cohen's $w=\sqrt{\chi^2/n}$, with bootstrap intervals and the noise floor of Appendix~\ref{app:d8}.
+(5) As a baseline for a perfect generator, run the same pipeline on the 10,000 MNIST test images.
+(6) For interpretation only, an RBF-SVM trained on 10,000 real images (test accuracy 0.970) labels the generated images with digits. % results/c1_reliability/kmeans_c1.json labeller_test_accuracy
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figs/fig_kmeans.pdf}
+\caption{Generated-to-real share of each $k$-means cluster (1 = matches real data), seed-0 models. One-step I-CFM puts almost all samples in one cluster (all its one-step samples are the mean image, Appendix~\ref{app:d3}); one-step OT-CFM already spreads over all clusters; after 100 steps both are close to 1, with OT-CFM closer in this seed (TV 0.049 versus 0.092; not consistent across seeds, Section~\ref{sec:c1}).}
+\label{fig:kmeans}
+\end{figure}
+
+\paragraph{Results beyond Section~\ref{sec:c1}.} Figure~\ref{fig:kmeans} shows where the imbalance comes from. The SVM labels confirm it: one-step I-CFM samples are all labelled as a single digit (share 1.0), while one-step OT-CFM samples cover all ten digits with shares 0.015--0.37; at 100 steps the largest over-representation is 1.39$\times$ (I-CFM) and 1.23$\times$ (OT-CFM) of the real share. With $k=20$ even the real test set is rejected (TV 0.046, $p\approx10^{-11}$), probably because finer clusters pick up small differences in writing style between the MNIST training and test sets; we therefore use $k=10$ for the main results and $k=20$ only as a check. Changing the $k$-means initialisation changes TV by less than 0.006 for every run except one-step I-CFM (up to 0.033, where all samples sit near one centre), and by at most 0.0014 at 100 steps.
+
+\paragraph{Alternatives considered.} The course allows one of several evaluation methods; in preliminary runs we tried three others and did not adopt them. % preliminary runs before 11/07, see docs/HANDOFF.md section 4; scripts were not kept, so no numbers are reported here
+\emph{Train-on-synthetic, test-on-real} classification (logistic regression) gave the same accuracy for every model as for real training data, so it could not separate the models.
+A \emph{real-versus-fake classifier} (random forest) separated all models from real data mainly through background pixels that are not exactly black, which says little about sample quality.
+\emph{PCA followed by a Fr\'echet distance} works but yields another single score like FID and cannot show which kinds of digits are missing. The clustering test is the only one of the four that adds information FID does not contain.

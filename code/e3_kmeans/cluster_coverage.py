@@ -101,6 +101,7 @@ def compare(km, X, ref_counts):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--seeds", type=int, nargs="+", default=[0, 1], help="训练种子")
+    p.add_argument("--tag", default="", help="C3–C5 变体模型的文件名后缀，例如 _reflow（读 {method}_s{seed}{tag}.pt）")
     p.add_argument("--n", type=int, default=10000)
     p.add_argument("--device", default="cuda")
     p.add_argument("--out", type=Path, default=OUT / "kmeans.json")
@@ -156,10 +157,10 @@ def main():
         step = ddim if m == "ddpm" else euler
         for seed in args.seeds:
             net = UNetModel(dim=(1, 28, 28), num_channels=32, num_res_blocks=1).to(device)
-            net.load_state_dict(torch.load(ROOT / f"results/e2/ckpt/{m}_s{seed}.pt", map_location=device, weights_only=True))
+            net.load_state_dict(torch.load(ROOT / f"results/e2/ckpt/{m}_s{seed}{args.tag}.pt", map_location=device, weights_only=True))
             net.eval()
             for k, noise in [(k, 7) for k in NFES] + [(100, s) for s in REDRAWS]:
-                key = f"{m}_s{seed}_nfe{k}_noise{noise}"
+                key = f"{m}_s{seed}{args.tag}_nfe{k}_noise{noise}"
                 if key in res["runs"]:
                     continue
                 t0 = time.time()

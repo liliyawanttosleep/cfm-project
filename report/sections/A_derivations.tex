@@ -1,0 +1,131 @@
+\section{Derivations}\label{app:derivations}
+This appendix proves the statements used in Section~3. Notation: $Y=x_1-x_0$, $u_t(x)=\E[Y\mid x_t=x]$, $\hat x_1(x,t)=\E[x_1\mid x_t=x]$, $\hat x_0(x,t)=\E[x_0\mid x_t=x]$, $\|\cdot\|$ the Euclidean norm, $\langle\cdot,\cdot\rangle$ the inner product. Conditional expectations are taken in the $L^2$ sense. Numerical checks of Propositions~\ref{prop:bound}, \ref{prop:grid}, \ref{prop:tvfloor} and \ref{prop:d9}: \texttt{code/c2\_solvers/check\_derivations.py}.
+
+\paragraph{Standing assumptions.}
+\textbf{(A1)} $p_0=\mathcal N(0,I_d)$ and $\E\|x_1\|^2<\infty$; $q$ is a coupling of $p_0$ and $p_1$, so $\E\|Y\|^2<\infty$.
+\textbf{(A2)} The network satisfies $\E\|v_\theta(x_t,t)\|^2<\infty$ for almost every $t$.
+\textbf{(A3)} (Only for Proposition~\ref{prop:transport}.) $u_t(x)$ is locally Lipschitz in $x$ and of linear growth, uniformly in $t$ on compact subsets of $[0,1)$, so that $\dot x=u_t(x)$ has a unique solution from every starting point.
+
+\subsection{The CFM loss and its minimiser}\label{app:d1}
+\begin{proposition}[First part of Proposition~\ref{prop:cfm}]\label{prop:loss}
+Under (A1)--(A2), for every $t$,
+$\E\|v_\theta(x_t,t)-Y\|^2=\E\|v_\theta(x_t,t)-u_t(x_t)\|^2+C_t$ with $C_t=\E\operatorname{tr}\operatorname{Cov}(Y\mid x_t)\ge0$ independent of $\theta$. Consequently $\mathcal L_{\mathrm{CFM}}(\theta)=\mathcal L_{\mathrm{FM}}(\theta)+\int_0^1C_t\,dt$, the two losses have the same gradient in $\theta$, and the minimiser over all square-integrable functions of $(x_t,t)$ is $u_t$.
+\end{proposition}
+\begin{proof}
+Write $V=v_\theta(x_t,t)$, a function of $x_t$. Adding and subtracting $u_t(x_t)$,
+\[
+\E\|V-Y\|^2=\E\|V-u_t(x_t)\|^2+2\,\E\langle V-u_t(x_t),\,u_t(x_t)-Y\rangle+\E\|u_t(x_t)-Y\|^2 .
+\]
+The middle term vanishes: conditioning on $x_t$, $V-u_t(x_t)$ is fixed and $\E[u_t(x_t)-Y\mid x_t]=0$ (tower property). The last term is $\E\,\E[\|Y-\E[Y\mid x_t]\|^2\mid x_t]=\E\operatorname{tr}\operatorname{Cov}(Y\mid x_t)=C_t$. Integrating over $t\sim U[0,1]$ gives the loss identity; since $C_t$ does not depend on $\theta$, the gradients agree, and $\E\|V-u_t(x_t)\|^2\ge0$ with equality iff $V=u_t(x_t)$ a.s.\ \citep[cf.][Theorem~2]{lipman2023fm}.
+\end{proof}
+\begin{remark}
+$C_t$ depends on the coupling. OT pairs make $Y$ more predictable from $x_t$, so $C$ is smaller and the training loss of OT-CFM (0.118) is lower than that of I-CFM (0.168) without any implication for sample quality. For a deterministic coupling such as reflow, $Y$ is a function of $x_0$ and $C$ is close to zero whenever $x_t$ determines $x_0$; our reflow model reaches a loss of 0.004.
+\end{remark}
+
+\subsection{The marginal velocity transports $p_0$ to $p_1$}\label{app:d2}
+\begin{proposition}[Second part of Proposition~\ref{prop:cfm}]\label{prop:transport}
+Under (A1) and (A3), the solution of $\dot x=u_t(x)$ with $x(0)\sim p_0$ has law $p_t$ (the law of $x_t$) for every $t\in[0,1)$, and law $p_1$ in the limit $t\to1$.
+\end{proposition}
+\begin{proof}
+For a test function $\varphi\in C_c^\infty(\mathbb R^d)$, differentiating under the expectation (dominated convergence, using (A1)) and using the tower property,
+\[
+\tfrac{d}{dt}\E\varphi(x_t)=\E\langle\nabla\varphi(x_t),Y\rangle=\E\langle\nabla\varphi(x_t),u_t(x_t)\rangle .
+\]
+Hence $(p_t)$ is a weak solution of the continuity equation $\partial_tp_t+\nabla\cdot(p_tu_t)=0$ with $p_0=\mathcal N(0,I)$. Under (A3) the flow map $\Phi_t$ of $\dot x=u_t(x)$ exists and is unique, and the push-forward $(\Phi_t)_\#p_0$ is the unique weak solution of the same equation with the same initial condition \citep[Ch.~1 and~5]{villani2009ot}; therefore $(\Phi_t)_\#p_0=p_t$. Since $x_t\to x_1$ in $L^2$ as $t\to1$, $p_t\to p_1$ weakly. See also \citet[Theorem~1]{lipman2023fm} and \citet[Theorem~3.3]{liu2023rf}.
+\end{proof}
+
+\subsection{One Euler step lands on the posterior mean}\label{app:d3}
+\begin{proposition}\label{prop:onestep}
+Under (A1), for $t\in[0,1)$: $u_t(x)=\big(\hat x_1(x,t)-x\big)/(1-t)$, and the Euler step of size $1-t$ from $(x,t)$ ends exactly at $\hat x_1(x,t)$. At $t=0$ the one-step sample is $\E[x_1\mid x_0]$; for the independent coupling it equals $\E[x_1]$ for every $x_0$.
+\end{proposition}
+\begin{proof}
+From $x_t=(1-t)x_0+tx_1$, $x_0=(x_t-tx_1)/(1-t)$, so $Y=x_1-x_0=(x_1-x_t)/(1-t)$. Conditioning on $x_t=x$ gives the first identity, and $x+(1-t)u_t(x)=\hat x_1(x,t)$. At $t=0$, $x_t=x_0$; independence gives $\E[x_1\mid x_0]=\E[x_1]$.
+\end{proof}
+\emph{Example.} Let $d=1$ and $p_1=\tfrac12\delta_{-2}+\tfrac12\delta_{2}$. Under independence every one-step sample is $0$, a point with no data mass. Under the monotone (OT) coupling, $x_0<0$ is paired with $-2$ and $x_0>0$ with $2$, so $\E[x_1\mid x_0]=2\,\mathrm{sign}(x_0)$ and one step is exact. On MNIST, the I-CFM one-step samples are 0.045 (RMS per pixel) from the mean image and only 0.038 apart from each other; the OT-CFM ones are 0.22 from the mean and 0.22 apart. % results/e4/mnist_eval.json one_step
+
+\subsection{An upper bound on what any pairing can save}\label{app:d4}
+\begin{lemma}[\citealp{gelbrich1990}]\label{lem:gelbrich}
+For random vectors $X,Z$ with means $m_X,m_Z$ and covariances $S_X,S_Z$, and any joint distribution,
+$\E\|X-Z\|^2\ge\|m_X-m_Z\|^2+\operatorname{tr}\big(S_X+S_Z-2(S_X^{1/2}S_ZS_X^{1/2})^{1/2}\big)$, with equality when $X,Z$ are Gaussian and coupled by the optimal transport map.
+\end{lemma}
+\begin{proposition}\label{prop:bound}
+Under (A1), let $\mu=\E x_1$ and $\Sigma=\operatorname{Cov}(x_1)$. The independent coupling has cost $d+\|\mu\|^2+\operatorname{tr}\Sigma$, and every coupling saves at most $2\operatorname{tr}\Sigma^{1/2}$ relative to it, with equality if $p_1$ is Gaussian.
+\end{proposition}
+\begin{proof}
+Expanding, $\E\|x_0-x_1\|^2=\E\|x_0\|^2+\E\|x_1\|^2-2\E\langle x_0,x_1\rangle=d+\|\mu\|^2+\operatorname{tr}\Sigma-2\E\langle x_0,x_1\rangle$. Under independence $\E\langle x_0,x_1\rangle=\langle\E x_0,\E x_1\rangle=0$, which gives the independent cost; the saving of a coupling is therefore $2\E\langle x_0,x_1\rangle$. Lemma~\ref{lem:gelbrich} with $m_X=0$, $S_X=I$, $m_Z=\mu$, $S_Z=\Sigma$ gives $\E\|x_0-x_1\|^2\ge\|\mu\|^2+d+\operatorname{tr}\Sigma-2\operatorname{tr}\Sigma^{1/2}$; subtracting from the independent cost yields the bound.
+\end{proof}
+\emph{Numbers.} On MNIST (pixels in $[-1,1]$), $\operatorname{tr}\Sigma=211$ and $2\operatorname{tr}\Sigma^{1/2}=386$, against an independent cost of about 1,510: no pairing can save more than 26\%, because most of $\E\|x_0\|^2=d=784$ is isotropic noise. In our 2D datasets the bound is about as large as the whole independent cost (99--103\%), and minibatch OT at batch 128 saves 87--93\% of it (Figure~\ref{fig:2d}). % results/c3_otbatch/pairs.json, results/e4/ot_numbers.json
+
+\subsection{The $\sqrt\kappa$ time grid}\label{app:d5}
+\emph{Local error.} Let $x(t)$ solve $\dot x=v(x,t)$ with $v\in C^2$ along the trajectory, and $a(t)=\frac{d}{dt}v(x(t),t)=\partial_tv+(\nabla_xv)v$ (chain rule). By Taylor's theorem with integral remainder \citep[\S II.2]{hairer1993ode},
+\begin{align*}
+x(t+h)-x(t)-hv(x(t),t)&=\int_t^{t+h}\big(v(x(s),s)-v(x(t),t)\big)\,ds\\
+&=\int_t^{t+h}\big((s-t)\,a(t)+O((s-t)^2)\big)\,ds=\tfrac{h^2}{2}\,a(t)+O(h^3).
+\end{align*}
+\emph{Error proxy.} The global error of Euler is a sum of local errors, each propagated to $t=1$ by the flow; bounding the propagation factor by 1 (i.e.\ ignoring amplification, which is at most $e^{\int_t^1L}$ for a field with Lipschitz constant $L$, \citealp[Theorem~I.10.2]{hairer1993ode}) and averaging over trajectories gives the proxy $\sum_i\tfrac{h_i^2}{2}\kappa(t_i)$ with $\kappa(t)=\E\|a(t)\|$. For a grid generated by a positive step density $n(t)$, i.e.\ $h_i\approx1/n(t_i)$ with $\int_0^1n=N$ steps, this Riemann sum is $\Phi(n)=\int_0^1\kappa(t)/(2n(t))\,dt$.
+\begin{proposition}\label{prop:grid}
+Let $\kappa$ be continuous and positive on $[0,1]$. Among positive densities with $\int_0^1n=N$, $\Phi$ is minimised by $n^\star=N\sqrt\kappa/\!\int_0^1\sqrt\kappa$, with $\Phi(n^\star)=(\int_0^1\sqrt\kappa)^2/(2N)$. The uniform grid has $\Phi=\int_0^1\kappa/(2N)$, and $G=\Phi(n^\star)/\Phi(\text{uniform})=(\int\sqrt\kappa)^2/\!\int\kappa\le1$, with equality iff $\kappa$ is constant.
+\end{proposition}
+\begin{proof}
+By the Cauchy--Schwarz inequality,
+$\big(\int_0^1\sqrt\kappa\big)^2=\big(\int_0^1\sqrt{\kappa/n}\,\sqrt n\big)^2\le\int_0^1\frac{\kappa}{n}\int_0^1n=N\int_0^1\frac{\kappa}{n}$, so $\Phi(n)\ge(\int\sqrt\kappa)^2/(2N)$ for every admissible $n$. Equality holds iff $\sqrt{\kappa/n}$ and $\sqrt n$ are proportional, i.e.\ $n\propto\sqrt\kappa$, and the constraint fixes the constant. Substituting $n=N$ gives the uniform value, and Cauchy--Schwarz again ($(\int1\cdot\sqrt\kappa)^2\le\int1\int\kappa$) gives $G\le1$, with equality iff $\sqrt\kappa$ is constant.
+\end{proof}
+The grid points are $t_i=F^{-1}(i/N)$ with $F(t)=\int_0^t\sqrt\kappa/\!\int_0^1\sqrt\kappa$: each step covers an equal share of $\int\sqrt\kappa$. We estimate $\kappa$ by the mean norm of finite differences of $v(x(t),t)$ on 101 equally spaced times along 256 dopri5 trajectories, smoothed and floored at a small constant so that $\kappa>0$.
+
+\emph{Scope.} The proxy ignores error amplification and the network's own error. Two 1D checks with the exact field show both sides: for a smooth target ($\tfrac12\mathcal N(\pm2,0.5^2)$, $G=0.95$) the $\sqrt\kappa$ grid lowers the Euler endpoint error by 8--9\% from $N=4$ on, close to the predicted 5\%; for the two-point target $\pm2$, $\kappa$ peaks near $t=0.33$ and is small near $t=1$, so the grid takes one long last step that lands on a still-averaged posterior mean (Proposition~\ref{prop:onestep}) and the error is much larger than on the uniform grid. On MNIST $\kappa$ peaks at $t=1$ (Figure~\ref{fig:c2}a), the favourable case.
+
+\subsection{The training-time distribution is a weight in the loss}\label{app:d6}
+\begin{proposition}\label{prop:tdist}
+Let $\pi$ be a density on $[0,1]$ and $\mathcal L_\pi(\theta)=\E_{t\sim\pi}\E\|v_\theta(x_t,t)-Y\|^2$. Under (A1)--(A2), $\mathcal L_\pi(\theta)=\int_0^1\pi(t)\big(\epsilon_\theta(t)+C_t\big)dt$ with $\epsilon_\theta(t)=\E\|v_\theta(x_t,t)-u_t(x_t)\|^2$. If $\pi>0$ almost everywhere, the minimiser over all functions is still $u_t$.
+\end{proposition}
+\begin{proof}
+Apply Proposition~\ref{prop:loss} for each $t$ and integrate against $\pi$. The integrand is non-negative and vanishes iff $v_\theta(\cdot,t)=u_t$ a.e.\ on $\{\pi>0\}$.
+\end{proof}
+With a finite network, $\pi$ decides where $\epsilon_\theta$ is small. For the exact solution of the learned ODE, Gr\"onwall's inequality \citep[\S I.10]{hairer1993ode} gives $\|x_\theta(1)-x(1)\|\le\int_0^1e^{\int_t^1L(s)ds}\|v_\theta(x(t),t)-u_t(x(t))\|\,dt$, so errors at different $t$ are amplified differently, and the choice of $\pi$ matters. The logit-normal$(0,1)$ density is $\pi(t)=\frac{1}{\sqrt{2\pi}\,t(1-t)}\exp\!\big(-\tfrac12\operatorname{logit}^2t\big)$; the $\kappa$-mixture $\tfrac12+\tfrac12\kappa/\!\int\kappa$ is sampled by inverting its piecewise-linear CDF.
+
+\subsection{Straightness, one-step exactness and reflow}\label{app:d7}
+\begin{proposition}\label{prop:straight}
+For a flow $\dot Z_t=v(Z_t,t)$ with $v$ continuous, let $S(Z)=\int_0^1\E\|(Z_1-Z_0)-\dot Z_t\|^2dt$ \citep{liu2023rf}. If $S(Z)=0$, one Euler step from $t=0$ is exact: $Z_0+v(Z_0,0)=Z_1$ a.s.
+\end{proposition}
+\begin{proof}
+$S=0$ implies $\dot Z_t=Z_1-Z_0$ for almost every $t$, a.s. Since $t\mapsto\dot Z_t=v(Z_t,t)$ is continuous, the equality holds for every $t$, in particular $t=0$: $v(Z_0,0)=Z_1-Z_0$.
+\end{proof}
+Then also $a(t)\equiv0$ and $\kappa\equiv0$. Our ratio $R$ equals 1 when paths are straight in direction but ignores changes of speed, so $R=1$ is necessary but not sufficient for $S=0$. For reflow with an exactly learned field, \citet{liu2023rf} prove that the new flow preserves the marginals (Theorem~3.3), that $\E c(Z_1-Z_0)\le\E c(X_1-X_0)$ for every convex $c$ (Theorem~3.5), and that $\min_{k\le K}S(Z^k)\le\E\|X_1-X_0\|^2/K$ after $K$ reflows (Theorem~3.7). With a deterministic coupling $\E[x_1\mid x_0]=\hat x_1(x_0)$, so the averaging of Proposition~\ref{prop:onestep} disappears. With a learned field, $\hat x_1$ follows the model's distribution rather than $p_1$, so the reflowed model can be no better than the base model's ODE samples, plus its own regression error; this is the quality ceiling observed in Section~\ref{sec:c35}.
+
+\subsection{Statistics of the evaluation}\label{app:d8}
+\emph{FID.} With $(\mu_r,\Sigma_r)$ and $(\mu_g,\Sigma_g)$ the mean and covariance of Inception features \citep{szegedy2016inception} of real and generated images, $\mathrm{FID}=\|\mu_r-\mu_g\|^2+\operatorname{tr}(\Sigma_r+\Sigma_g-2(\Sigma_r\Sigma_g)^{1/2})$, the squared 2-Wasserstein distance between the two Gaussian fits (Lemma~\ref{lem:gelbrich} with equality). The plug-in estimate from $n$ samples is biased upward, approximately linearly in $1/n$ \citep{chong2020fid}, which motivates the fit $\mathrm{FID}(n)=\mathrm{FID}_\infty+c/n$ in Table~\ref{tab:c1}.
+
+\emph{Variance components.} Under $F_{s,r}=\mu+a_s+e_{s,r}$ with independent $a_s$ (variance $\sigma^2_{\text{seed}}$) and $e_{s,r}$ (variance $\sigma^2_{\text{noise}}$), single-draw scores across seeds have variance $\sigma^2_{\text{seed}}+\sigma^2_{\text{noise}}$, so $\hat\sigma^2_{\text{seed}}=s^2_{\text{between}}-\hat\sigma^2_{\text{noise}}$ (two degrees of freedom with three seeds). For two samplers $A,B$ evaluated on the same model and the same noise, $D=F^A-F^B$ does not contain $a_s$.
+
+\begin{proposition}[TV noise floor]\label{prop:tvfloor}
+Let $\hat p$ and $\tilde p$ be the cluster shares of $n$ and $m$ independent draws from the same distribution $p$ over $k$ clusters. As $n,m\to\infty$,
+$\E\,\tfrac12\sum_k|\hat p_k-\tilde p_k|\approx\tfrac12\sum_k\sqrt{\tfrac{2}{\pi}p_k(1-p_k)\big(\tfrac1n+\tfrac1m\big)}$.
+\end{proposition}
+\begin{proof}
+For each $k$, $\hat p_k-\tilde p_k$ has mean 0 and variance $p_k(1-p_k)(1/n+1/m)$, and is asymptotically normal by the central limit theorem. For $Z\sim\mathcal N(0,\sigma^2)$, $\E|Z|=\sigma\sqrt{2/\pi}$. Linearity of expectation over $k$ gives the result; it does not require independence between clusters.
+\end{proof}
+With $k=10$, $p_k\approx0.1$, $n=10{,}000$ and $m=30{,}000$,
+\[
+\tfrac12\cdot10\cdot\sqrt{\tfrac2\pi\cdot0.09\cdot\big(10^{-4}+3.3\times10^{-5}\big)}\approx0.014 ;
+\]
+a simulation gives 0.0139 and the real test set 0.017.
+
+\emph{Two-sample test.} The goodness-of-fit statistic $\sum_k(O_k-np_k)^2/(np_k)$ treats the reference shares $p_k$ as known; when they are estimated from $m$ real images it overstates the evidence. The appropriate test is Pearson's $\chi^2$ test of homogeneity on the $2\times k$ table of generated and real counts, which has $k-1$ degrees of freedom under the null \citep[\S3.2]{agresti2013cda}; Cohen's $w=\sqrt{\chi^2/n}$ \citep{cohen1988power} measures the effect size. Bootstrap intervals \citep{efron1979bootstrap} resample both count vectors from their multinomial fits.
+
+\subsection{Diffusion and CFM: the same regression after a change of variables}\label{app:d9}
+Let $x_t=a_tx_1+b_tx_0$ with $a,b$ differentiable, $a_0=0$, $b_0=1$, $a_1=1$, $b_1=0$ (straight path: $a=t$, $b=1-t$; DDPM: $a=\sqrt{\bar\alpha}$, $b=\sqrt{1-\bar\alpha}$ in our time direction), and $s_t=a_t+b_t$, $\tau_t=a_t/s_t$.
+\begin{proposition}\label{prop:d9}
+(i) For any coupling, $x=a_t\hat x_1+b_t\hat x_0$ and $u_t(x)=\dot a_t\hat x_1+\dot b_t\hat x_0$.
+(ii) If $x_0\sim\mathcal N(0,I)$ is independent of $x_1$, then $\nabla\log p_t(x)=-\hat x_0/b_t$, so the score, the noise prediction $\hat x_0$ and the velocity $u_t$ are affine functions of one another at each $(x,t)$.
+(iii) If $y(\tau)$ solves the straight-path ODE $dy/d\tau=\hat x_1-\hat x_0$ (posterior means of the straight path, evaluated at $(y,\tau)$), then $x(t)=s_ty(\tau_t)$ solves $\dot x=u_t(x)$ for the path $(a,b)$.
+(iv) A deterministic DDIM step $x'=a_{t'}\hat x_1+b_{t'}\hat x_0$ satisfies $x'/s_{t'}-x/s_t=(\tau_{t'}-\tau_t)(\hat x_1-\hat x_0)$, one Euler step of the straight-path ODE in $(y,\tau)$.
+(v) On the straight path, with $v=(x_t-\hat\epsilon)/t$, $\|v-(x_1-x_0)\|^2=\|\hat\epsilon-x_0\|^2/t^2$.
+\end{proposition}
+\begin{proof}
+(i) Take $\E[\cdot\mid x_t=x]$ of $x_t=a_tx_1+b_tx_0$ and of $\dot x_t=\dot a_tx_1+\dot b_tx_0$.
+(ii) Given $x_1$, $x_t\sim\mathcal N(a_tx_1,b_t^2I)$, so $\nabla_x\log p_t(x\mid x_1)=-(x-a_tx_1)/b_t^2=-x_0/b_t$; Fisher's identity $\nabla\log p_t(x)=\E[\nabla_x\log p_t(x\mid x_1)\mid x_t=x]$ (Tweedie's formula, \citealp{efron2011tweedie}) gives $-\hat x_0/b_t$. Combined with (i), $\hat x_1=(x-b_t\hat x_0)/a_t$ and $u_t=\frac{\dot a_t}{a_t}x+\big(\dot b_t-\frac{\dot a_tb_t}{a_t}\big)\hat x_0$.
+(iii) Dividing the path by $s_t$ gives $x_t/s_t=\tau_tx_1+(1-\tau_t)x_0$, the straight path at time $\tau_t$; conditioning on $x_t=x$ is conditioning on $x_t/s_t=y$, so $\hat x_0,\hat x_1$ coincide in both coordinates. Then $\dot x=\dot s\,y+s\dot\tau(\hat x_1-\hat x_0)$, and with $y=\tau\hat x_1+(1-\tau)\hat x_0$, $s\tau=a$, $s(1-\tau)=b$, the coefficient of $\hat x_1$ is $\dot s\tau+s\dot\tau=\frac{d}{dt}(s\tau)=\dot a$ and that of $\hat x_0$ is $\dot s(1-\tau)-s\dot\tau=\dot b$, so $\dot x=u_t(x)$ by (i).
+(iv) Divide $x'$ by $s_{t'}$: $x'/s_{t'}=\tau_{t'}\hat x_1+(1-\tau_{t'})\hat x_0$; by (i), $x/s_t=\tau_t\hat x_1+(1-\tau_t)\hat x_0$; subtract.
+(v) On the straight path $x_1-x_0=(x_t-x_0)/t$, so $v-(x_1-x_0)=(x_0-\hat\epsilon)/t$.
+\end{proof}
+Consequences: with independent Gaussian pairs the DDPM probability-flow ODE and the I-CFM ODE have the same trajectories after rescaling; DDIM is Euler on the grid $\tau_k$, which with 5 steps jumps from $\tau=0.51$ to $0.99$ in one call; an error $\delta$ in $\hat\epsilon$ becomes $(b_t/a_t)\delta$ in $\hat x_1$, with $b/a=157$ at DDIM's first call, which explains its poor 1--2-step samples (Figure~\ref{fig:samples}); and by (v) the CFM loss is the $\epsilon$-loss weighted by $1/t^2$, a special case of Proposition~\ref{prop:tdist}. The identities (iii)--(v) hold numerically to $4\times10^{-14}$ on a 1D mixture with the VP path $a=\sin\frac{\pi t}{2}$, $b=\cos\frac{\pi t}{2}$. Part (ii) needs $x_0$ Gaussian and independent of $x_1$; OT-CFM and reflow break independence and change the paths themselves.

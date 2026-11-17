@@ -132,7 +132,7 @@ def tab_pairs():
 \label{tab:pairs}
 \small
 \setlength{\tabcolsep}{4.5pt}
-\resizebox{\linewidth}{!}{%
+\adjustbox{max width=\linewidth}{%
 \begin{tabular}{lcccccccc}
 \toprule
 OT batch & """ + " & ".join(f"{int(b):,}" for b in bs) + r""" \\
@@ -247,6 +247,8 @@ def tab_sampler():
         samplers = []
         for s, lab in (("euler", "Euler"), ("heun", "Heun"), ("rk4", "RK4")):
             for g, gl in (("uniform", "uniform"), ("sqrt_kappa", "$\\sqrt\\kappa$")):
+                if s != "euler" and g != "uniform":
+                    continue  # Heun/RK4 only on the uniform grid here; their sqrt-kappa results are in results/c2_solvers/summary.md
                 pts = sorted((int(n), r[g]) for n, r in d["fid"][s].items() if g in r)
                 samplers.append((f"{lab}, {gl}", [p[0] for p in pts], [p[1] for p in pts]))
         if t1:
@@ -272,7 +274,7 @@ def tab_sampler():
 \label{tab:sampler}
 \small
 \setlength{\tabcolsep}{4pt}
-\resizebox{\linewidth}{!}{%
+\adjustbox{max width=\linewidth}{%
 \begin{tabular}{llcccc}
 \toprule
 Model & Sampler & NFE $\approx$ 8 & 16 & 32 & NFE@20 \\
@@ -317,7 +319,7 @@ def tab_seeds():
 \label{tab:seeds}
 \small
 \setlength{\tabcolsep}{3pt}
-\resizebox{\linewidth}{!}{%
+\adjustbox{max width=\linewidth}{%
 \begin{tabular}{llcccccc}
 \toprule
 Model & Seed & Euler 4 & Euler 16 & Euler 32 & Heun 32 $\to$ Heun* 31 & Heun* 31, $\sqrt\kappa$ & $t=1$ error (\%) \\

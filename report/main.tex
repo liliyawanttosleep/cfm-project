@@ -15,6 +15,7 @@
 \usepackage{microtype}
 \usepackage{caption}
 \usepackage{wrapfig}
+\usepackage{adjustbox}
 \captionsetup{font=small, labelfont=bf}
 % let floats sit near their text instead of collecting on later pages
 \setcounter{topnumber}{3}\setcounter{totalnumber}{4}
@@ -35,17 +36,15 @@
 \input{sections/00_abstract}
 \input{sections/01_introduction}
 \input{sections/02_related_work}
-\input{sections/03_methods}
-\input{sections/04_experiments}
-\input{sections/05_conclusion}
-\input{sections/06_contributions}
+\input{sections/03_theory}
+\input{sections/04_design}
+\input{sections/05_experiments}
+\input{sections/06_conclusion}
+\input{sections/07_contributions}
 
 \bibliographystyle{plainnat}
 \bibliography{refs}
 
 \appendix
-\input{sections/A_derivations}
-\input{sections/B_course_method}
-\input{sections/C_additional_results}
-\input{sections/D_setup_and_compute}
+\input{sections/B_proofs}
 \end{document}

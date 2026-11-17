@@ -1,0 +1,8 @@
+\section*{Individual contributions}
+\textbf{Wentao Yang} worked on the flow-matching side. He implemented and trained the I-CFM and OT-CFM models in 2D and on MNIST and built the training pipeline with its variants (OT batch, training-time distribution, reflow); he ran the FID reliability study (C1), the solver and time-grid study including the $t=1$ diagnostic (C2), and the OT-batch, time-distribution and reflow experiments (C3--C5); he derived the pairing bound and the $\sqrt\kappa$ grid (Sections~\ref{sec:pairs} and~\ref{sec:grid}) and assembled the report.
+
+\textbf{Kaiming Zhang} worked on the diffusion side and on the evaluation of class coverage, the parts he presented in the class talk (generation as transport and the continuity equation; DDPM, DDIM and their link to flow matching; the move from 2D to MNIST; the clustering test). He implemented and trained the DDPM baselines in 2D and on MNIST with their DDIM sampler, worked out the correspondence between the diffusion and CFM regressions (Section~\ref{sec:diffusion}), and designed and ran the $k$-means class-coverage evaluation with the two-sample $\chi^2$ test (Sections~\ref{sec:eval} and~\ref{sec:c1}), including the DDIM coverage comparison and its noise floor.
+
+Both authors designed the experiments, prepared and gave the class presentation, analysed the results and revised the full paper.
+
+\paragraph{Code and data.} All code, result files and the commands that regenerate every table and figure are at \url{https://github.com/liliyawanttosleep/cfm-project}; \texttt{code/README.md} gives the command for every experiment.

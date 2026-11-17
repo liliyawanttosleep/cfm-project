@@ -4,7 +4,7 @@
 > ```
 > report/
 > ├── main.tex                导言区 + \input 各节
-> ├── sections/               00_abstract … 06_contributions（正文），A_derivations / B_course_method / C_additional_results / D_setup_and_compute（附录）
+> ├── sections/               00_abstract、01_introduction、02_related_work、03_theory（推导和证明）、04_design（准备工作和实验设计）、05_experiments（C1–C6）、06_conclusion、07_contributions；附录 B_proofs（两个较长的证明）
 > ├── figs/                   make_figs.py 生成的矢量 PDF 图
 > ├── tables/                 make_tables.py 从 results/ 生成的 LaTeX 表
 > ├── materials/              README.md（每张图表的数据来源、推导对应、文献数字出处、课程要求对照）和 numbers.json
@@ -26,7 +26,7 @@
 |---|---|
 | 文件 | 一个 PDF：`FM_vs_Diffusion_Final_Report.pdf` |
 | 截止 | **2026-12-16 23:59**（计划 12/15 定稿） |
-| 篇幅 | 正文约 **5 页**（课程要求“约 5 页”），参考文献不计入 |
+| 篇幅 | 11/17 起按用户要求扩写为正文约 12–13 页、全文约 15–17 页（原课程要求“约 5 页”）；参考文献不计入正文 |
 | 附录 | 放证明和次要结果，**是否允许、是否计入页数要向老师确认**；确认前按“正文 5 页自成一体，附录删掉也不影响阅读”来写 |
 | 语言 | 英文 |
 | 格式 | 正式技术论文：Introduction / Related Work / Methods / Experiments / Conclusion / References（课程建议的结构），外加 **Individual Contributions**（课程硬性要求） |
@@ -93,7 +93,7 @@
 
 ## 6. 提交前检查清单
 
-- [ ] 正文约 5 页，参考文献和附录另计（附录是否允许已向老师确认）
+- [ ] 正文约 12–13 页，参考文献和附录另计（篇幅和附录是否允许已向老师确认）
 - [ ] 结构包含 Introduction / Related Work / Methods / Experiments / Conclusion / References
 - [ ] 有 **Individual Contributions** 一节，两人都写到
 - [ ] 课程方法的要求已满足：只要求一种（k-means + χ²，在 3.4 和 4.2 节），另外三类的预实验放在附录 B

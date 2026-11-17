@@ -1,5 +1,20 @@
 # Final report：格式、提纲和提交检查
 
+> **文件夹结构（11/14 起）**
+> ```
+> report/
+> ├── main.tex                导言区 + \input 各节
+> ├── sections/               00_abstract、01_introduction、02_related_work、03_theory（推导和证明）、04_design（准备工作和实验设计）、05_experiments（C1–C6）、06_conclusion、07_contributions；附录 B_proofs（两个较长的证明）
+> ├── figs/                   make_figs.py 生成的矢量 PDF 图
+> ├── tables/                 make_tables.py 从 results/ 生成的 LaTeX 表
+> ├── materials/              README.md（每张图表的数据来源、推导对应、文献数字出处、课程要求对照）和 numbers.json
+> ├── refs.bib                参考文献
+> ├── make_figs.py / make_tables.py
+> ├── build.sh                一键：重画图表 → pdflatex + bibtex + pdflatex ×2 → FM_vs_Diffusion_Final_Report.pdf
+> └── README.md               本文件
+> ```
+> 编译：`bash report/build.sh`。红色 `\pending{}` 是还在跑的实验，提交前必须全部替换；脚本最后会打印剩余数量。
+
 > 写于 2026-11-07。这是 12/16 要交的 final report 的规格说明。实验内容见 `docs/FINAL_REPORT_PLAN.md`，全流程见 `TEAM_PLAN.md` 开头的“项目全流程”。
 > 规划用中文；**report 全文用英文**。
 
@@ -11,7 +26,7 @@
 |---|---|
 | 文件 | 一个 PDF：`FM_vs_Diffusion_Final_Report.pdf` |
 | 截止 | **2026-12-16 23:59**（计划 12/15 定稿） |
-| 篇幅 | 正文约 **5 页**（课程要求“约 5 页”），参考文献不计入 |
+| 篇幅 | 11/17 起按用户要求扩写为正文约 12–13 页、全文约 15–17 页（原课程要求“约 5 页”）；参考文献不计入正文 |
 | 附录 | 放证明和次要结果，**是否允许、是否计入页数要向老师确认**；确认前按“正文 5 页自成一体，附录删掉也不影响阅读”来写 |
 | 语言 | 英文 |
 | 格式 | 正式技术论文：Introduction / Related Work / Methods / Experiments / Conclusion / References（课程建议的结构），外加 **Individual Contributions**（课程硬性要求） |
@@ -37,7 +52,7 @@
 | 章节 | 页数 | 内容 | 图表 | 数据来源 |
 |---|---|---|---|---|
 | **Abstract** | 0.15 | 4–5 句：问题（CFM 采样要多少步）→ 做法（同一个网络上比较训练端和推理端的优化，并检查评估本身的误差）→ 主要发现（用数字）→ 意义 | — | C6 |
-| **1 Introduction** | 0.5 | 生成 = 从样本学分布再采样；CFM 把它变成回归，采样代价 = NFE；高维中 OT 配对的优势会消失（我们在 MNIST 上看到的现象）；研究问题 RQ1–RQ4；3 条贡献 | — | — |
+| **1 Introduction** | 0.5 | 生成 = 从样本学分布再采样；CFM 把它变成回归，采样代价 = NFE；高维中 OT 配对的优势会消失（我们在 MNIST 上看到的现象）；说明 diffusion 是 CFM 在高斯噪声、独立配对下的一种参数化（推导 D9），我们研究的是两者共用的采样问题和只有 CFM 能改的配对；研究问题 RQ1–RQ4；3 条贡献 | — | — |
 | **2 Related Work** | 0.4 | Score matching → DDPM / DDIM / score SDE；Flow Matching、Rectified Flow、Stochastic Interpolants；OT-CFM；少步生成：reflow、蒸馏、consistency model、MeanFlow；ODE 求解器和时间网格（DDIM、EDM）；生成模型评估（FID 及其局限） | — | papers/ |
 | **3 Methods** | 1.3 | 3.1 CFM：条件路径、CFM 损失、后验均值定理（证明放附录）<br>3.2 为什么路径会弯、NFE 意味着什么（一步 Euler 落在 E[x₁] 上）<br>3.3 四种优化办法：配对与 OT batch；训练时间分布；reflow；求解器与时间网格（包括**校准网格**，我们的实用方法；以及按曲率分配的网格，推导见 `docs/notes/derivations.md` D5）<br>3.4 评估：FID、类别覆盖（k-means + χ²，课程方法）、直线度、效率指标（NFE@20、训练代价） | 图 1：2D 中 I-CFM 与 OT-CFM 的路径（一张小图说明“路径弯 → 少步差”） | E1、slides 9–19 |
 | **4 Experiments** | 2.2 | 4.1 设定：MNIST、同一个 U-Net、训练预算、种子、FID 协议（一张表）<br>4.2 评估本身的误差：训练种子 vs 采样噪声 vs 样本数；类别覆盖的区间<br>4.3 推理端：求解器 × 网格；曲率分布 κ(t)<br>4.4 训练端：OT batch、训练时间分布、reflow，以及各自的训练代价<br>4.5 综合：质量–效率前沿；直线度能否预测少步质量；DDIM 作参照 | 表 1：设定和误差<br>图 2：κ(t) 和不同网格<br>图 3：FID vs NFE（前沿）<br>表 2：各办法的 1 步 / 5 步 FID、NFE@20、训练代价<br>图 4：直线度 vs 少步 FID | C1–C6 |
@@ -78,7 +93,7 @@
 
 ## 6. 提交前检查清单
 
-- [ ] 正文约 5 页，参考文献和附录另计（附录是否允许已向老师确认）
+- [ ] 正文约 12–13 页，参考文献和附录另计（篇幅和附录是否允许已向老师确认）
 - [ ] 结构包含 Introduction / Related Work / Methods / Experiments / Conclusion / References
 - [ ] 有 **Individual Contributions** 一节，两人都写到
 - [ ] 课程方法的要求已满足：只要求一种（k-means + χ²，在 3.4 和 4.2 节），另外三类的预实验放在附录 B

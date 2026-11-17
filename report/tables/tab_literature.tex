@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\caption{Published unconditional CIFAR-10 results for context (FID on 50,000 samples, numbers as reported). They use far larger networks and training budgets and a different dataset, so they are not comparable with our MNIST numbers; they show the same pattern of NFE versus quality.}
+\label{tab:literature}
+\small
+\begin{tabular}{lcc}
+\toprule
+Method & NFE & FID \\
+\midrule
+DDPM \citep{ho2020ddpm} & 1,000 & 3.17 \\
+DDIM \citep{song2021ddim} & 10 / 100 & 13.36 / 4.16 \\
+EDM, Heun with tuned grid \citep{karras2022edm} & 35 & 1.97 \\
+I-CFM / OT-CFM, dopri5 \citep{tong2024otcfm} & 146 / 134 & 3.66 / 3.58 \\
+1-rectified flow, one Euler step \citep{liu2023rf} & 1 & 378 \\
+2-rectified flow (reflow), one Euler step \citep{liu2023rf} & 1 & 12.21 \\
+Consistency distillation \citep{song2023cm} & 1 / 2 & 3.55 / 2.93 \\
+\bottomrule
+\end{tabular}
+\end{table}
+% sources: papers/10 (p.1), 11 (Table 1, eta = 0), 16 (Table 2), 23 (Table 5), 21 (Table 1), 31 (Table 1)

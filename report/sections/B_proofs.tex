@@ -1,0 +1,12 @@
+\section{Proofs moved from Section~\ref{sec:theory}}\label{app:proofs}
+\paragraph{Proof of Proposition~\ref{prop:transport}.}
+Let $\varphi\in C_c^\infty(\mathbb R^d)$. Since $\frac{d}{dt}\varphi(x_t)=\langle\nabla\varphi(x_t),Y\rangle$ and $|\langle\nabla\varphi,Y\rangle|\le\|\nabla\varphi\|_\infty\|Y\|$ is integrable by (A1), dominated convergence allows differentiation under the expectation, and the tower property gives
+$\tfrac{d}{dt}\E\varphi(x_t)=\E\langle\nabla\varphi(x_t),Y\rangle=\E\langle\nabla\varphi(x_t),u_t(x_t)\rangle$.
+This is the weak form of the continuity equation $\partial_tp_t+\nabla\cdot(p_tu_t)=0$ with $p_0=\mathcal N(0,I)$. Under (A3) the flow map $\Phi_t$ of $\dot x=u_t(x)$ exists, and $(\Phi_t)_\#p_0$ is the unique weak solution of the same equation with the same initial law \citep{villani2009ot}; hence $(\Phi_t)_\#p_0=p_t$. Finally $\E\|x_t-x_1\|^2=(1-t)^2\E\|Y\|^2\to0$, so $p_t\to p_1$. Compare \citet[Theorem~1]{lipman2023fm} and \citet[Theorem~3.3]{liu2023rf}.\hfill$\square$
+
+\paragraph{Proof of Proposition~\ref{prop:d9}.}
+(i) Take $\E[\cdot\mid x_t=x]$ of $x_t=a_tx_1+b_tx_0$ and of $\dot x_t=\dot a_tx_1+\dot b_tx_0$.
+(ii) Given $x_1$, $x_t\sim\mathcal N(a_tx_1,b_t^2I)$, so $\nabla_x\log p_t(x\mid x_1)=-(x-a_tx_1)/b_t^2=-x_0/b_t$. Fisher's identity $\nabla\log p_t(x)=\E[\nabla_x\log p_t(x\mid x_1)\mid x_t=x]$, i.e.\ Tweedie's formula \citep{efron2011tweedie}, gives $-\hat x_0/b_t$. By (i), $\hat x_1=(x-b_t\hat x_0)/a_t$ and $u_t=\frac{\dot a_t}{a_t}x+\big(\dot b_t-\frac{\dot a_tb_t}{a_t}\big)\hat x_0$.
+(iii) $x_t/s_t=\tau_tx_1+(1-\tau_t)x_0$ is the straight path at time $\tau_t$; conditioning on $x_t=x$ is the same as conditioning on $x_t/s_t=y$, so $\hat x_0,\hat x_1$ coincide in both coordinates. Differentiating $x=sy$ gives $\dot x=\dot s\,y+s\dot\tau(\hat x_1-\hat x_0)$. Substituting $y=\tau\hat x_1+(1-\tau)\hat x_0$ and using $s\tau=a$, $s(1-\tau)=b$, the coefficient of $\hat x_1$ is $\dot s\tau+s\dot\tau=\dot a$ and that of $\hat x_0$ is $\dot s(1-\tau)-s\dot\tau=\dot b$, so $\dot x=u_t(x)$ by (i).
+(iv) Dividing by $s_{t'}$, $x'/s_{t'}=\tau_{t'}\hat x_1+(1-\tau_{t'})\hat x_0$; by (i), $x/s_t=\tau_t\hat x_1+(1-\tau_t)\hat x_0$; subtract.
+(v) On the straight path $x_1-x_0=(x_t-x_0)/t$, so $v-(x_1-x_0)=(x_0-\hat\epsilon)/t$.\hfill$\square$

@@ -1,0 +1,22 @@
+\begin{table}[h]
+\centering
+\caption{The inference-side conclusions of Section~\ref{sec:c2} on all three training seeds (FID, 10,000 samples, lower is better; ``a $\to$ b'' is a paired comparison on one model). Columns 3--5: Euler, uniform $\to$ $\sqrt\kappa$ grid at 4, 16 and 32 steps. Column 6: Heun on the uniform grid at 32 NFE $\to$ Heun whose last step is Euler (31 NFE). Column 7: the latter on the $\sqrt\kappa$ grid. Last column: RMS error of $v(x,1)$ against its ideal value $x$, in \% of $\mathrm{RMS}(x)$, on real / generated images.}
+\label{tab:seeds}
+\small
+\setlength{\tabcolsep}{3pt}
+\adjustbox{max width=\linewidth}{%
+\begin{tabular}{llcccccc}
+\toprule
+Model & Seed & Euler 4 & Euler 16 & Euler 32 & Heun 32 $\to$ Heun* 31 & Heun* 31, $\sqrt\kappa$ & $t=1$ error (\%) \\
+\midrule
+I-CFM & 0 & 56.6 $\to$ 60.6 & 22.4 $\to$ 19.8 & 18.4 $\to$ 15.2 & 48.0 $\to$ 16.5 & 12.9 & 42 / 87 \\
+ & 1 & 47.8 $\to$ 54.2 & 18.6 $\to$ 16.5 & 15.9 $\to$ 12.8 & 58.1 $\to$ 14.4 & 11.6 & 47 / 83 \\
+ & 2 & 64.1 $\to$ 69.3 & 31.2 $\to$ 29.8 & 27.5 $\to$ 24.4 & 52.8 $\to$ 24.5 & 21.9 & 37 / 91 \\
+\midrule
+OT-CFM & 0 & 32.3 $\to$ 32.8 & 17.4 $\to$ 14.3 & 16.2 $\to$ 12.5 & 50.4 $\to$ 15.9 & 12.4 & 43 / 84 \\
+ & 1 & 43.8 $\to$ 44.5 & 21.2 $\to$ 20.7 & 18.8 $\to$ 17.2 & 50.4 $\to$ 17.1 & 15.5 & 55 / 83 \\
+ & 2 & 42.6 $\to$ 43.8 & 22.5 $\to$ 20.5 & 20.2 $\to$ 17.0 & 57.6 $\to$ 18.9 & 15.4 & 34 / 83 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+% source: results/c2_solvers/{icfm,otcfm}_s{0,1,2}.json and t1_*.json (code/c2_solvers/sample_grid.py --core, t1_check.py)

@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\caption{Pairing cost $\E\|x_0-x_1\|^2$ saved relative to random pairs on MNIST (random-pair cost 1,510), as a share of that cost and of the Gelbrich bound $2\operatorname{tr}\Sigma^{1/2}=386$, and the CPU time of one exact OT solve (POT, 4 threads).}
+\label{tab:pairs}
+\small
+\setlength{\tabcolsep}{4.5pt}
+\adjustbox{max width=\linewidth}{%
+\begin{tabular}{lcccccccc}
+\toprule
+OT batch & 16 & 64 & 128 & 256 & 512 & 1,024 & 2,048 & 4,096 \\
+\midrule
+saved / random cost & 2.9\% & 4.0\% & 4.5\% & 4.8\% & 5.2\% & 5.6\% & 5.8\% & 6.1\% \\
+saved / bound & 11\% & 16\% & 18\% & 19\% & 21\% & 22\% & 23\% & 24\% \\
+OT solve (s) & 0.0003 & 0.00054 & 0.0019 & 0.0069 & 0.038 & 0.15 & 1.2 & 6.2 \\
+\midrule
+\multicolumn{9}{l}{Reflow pairs from I-CFM seed 0 (60,000 pairs): cost 1319, saved 12.7\% of the random cost, 50\% of the bound.} \\
+\multicolumn{9}{l}{Reflow pairs from OT-CFM seed 0 (60,000 pairs): cost 1316, saved 12.9\% of the random cost, 50\% of the bound.} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+% sources: results/c3_otbatch/pairs.json, results/c5_reflow/pairs_{icfm,otcfm}_s0.json

@@ -38,6 +38,32 @@ python -u code/e3_kmeans/fid_seed.py --seed 1                   # 种子 1 的 F
 
 每个脚本开头都写了要完成的任务。结果在 `results/e2/`、`results/e3/` 和 `results/e4/`。
 
+## Final report 的实验（C1–C7，见 `docs/FINAL_REPORT_PLAN.md`）
+
+```bash
+python -u code/c2_solvers/sample_grid.py --method otcfm --seed 0        # C2：求解器 × 时间网格，终点误差 + FID
+python -u code/c2_solvers/sample_grid.py --method icfm --seed 0
+python -u code/c2_solvers/sample_grid.py --method otcfm --quick         # 冒烟测试，2,000 张，写到 *_quick.json
+python -u code/c2_solvers/sample_grid.py --method otcfm --seed 1 --core   # C2 复核：其他种子只算均匀和 √κ 网格的 FID
+python -u code/c2_solvers/t1_check.py --method otcfm                    # C2 补充：高阶求解器最后一步不在 t = 1 调用网络
+python code/c2_solvers/summarize_c2.py                                  # C2 汇总表和图，只用 CPU
+python code/c2_solvers/check_derivations.py                             # 推导笔记 D4/D5/D8/D9 的数值核对，只用 CPU
+
+python code/e2_mnist/train_mnist.py --method icfm --seed 2              # C1：第三个种子（设定和种子 0、1 相同）
+python -u code/c3_otbatch/pair_cost.py                                 # C3 第 1 步：OT batch 16–4,096 能省多少配对代价，只用 CPU
+python code/e2_mnist/train_mnist.py --method otcfm --seed 0 --ot-batch 2048   # C3：在 2,048 个样本上求 OT 计划
+python -u code/e3_kmeans/fid_seed.py --seed 0 --tag _otb2048 --methods otcfm --dopri   # C3/C4：评估变体模型（文件名后缀 --tag）
+python code/e2_mnist/train_mnist.py --method icfm --seed 0 --t-dist logitnormal   # C4（kappa 需要先跑 C2）
+python -u code/e3_kmeans/fid_seed.py --seed 2 --methods icfm otcfm --dopri   # C1：种子 2 的 FID，加 dopri5 和路径长度比
+python -u code/c1_reliability/fid_noise.py                              # C1：换采样噪声（5 份）和换样本数（2k–20k）时 FID 的波动
+python -u code/e3_kmeans/cluster_coverage.py --seeds 0 1 2 --methods icfm otcfm --out results/c1_reliability/kmeans_c1.json   # C1：带每簇计数和两样本 χ²
+python code/c1_reliability/summarize_c1.py                              # C1 汇总：种子标准差、改进门槛、TV 的 bootstrap 区间，只用 CPU
+```
+
+- 训练脚本现在也默认限速（`--duty 0.5`）；默认参数下的随机数顺序和以前完全相同，所以种子 2 与种子 0、1 可比。
+- 变体模型的文件名带后缀（`otcfm_s0_otb2048.pt`、`icfm_s0_tlogitnormal.pt`、`icfm_s0_tkappa.pt`），不会覆盖原模型。
+- C2 结果在 `results/c2_solvers/{method}_s{seed}.json`：`kappa`（κ(t) 和 D5 的 G）、`endpoint_error`（A 组校准 / B 组测试）、`calibrated`（每个求解器和 NFE 选中的网格）、`fid`。
+
 ## 运行
 
 ```bash

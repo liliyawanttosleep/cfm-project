@@ -1,0 +1,50 @@
+% Final report, Statistics Data Mining (due 2026-12-16).
+% Build: bash report/build.sh  (regenerates figures and tables, then pdflatex + bibtex + pdflatex x2).
+% Every number has its source in a comment or comes from tables/*.tex (report/make_tables.py).
+% Red \pending{} marks results that are still running; none may remain in the submitted version.
+\documentclass[10pt]{article}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath, amssymb, amsthm, bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[authoryear, round]{natbib}
+\usepackage[colorlinks=true, linkcolor=blue!50!black, citecolor=blue!50!black, urlcolor=blue!50!black]{hyperref}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage{wrapfig}
+\usepackage{adjustbox}
+\captionsetup{font=small, labelfont=bf}
+% let floats sit near their text instead of collecting on later pages
+\setcounter{topnumber}{3}\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.9}\renewcommand{\textfraction}{0.1}\renewcommand{\floatpagefraction}{0.85}
+\newcommand{\pending}[1]{\textcolor{red}{[#1]}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\nfe}{\mathrm{NFE}}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem*{remark}{Remark}
+
+\title{Fewer Steps, Same Regression:\\ Measuring and Improving the Sampling Efficiency of Conditional Flow Matching}
+\author{Wentao Yang \qquad Kaiming Zhang\\ Department of Statistics}
+\date{}
+
+\begin{document}
+\maketitle
+\input{sections/00_abstract}
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_theory}
+\input{sections/04_design}
+\input{sections/05_experiments}
+\input{sections/06_conclusion}
+\input{sections/07_contributions}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\appendix
+\input{sections/B_proofs}
+\end{document}
